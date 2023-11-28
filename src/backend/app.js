@@ -1,7 +1,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
   logger = require('morgan'),
-  { personnelRouter } = require('./routes/api');
+  { personnelRouter, carsRouter } = require('./routes/api');
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(logger(formatLogger));
 app.use(bodyParser.json());
 
 app.use('/api/personnel', personnelRouter);
+app.use('/api/cars', carsRouter);
 
 app.use((req, res, next) => {
   const err = new Error('Not found');
