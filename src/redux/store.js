@@ -1,5 +1,10 @@
-const { configureStore } = require('@reduxjs/toolkit');
+import { carsReducer } from './cars/slice';
+import { waybillReducer } from './waybill/slice';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    waybill: waybillReducer,
+    cars: carsReducer,
+  },
 });

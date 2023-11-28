@@ -10,10 +10,12 @@ const initialState = {
         documentNumber: 35,
         documantDate: new Date(),
         militaryUnit: 'А0000 (ПВЗ)',
-        driver: {
-          rank: 'солдат',
-          name: 'Фара.К.Л.',
-        },
+        driver: [
+          {
+            rank: 'солдат',
+            name: 'Фара.К.Л.',
+          },
+        ],
         routes: 'Кременець-Тернопіль',
         carSupervisor: 'Майбах М.Б.',
         seniorTechnician: [
@@ -31,6 +33,7 @@ const initialState = {
         purpose: '',
         waypoints: [
           {
+            id: 4,
             arrival: {
               date: new Date(),
               arrivalTime: '09:30',
@@ -70,8 +73,24 @@ const initialState = {
 export const slice = createSlice({
   name: 'waybill',
   initialState,
-  reducers: {},
+  reducers: {
+    getWaybill: (state, { payload }) => {
+      state.waybill = payload;
+    },
+    addWaybill: (state, { payload }) => {
+      state.waybill.push(payload);
+    },
+    removeWaybill: (state, { payload }) => {
+      state.waybill = state.waybill.filter(waybill => waybill.id !== payload);
+    },
+    updateWaybill: (state, { payload }) => {
+      state.waybill = state.waybill.map(waybill => {
+        return waybill.id === payload.id ? payload : waybill;
+      });
+    },
+  },
 });
 
 export const waybillReducer = slice.reducer;
-// export { } = slice.actions;
+export const { getWaybill, addWaybill, removeWaybill, updateWaybill } =
+  slice.actions;
