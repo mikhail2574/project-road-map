@@ -19,7 +19,6 @@ const GlobalStyles = createGlobalStyle`
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    
   }
   
   p,
