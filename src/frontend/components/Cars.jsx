@@ -1,14 +1,23 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCarsThunk } from 'redux/cars/operations';
 import { selectCars } from 'redux/cars/selectors';
-import { selectWaybill } from 'redux/waybill/selectors';
+// import { selectWaybill } from 'redux/waybill/selectors';
 
 const Cars = () => {
+  const dispatch = useDispatch();
   const cars = useSelector(selectCars);
-  const waybill = useSelector(selectWaybill);
+  console.log(cars);
+  // const waybill = useSelector(selectWaybill);
+
+  useEffect(() => {
+    dispatch(fetchCarsThunk());
+  }, [dispatch]);
+
   return (
     <>
-      <ul>
+      <ul>{/* {cars?map()} */}</ul>
+      {/* <ul>
         {cars?.map(car => (
           <li key={car.id}>
             <p>Марка: {car.carMake}</p>
@@ -73,7 +82,7 @@ const Cars = () => {
             </ul>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
   );
 };
