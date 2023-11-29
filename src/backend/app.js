@@ -1,6 +1,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
-  logger = require('morgan');
+  logger = require('morgan'),
+  cors = require('cors');
 require('dotenv').config();
 
 const app = express();
@@ -10,6 +11,7 @@ const { routerCars } = require('./routes/api/cars');
 const formatLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(logger(formatLogger));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/personnel', routerPersonnel);
