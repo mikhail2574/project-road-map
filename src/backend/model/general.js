@@ -1,6 +1,6 @@
 const fs = require('fs/promises'),
   path = require('path'),
-  { ctrlWrapper, requestError } = require('../services'),
+  { requestError } = require('../services'),
   { nanoid } = require('nanoid');
 
 const personnelPath = path.join(__dirname, '../db/personnel.json');
