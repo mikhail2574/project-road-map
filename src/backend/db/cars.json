@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "carName": "жигуль",
+    "sign": "aa2245aa",
+    "fuelType": "Бензин",
+    "fuelConsumption": "7",
+    "oilType": "Олива 10w40",
+    "oilConsumption": "1",
+    "exploitationGroup": "транспортна, тр"
+  },
+  {
+    "id": "2",
+    "carName": "бетмобіль",
+    "sign": "ВВ4535ОО",
+    "fuelType": "ДП",
+    "fuelConsumption": "11,5",
+    "oilType": "Олива 30w40",
+    "oilConsumption": "1.2",
+    "exploitationGroup": "транспортна, тр"
+  }
+]

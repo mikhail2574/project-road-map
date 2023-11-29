@@ -1,0 +1,43 @@
+[
+  {
+    "id": "aaaa-bbbb-cccc-dddd-eeee",
+    "name": "Майбах М.Б.",
+    "position": "Начальник автомобільної служби",
+    "rank": "капітан",
+    "shortRank": "к-н"
+  },
+  {
+    "id": "baaa-bbbb-cccc-dddd-eeee",
+    "name": "Руль.В.М.",
+    "position": "Начальник КТП",
+    "rank": "солдат",
+    "shortRank": "солд"
+  },
+  {
+    "id": "abaa-bbbb-cccc-dddd-eeee",
+    "name": "Солярка.К.Р.",
+    "position": "технік",
+    "rank": "лейтенант",
+    "shortRank": "л-т"
+  },
+  {
+    "id": "aaba-bbbb-cccc-dddd-eeee",
+    "name": "Дрин.А.П.",
+    "position": "старший машини",
+    "rank": "майор",
+    "shortRank": "м-р"
+  },
+  {
+    "id": "aaab-bbbb-cccc-dddd-eeee",
+    "name": "Фара.К.Л.",
+    "position": "водій",
+    "rank": "солдат",
+    "shortRank": "солд"
+  },
+  {
+    "id": "e28EusOdeu7PM2RxBlTeg",
+    "name": "Іван.А.Я.",
+    "rank": "капітан",
+    "position": "водій"
+  }
+]
