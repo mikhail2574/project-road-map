@@ -1,4 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import {
+  addPersonnelThunk,
+  deletePersonnelThunk,
+  fetchPersonnelThunk,
+  getPersonnelByIdThunk,
+  updatePersonnelThunk,
+} from './operations';
 
 const initialState = {
   // waybill: [
@@ -76,24 +83,64 @@ const initialState = {
 export const slice = createSlice({
   name: 'waybill',
   initialState,
-  reducers: {
-    getWaybill: (state, { payload }) => {
-      state.waybill = payload;
-    },
-    addWaybill: (state, { payload }) => {
-      state.waybill.push(payload);
-    },
-    removeWaybill: (state, { payload }) => {
-      state.waybill = state.waybill.filter(waybill => waybill.id !== payload);
-    },
-    updateWaybill: (state, { payload }) => {
-      state.waybill = state.waybill.map(waybill => {
-        return waybill.id === payload.id ? payload : waybill;
-      });
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchPersonnelThunk.fulfilled, (state, { payload }) => {
+        state.waybill = payload;
+      })
+      .addCase(getPersonnelByIdThunk.fulfilled, (state, { payload }) => {
+        state.waybill = payload;
+      })
+      .addCase(addPersonnelThunk.fulfilled, (state, { payload }) => {
+        state.waybill.push(payload);
+      })
+      .addCase(deletePersonnelThunk.fulfilled, (state, { payload }) => {
+        state.waybill = state.waybill.filter(waybill => waybill.id !== payload);
+      })
+      .addCase(updatePersonnelThunk.fulfilled, (state, { payload }) => {
+        state.waybill = state.waybill.map(waybill =>
+          waybill.id === payload.id ? payload : waybill
+        );
+      })
+      .addMatcher(
+        isAnyOf(
+          fetchPersonnelThunk.fulfilled,
+          getPersonnelByIdThunk.fulfilled,
+          addPersonnelThunk.fulfilled,
+          deletePersonnelThunk.fulfilled,
+          updatePersonnelThunk.fulfilled
+        ),
+        (state, { payload }) => {
+          state.isLoading = false;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchPersonnelThunk.pending,
+          getPersonnelByIdThunk.pending,
+          addPersonnelThunk.pending,
+          deletePersonnelThunk.pending,
+          updatePersonnelThunk.pending
+        ),
+        (state, { payload }) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchPersonnelThunk.rejected,
+          getPersonnelByIdThunk.rejected,
+          addPersonnelThunk.rejected,
+          deletePersonnelThunk.rejected,
+          updatePersonnelThunk.rejected
+        ),
+        (state, { payload }) => {
+          state.isLoading = false;
+          state.error = payload;
+        }
+      );
   },
 });
 
 export const waybillReducer = slice.reducer;
-export const { getWaybill, addWaybill, removeWaybill, updateWaybill } =
-  slice.actions;

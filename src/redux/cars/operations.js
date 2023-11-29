@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const roadApi = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'http://localhost:3001/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -13,10 +13,9 @@ export const fetchCarsThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await roadApi.get('/cars');
-      console.log(data);
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -28,7 +27,7 @@ export const getCarsByIdThunk = createAsyncThunk(
       const { data } = await roadApi.get(`/cars/${id}`);
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -49,7 +48,7 @@ export const addCarsThunk = createAsyncThunk(
       const res = await roadApi.post('/cars', data);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -59,8 +58,9 @@ export const deleteCarsThunk = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await roadApi.delete(`/cars/${id}`);
+      return id;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -81,7 +81,7 @@ export const updateCarsThunk = createAsyncThunk(
       const { data } = await roadApi.put(`/cars/${body.id}`, newBody);
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );

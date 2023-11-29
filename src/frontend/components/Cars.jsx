@@ -1,89 +1,139 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCarsThunk } from 'redux/cars/operations';
+import {
+  addCarsThunk,
+  deleteCarsThunk,
+  fetchCarsThunk,
+  updateCarsThunk,
+} from 'redux/cars/operations';
 import { selectCars } from 'redux/cars/selectors';
-// import { selectWaybill } from 'redux/waybill/selectors';
+import {
+  addPersonnelThunk,
+  deletePersonnelThunk,
+  fetchPersonnelThunk,
+  updatePersonnelThunk,
+} from 'redux/waybill/operations';
+import { selectWaybill } from 'redux/waybill/selectors';
 
 const Cars = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
-  console.log(cars);
-  // const waybill = useSelector(selectWaybill);
-
+  const waybill = useSelector(selectWaybill);
   useEffect(() => {
     dispatch(fetchCarsThunk());
+    dispatch(fetchPersonnelThunk());
   }, [dispatch]);
 
+  // Cars
+  const handleAddCarSubmit = e => {
+    e.preventDefault();
+
+    const carData = {
+      carName: 'ВАЗ',
+      sign: 'AA0000AB',
+      fuelType: 'Дизель',
+      fuelConsumption: '5',
+      oilType: 'Моторна',
+      oilConsumption: '2',
+      exploitationGroupShort: 'А',
+      exploitationGroup: 'Автомобілі',
+    };
+    dispatch(addCarsThunk(carData));
+  };
+
+  const handleEditCarSubmit = (e, id) => {
+    e.preventDefault();
+    const carData = {
+      carName: 'КРАЗ',
+      sign: 'AA0000AB',
+      fuelType: 'Мазут',
+      fuelConsumption: '5',
+      oilType: 'Моторна',
+      oilConsumption: '2',
+      exploitationGroupShort: 'А',
+      exploitationGroup: 'Автомобілі',
+    };
+    dispatch(updateCarsThunk({ ...carData, id }));
+  };
+
+  const handleDeleteCarSubmit = id => {
+    dispatch(deleteCarsThunk(id));
+  };
+  // Personnel
+  const handleWaybillSubmit = e => {
+    e.preventDefault();
+
+    const waybillData = {
+      name: 'Орел Ф.І.',
+      position: 'водій',
+      rank: 'генерал',
+    };
+    dispatch(addPersonnelThunk(waybillData));
+  };
+
+  const handleEditWaybillSubmit = (e, id) => {
+    e.preventDefault();
+    const waybillData = {
+      name: 'Козел Ф.І.',
+      position: 'пілот',
+      rank: 'генерал',
+    };
+    dispatch(updatePersonnelThunk({ ...waybillData, id }));
+  };
+
+  const handleDeleteWaybillSubmit = id => {
+    dispatch(deletePersonnelThunk(id));
+  };
+
   return (
-    <>
-      <ul>{/* {cars?map()} */}</ul>
-      {/* <ul>
+    <div>
+      <form onSubmit={handleAddCarSubmit}>
+        <button>Add Car</button>
+      </form>
+      <form onSubmit={handleWaybillSubmit}>
+        <button>Add Personnel</button>
+      </form>
+      <ul>
         {cars?.map(car => (
           <li key={car.id}>
-            <p>Марка: {car.carMake}</p>
-            <p>Номер: {car.carPlate}</p>
+            <p>Марка: {car.carName}</p>
+            <p>Номер: {car.sign}</p>
             <p>Тип палива: {car.fuelType}</p>
-            <p>Витрати палива: {car.fuelExpenses}</p>
+            <p>Витрати палива: {car.fuelConsumption}</p>
             <p>Тип оливи: {car.oilType}</p>
-            <p>Витрати оливи: {car.oilExpenses}</p>
-            <p>Група експлуатації: {car.groupExploitation}</p>
-            <p>Група експлуатації 2: {car.groupExploitation2}</p>
-            <p>Водій: {car.driver}</p>
-            <p>Звання водія: {car.driverRank}</p>
-            <p>Підрозділ: {car.subdivision}</p>
-            <p>Старший: {car.senior}</p>
-            <p>Звання старшого: {car.seniorRank}</p>
+            <p>Витрати оливи: {car.oilConsumption}</p>
+            <p>Група експлуатації: {car.exploitationGroupShort}</p>
+            <p>Група експлуатації 2: {car.exploitationGroup}</p>
+            <p>Водій: Фара К.Л.</p>
+            <p>Звання водія: солдат</p>
+            <p>Підрозділ: А0000 (ПВЗ)</p>
+            <p>Старший: Солярка К.Р.</p>
+            <p>Звання старшого: лейтенант</p>
+            <form onSubmit={e => handleEditCarSubmit(e, car.id)}>
+              <button>Edit</button>
+            </form>
+            <button onClick={() => handleDeleteCarSubmit(car.id)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
-      <ul>
-        {waybill?.map(item => (
+      <ol>
+        {waybill.map(item => (
           <li key={item.id}>
-            <p>Номер: {item.id}</p>
-            <p>Назва: {item.senior.name}</p>
-            <p>Звання: {item.senior.rank}</p>
-            <p>Номер документу: {item.senior.documentNumber}</p>
-            <p>
-              {' '}
-              Дата документу: {item.senior.documantDate.toLocaleDateString()}
-            </p>
-            <p>Військова частина: {item.senior.militaryUnit}</p>
-            <p>Водій: {item.senior.driver.name}</p>
-            <p>Звання водія: {item.senior.driver.rank}</p>
-            <p>Маршрут: {item.senior.routes}</p>
-            <p>Керівник автомобіля: {item.senior.carSupervisor}</p>
-            <p>
-              Старший технік:{' '}
-              {item.senior.seniorTechnician.map(item => (
-                <span>{item.name}</span>
-              ))}
-            </p>
-            <p>
-              КТП:{' '}
-              {item.senior.KTP.map(item => (
-                <span>{item.name}</span>
-              ))}
-            </p>
-            <p>Призначення: {item.senior.purpose}</p>
-            <ul>
-              Пункти:{' '}
-              {item.senior.waypoints.map(item => (
-                <li key={item.id}>
-                  <p>Прибуття: {item.arrival.date.toLocaleDateString()}</p>
-                  <p>Час прибуття: {item.arrival.arrivalTime}</p>
-                  <p>Показник спідометра: {item.arrival.speedometer}</p>
-                  <p>
-                    Відправлення: {item.departure.date.toLocaleDateString()}
-                  </p>
-                  <p>Час відправлення: {item.departure.departureTime}</p>
-                  <p>Показник спідометра: {item.departure.speedometer}</p>
-                </li>
-              ))}
-            </ul>
+            <p>Ім'я: {item.name}</p>
+            <p>Звання: {item.rank}</p>
+            <p>Посада: {item.position}</p>
+            <form onSubmit={e => handleEditWaybillSubmit(e, item.id)}>
+              <button>Edit Person</button>
+            </form>
+            <button onClick={() => handleDeleteWaybillSubmit(item.id)}>
+              Delete Person
+            </button>
           </li>
         ))}
-      </ul> */}
-    </>
+      </ol>
+    </div>
   );
 };
 

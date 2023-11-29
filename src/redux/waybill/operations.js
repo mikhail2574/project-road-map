@@ -8,7 +8,7 @@ export const fetchPersonnelThunk = createAsyncThunk(
       const { data } = await roadApi.get('/personnel');
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -20,7 +20,7 @@ export const getPersonnelByIdThunk = createAsyncThunk(
       const { data } = await roadApi.get(`/personnel/${id}`);
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -37,7 +37,7 @@ export const addPersonnelThunk = createAsyncThunk(
       const res = await roadApi.post('/personnel', data);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -47,8 +47,9 @@ export const deletePersonnelThunk = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await roadApi.delete(`/personnel/${id}`);
+      return id;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -65,7 +66,7 @@ export const updatePersonnelThunk = createAsyncThunk(
       const { data } = await roadApi.put(`/personnel/${body.id}`, newBody);
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
