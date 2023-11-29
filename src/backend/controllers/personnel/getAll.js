@@ -1,4 +1,4 @@
-const { getPersonnel } = require('backend/model/general');
+const { getPersonnel } = require('../../model/general');
 
 const getAll = async (req, res) => {
   const personnel = await getPersonnel();

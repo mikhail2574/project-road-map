@@ -1,5 +1,4 @@
-const { getPersonnelById } = require('backend/model/general');
-const { requestError } = require('backend/services');
+const { getPersonnelById } = require('../../model/general');
 
 const getById = async (req, res) => {
   const { id } = req.params;

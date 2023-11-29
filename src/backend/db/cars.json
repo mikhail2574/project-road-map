@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "carName": "жигуль",
     "sign": "aa2245aa",
     "fuelType": "Бензин",
@@ -10,7 +10,7 @@
     "exploitationGroup": "транспортна, тр"
   },
   {
-    "id": 2,
+    "id": "2",
     "carName": "бетмобіль",
     "sign": "ВВ4535ОО",
     "fuelType": "ДП",

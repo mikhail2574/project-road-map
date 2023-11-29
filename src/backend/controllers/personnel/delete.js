@@ -1,4 +1,4 @@
-const { deletePerson } = require('backend/model/general');
+const { deletePerson } = require('../../model/general');
 
 const deletePersonnel = async (req, res) => {
   const { id } = req.params;

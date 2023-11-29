@@ -1,14 +1,14 @@
 const ctrlWrapper = require('../../services/ctrlWrapper');
-const getAll = require('./getAll');
+const getAllCars = require('./getAll');
 const getById = require('./getById');
-const deletePersonnel = require('./delete');
+const removeCar = require('./remove');
 const add = require('./add');
 const update = require('./update');
 
 module.exports = {
-  getAllPersonnel: ctrlWrapper(getAll),
+  getAllCars: ctrlWrapper(getAllCars),
   getById: ctrlWrapper(getById),
-  remove: ctrlWrapper(deletePersonnel),
+  remove: ctrlWrapper(removeCar),
   add: ctrlWrapper(add),
   update: ctrlWrapper(update),
 };

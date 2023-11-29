@@ -1,4 +1,4 @@
-const { updatePerson } = require('backend/model/general');
+const { updatePerson } = require('../../model/general');
 
 const updatePersonnel = async (req, res) => {
   const { id } = req.params;

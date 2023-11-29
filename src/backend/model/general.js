@@ -1,10 +1,10 @@
 const fs = require('fs/promises'),
   path = require('path'),
-  { ctrlWrapper, requestError } = require('../../services'),
+  { ctrlWrapper, requestError } = require('../services'),
   { nanoid } = require('nanoid');
 
-const personnelPath = path.join(__dirname, '../../db/personnel.json');
-const carsPath = path.join(__dirname, '../../db/cars.json');
+const personnelPath = path.join(__dirname, '../db/personnel.json');
+const carsPath = path.join(__dirname, '../db/cars.json');
 
 const updatePersonnel = async newPersonnel => {
   await fs.writeFile(personnelPath, JSON.stringify(newPersonnel, null, 2));
@@ -18,6 +18,7 @@ const getPersonnel = async () => {
   const data = await fs.readFile(personnelPath, 'utf-8');
   return JSON.parse(data);
 };
+getPersonnel();
 const getCars = async () => {
   const data = await fs.readFile(carsPath, 'utf-8');
   return JSON.parse(data);
