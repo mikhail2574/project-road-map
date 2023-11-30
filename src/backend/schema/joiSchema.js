@@ -27,10 +27,10 @@ const schemaCar = Joi.object({
 const schemaCarUpdate = Joi.object({
   carName: Joi.string(),
   sign: Joi.string(),
-  fullType: Joi.string(),
-  fuelConsumption: Joi.number(),
+  fuelType: Joi.string(),
+  fuelConsumption: Joi.string(),
   oilType: Joi.string(),
-  oilConsumption: Joi.number(),
+  oilConsumption: Joi.string(),
   exploitationGroup: Joi.string(),
 });
 
