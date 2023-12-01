@@ -3,37 +3,31 @@ import styled from 'styled-components';
 export const StyledSection = styled.section`
   background: #fbfcfc;
   border-radius: 15px;
-
   padding: 28px 20px;
 `;
 
-export const TableScroll = styled.div`
-  /* position: relative;
-  width: 100%;
-  z-index: 1;
-  margin: auto;
-  overflow: auto;
-  height: 280px;
+/*  ========================= table ========================= */
 
-  /* td,
-  th {
-    text-align: center;
-    border: 1px solid #e2e2e2;
-    vertical-align: top;
-  } */
+export const TableScroll = styled.div`
+  position: relative;
+  width: 1408px;
+  height: 280px;
+  border-radius: 15px;
+
+  z-index: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
 `;
 
 export const StyledTable = styled.table`
   width: 1368px;
   display: block;
-  height: 280px;
-  overflow: auto;
+  overflow: hidden;
   border-collapse: collapse;
   /* border-collapse: separate; */
   border-spacing: 0;
   border-radius: 15px;
 
-  margin-bottom: 20px;
   border: 1px solid #e2e2e2;
 
   td,
@@ -70,13 +64,14 @@ export const StyledTBody = styled.tbody`
 `;
 
 export const StyledTFoot = styled.tfoot`
-  z-index: 2;
+  background: #fbfcfc;
+  z-index: 20;
   position: sticky;
   bottom: 0;
-  background: #fbfcfc;
+
   th,
   td {
-    border-bottom: none;
+    /* border-bottom: none; */
   }
 `;
 
@@ -94,4 +89,43 @@ export const SubSubRow = styled(SubRow)`
 export const StyledRow = styled.tr`
   height: 60px;
   text-align: left;
+`;
+
+/* ========================= Rest ========================= */
+
+export const CalcDiv = styled.div`
+  margin-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 35px;
+`;
+
+export const PersonnelDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  p {
+    font-weight: 500;
+    line-height: 1.29;
+  }
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+
+  input,
+  select {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(25, 20, 19, 0.2);
+  }
+`;
+
+export const AuxWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

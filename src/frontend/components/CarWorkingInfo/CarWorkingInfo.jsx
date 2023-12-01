@@ -1,4 +1,8 @@
 import {
+  AuxWrapper,
+  CalcDiv,
+  InputWrapper,
+  PersonnelDiv,
   StyledRow,
   StyledSection,
   StyledTBody,
@@ -165,43 +169,42 @@ const CarWorkingInfo = () => {
           </StyledTFoot>
         </StyledTable>
       </TableScroll>
-      <div>
+      <CalcDiv>
         <p>
           Всього пройдено: <span>*calc*</span>
         </p>
         <p>
           Всього витрачено: <span>*calc*</span>
         </p>
-      </div>
-      <div>
-        <div>
-          <p>Водій (механік - водій):</p>
-          <div>
+      </CalcDiv>
+
+      <PersonnelDiv>
+        <p>Водій (механік - водій):</p>
+        <InputWrapper>
+          <select name={'rank'} defaultValue={'Військове звання'}>
+            <option value={'Військове звання'} disabled>
+              Військове звання
+            </option>
+          </select>
+          <input type={'text'} placeholder={'Прізвище, ініціали'} />
+        </InputWrapper>
+      </PersonnelDiv>
+      <PersonnelDiv>
+        <p>Правильність оформлення дорожнього листа перевірив:</p>
+        <AuxWrapper>
+          <InputWrapper>
             <select name={'rank'} defaultValue={'Військове звання'}>
               <option value={'Військове звання'} disabled>
                 Військове звання
               </option>
             </select>
+            <input type={'text'} placeholder={'Посада'} />
             <input type={'text'} placeholder={'Прізвище, ініціали'} />
-          </div>
-        </div>
-        <div>
-          <p>Правильність оформлення дорожнього листа перевірив:</p>
-          <div>
-            <div>
-              <select name={'rank'} defaultValue={'Військове звання'}>
-                <option value={'Військове звання'} disabled>
-                  Військове звання
-                </option>
-              </select>
-              <input type={'text'} placeholder={'Посада'} />
-              <input type={'text'} placeholder={'Прізвище, ініціали'} />
-            </div>
-            <input type="date" />
-            {/* datepicker */}
-          </div>
-        </div>
-      </div>
+          </InputWrapper>
+          <input type="date" />
+          {/* datepicker */}
+        </AuxWrapper>
+      </PersonnelDiv>
     </StyledSection>
   );
 };
