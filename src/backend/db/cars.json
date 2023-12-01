@@ -11,58 +11,7 @@
     "exploitationGroup": "транспортна"
   },
   {
-    "id": "2",
-    "carName": "бетмобіль",
-    "sign": "ВВ4535ОО",
-    "fuelType": "ДП",
-    "fuelConsumption": "11,5",
-    "oilType": "Олива 30w40",
-    "oilConsumption": "1.2",
-    "exploitationGroupShort": "тр",
-    "exploitationGroup": "транспортна"
-  },
-  {
-    "id": "49MsezU2NtMpMujmMvnJL",
-    "carName": "ВАЗ",
-    "sign": "AA0000AB",
-    "fuelType": "Дизель",
-    "fuelConsumption": "5",
-    "oilType": "Моторна",
-    "oilConsumption": "2",
-    "exploitationGroup": "Автомобілі"
-  },
-  {
-    "id": "v-pf5PxgQIuh-34Up97_U",
-    "carName": "ВАЗ",
-    "sign": "AA0000AB",
-    "fuelType": "Дизель",
-    "fuelConsumption": "5",
-    "oilType": "Моторна",
-    "oilConsumption": "2",
-    "exploitationGroup": "Автомобілі"
-  },
-  {
-    "id": "asnrujFdkYKPmodbnk0fI",
-    "carName": "ВАЗ",
-    "sign": "AA0000AB",
-    "fuelType": "Дизель",
-    "fuelConsumption": "5",
-    "oilType": "Моторна",
-    "oilConsumption": "2",
-    "exploitationGroup": "Автомобілі"
-  },
-  {
-    "id": "B9NUjxUPpabnTp9V8dnXY",
-    "carName": "ВАЗ",
-    "sign": "AA0000AB",
-    "fuelType": "Дизель",
-    "fuelConsumption": "5",
-    "oilType": "Моторна",
-    "oilConsumption": "2",
-    "exploitationGroup": "Автомобілі"
-  },
-  {
-    "id": "E47mbI3xCaGgRoZSUzIIr",
+    "id": "fY41deC0-aMomkLAjs6Pq",
     "carName": "ВАЗ",
     "sign": "AA0000AB",
     "fuelType": "Дизель",
