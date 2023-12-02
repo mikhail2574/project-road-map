@@ -6,6 +6,7 @@ const schemaPerson = Joi.object({
   name: Joi.string().required().pattern(nameRegexp),
   position: Joi.string().required(),
   rank: Joi.string().required(),
+  rankShort: Joi.string(),
 });
 
 const schemaPersonUpdate = Joi.object({
@@ -22,16 +23,28 @@ const schemaCar = Joi.object({
   oilType: Joi.string().required(),
   oilConsumption: Joi.string().required(),
   exploitationGroup: Joi.string().required(),
+  exploitationGroupShort: Joi.string().required(),
+  driver: Joi.string().required(),
+  driverRank: Joi.string().required(),
+  unit: Joi.string().required(),
+  senior: Joi.string().required(),
+  seniorRank: Joi.string().required(),
 });
 
 const schemaCarUpdate = Joi.object({
   carName: Joi.string(),
   sign: Joi.string(),
   fullType: Joi.string(),
-  fuelConsumption: Joi.number(),
+  fuelConsumption: Joi.string(),
   oilType: Joi.string(),
-  oilConsumption: Joi.number(),
+  oilConsumption: Joi.string(),
   exploitationGroup: Joi.string(),
+  exploitationGroupShort: Joi.string(),
+  driver: Joi.string(),
+  driverRank: Joi.string(),
+  unit: Joi.string(),
+  senior: Joi.string(),
+  seniorRank: Joi.string(),
 });
 
 module.exports = {

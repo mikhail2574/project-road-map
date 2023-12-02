@@ -2,12 +2,28 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCars } from 'redux/cars/selectors';
 import { selectWaybill } from 'redux/waybill/selectors';
+import axios from 'axios';
 
 const Cars = () => {
   const cars = useSelector(selectCars);
   const waybill = useSelector(selectWaybill);
+
+  const handleFileChange = async () => {
+    const response = await axios.post(
+      'http://localhost:3001/api/excel',
+      {},
+      { responseType: 'blob' }
+    );
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'roadMap.xlsx'); // or any other filename you want
+    document.body.appendChild(link);
+    link.click();
+  };
   return (
     <>
+      <button onClick={handleFileChange}> Загрузити ексель</button>
       <ul>
         {cars?.map(car => (
           <li key={car.id}>

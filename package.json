@@ -5,6 +5,7 @@
   "homepage": "https://mikhail2574.github.io/project-road-map/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "axios": "^1.6.2",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",

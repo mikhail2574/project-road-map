@@ -1,22 +1,30 @@
 [
   {
-    "id": "1",
-    "carName": "жигуль",
-    "sign": "aa2245aa",
+    "sign": "аа2245аа",
     "fuelType": "Бензин",
-    "fuelConsumption": "7",
-    "oilType": "Олива 10w40",
-    "oilConsumption": "1",
-    "exploitationGroup": "транспортна, тр"
+    "fuelConsumption": 7,
+    "oilType": "Олива 10 w40",
+    "oilConsumption": 1,
+    "exploitationGroupShort": "тр",
+    "exploitationGroup": "транспортна",
+    "driver": "Фара К.Л.",
+    "driverRank": "солдат",
+    "unit": "А0000 (ПВЗ)",
+    "senior": "Солярка К.Р.",
+    "seniorRank": "лейтенант"
   },
   {
-    "id": "2",
-    "carName": "бетмобіль",
     "sign": "ВВ4535ОО",
-    "fuelType": "ДП",
-    "fuelConsumption": "11,5",
-    "oilType": "Олива 30w40",
-    "oilConsumption": "1.2",
-    "exploitationGroup": "транспортна, тр"
+    "fuelType": "ДТ",
+    "fuelConsumption": 11.5,
+    "oilType": "Олива 30 w40",
+    "oilConsumption": 1.2,
+    "exploitationGroupShort": "тр",
+    "exploitationGroup": "транспортна",
+    "driver": "Фара К.Л.",
+    "driverRank": "солдат",
+    "unit": "А0000 (ПВЗ)",
+    "senior": "Майбах М.Б.",
+    "seniorRank": "капітан"
   }
 ]
