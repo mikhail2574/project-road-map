@@ -175,6 +175,25 @@ const addPersonToExcel = async person => {
       break;
     }
   }
+  if (!lastRowNumber) {
+    lastRowNumber = 3;
+  }
+
+  const shortRanksEnum = {
+    майор: 'м-р',
+    полковник: 'п-к',
+    підполковник: 'п-пк',
+    капітан: 'к-н',
+    'старший лейтенант': 'ст. л-т',
+    лейтенант: 'л-т',
+    'старший сержант': 'ст. с-т',
+    сержант: 'с-т',
+    солдат: 'солд',
+  };
+
+  if (person.rankShort === undefined) {
+    person.rankShort = shortRanksEnum[person.rank];
+  }
 
   const row = worksheet.getRow(lastRowNumber + 1);
   row.getCell(19).value = person.position;
