@@ -34,7 +34,7 @@ const schemaCar = Joi.object({
 const schemaCarUpdate = Joi.object({
   carName: Joi.string(),
   sign: Joi.string(),
-  fullType: Joi.string(),
+  fuelType: Joi.string(),
   fuelConsumption: Joi.string(),
   oilType: Joi.string(),
   oilConsumption: Joi.string(),
