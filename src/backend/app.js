@@ -5,8 +5,9 @@ const express = require('express'),
 require('dotenv').config();
 
 const app = express();
-const { routerPersonnel } = require('./routes/api/personnel');
-const { routerCars } = require('./routes/api/cars');
+
+// const { routerExcel } = require('./routes/api/excel');
+const { routerInfos } = require('./routes/api/infos');
 
 const formatLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
@@ -14,8 +15,8 @@ app.use(logger(formatLogger));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/personnel', routerPersonnel);
-app.use('/api/cars', routerCars);
+app.use('/api/infos', routerInfos);
+// app.use('/api/excel', routerExcel);
 
 app.use((req, res, next) => {
   const err = new Error('Not found');
