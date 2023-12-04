@@ -33,6 +33,12 @@ export const addCarsThunk = createAsyncThunk(
       oilType: body.oilType,
       oilConsumption: body.oilConsumption,
       exploitationGroup: body.exploitationGroup,
+      exploitationGroupShort: body.exploitationGroupShort,
+      driver: body.driver,
+      driverRank: body.driverRank.result,
+      unit: body.unit,
+      senior: body.senior,
+      seniorRank: body.seniorRank.result,
     };
     try {
       const res = await roadApi.post('/infos/cars', data);
@@ -66,6 +72,12 @@ export const updateCarsThunk = createAsyncThunk(
       oilType: body.oilType,
       oilConsumption: body.oilConsumption,
       exploitationGroup: body.exploitationGroup,
+      exploitationGroupShort: body.exploitationGroupShort,
+      driver: body.driver,
+      driverRank: body.driverRank.result,
+      unit: body.unit,
+      senior: body.senior,
+      seniorRank: body.seniorRank.result,
     };
     try {
       const { data } = await roadApi.put(`/infos/cars/${body.sign}`, newBody);

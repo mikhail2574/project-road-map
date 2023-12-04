@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { roadApi } from 'redux/cars/operations';
+import { roadApi } from 'redux/infos/operations';
 
 export const downloadFileThunk = createAsyncThunk(
   'downloadFile',
