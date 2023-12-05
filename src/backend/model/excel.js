@@ -2,6 +2,7 @@ const { requestError } = require('../services');
 const { log } = require('console');
 const ExcelJS = require('exceljs');
 const path = require('path');
+const { nanoid } = require('nanoid');
 
 const pathToExcel = path.join(
   __dirname,
@@ -29,7 +30,6 @@ const parseInfo = async () => {
   worksheet.eachRow((row, rowNumber) => {
     if (rowNumber <= 2) return; // пропускаю 1 рядок, бо так оформленний ексель
 
-    //   формую об'єкт з даними, літери відповідають стовпцям в екселі
     const rowCars = {
       carName: row.values[1], // 'A'
       sign: row.values[2], // 'B'
@@ -54,18 +54,19 @@ const parseInfo = async () => {
     };
 
     const rowRoadType = {
+      id: row.values[15], // 'O'
       roadType: row.values[16], // 'P'
       correction: row.values[17], // 'Q'
     };
 
     const rowRoutes = {
+      id: row.values[25], // 'Y'
       from: row.values[26], // 'Z'
       to: row.values[27], // 'AA'
       return: row.values[28], // 'AB'
       route: row.values[29], // 'AC'
     };
 
-    //   додаю об'єкт в масив, якщо він не пустий
     if (rowCars.carName !== undefined) {
       rowDataCars.push(rowCars);
     }
@@ -114,7 +115,7 @@ const addCarToExcel = async car => {
   const startRowNumber = 2;
   let lastRowNumber;
 
-  // із-зі того що на одному листі декілька таблиць, відловлюю останню строку таблиці
+  // із-за того що на одному листі декілька таблиць, відловлюю останню строку таблиці
   for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
     const row = worksheet.getRow(i);
     if (row.getCell(columnNumber).value) {
@@ -167,7 +168,6 @@ const updateCarInExcel = async (sign, car) => {
   const startRowNumber = 2;
   let lastRowNumber;
 
-  // із-зі того що на одному листі декілька таблиць, відловлюю останню строку таблиці
   for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
     const row = worksheet.getRow(i);
     if (row.getCell(columnNumber).value === sign) {
@@ -177,24 +177,20 @@ const updateCarInExcel = async (sign, car) => {
   }
 
   const row = worksheet.getRow(lastRowNumber);
-  // перевірками віповідаю за те щоб не затерти дані, якщо вони не передані
-  if (car.carName !== undefined) row.getCell(1).value = car.carName;
-  if (car.sign !== undefined) row.getCell(2).value = car.sign;
-  if (car.fuelType !== undefined) row.getCell(3).value = car.fuelType;
-  if (car.fuelConsumption !== undefined)
-    row.getCell(4).value = car.fuelConsumption;
-  if (car.oilType !== undefined) row.getCell(5).value = car.oilType;
-  if (car.oilConsumption !== undefined)
-    row.getCell(6).value = car.oilConsumption;
-  if (car.exploitationGroupShort !== undefined)
+  if (car.carName) row.getCell(1).value = car.carName;
+  if (car.sign) row.getCell(2).value = car.sign;
+  if (car.fuelType) row.getCell(3).value = car.fuelType;
+  if (car.fuelConsumption) row.getCell(4).value = car.fuelConsumption;
+  if (car.oilType) row.getCell(5).value = car.oilType;
+  if (car.oilConsumption) row.getCell(6).value = car.oilConsumption;
+  if (car.exploitationGroupShort)
     row.getCell(7).value = car.exploitationGroupShort;
-  if (car.exploitationGroup !== undefined)
-    row.getCell(8).value = car.exploitationGroup;
-  if (car.driver !== undefined) row.getCell(9).value = car.driver;
-  if (car.driverRank !== undefined) row.getCell(10).value = car.driverRank;
-  if (car.unit !== undefined) row.getCell(11).value = car.unit;
-  if (car.senior !== undefined) row.getCell(12).value = car.senior;
-  if (car.seniorRank !== undefined) row.getCell(13).value = car.seniorRank;
+  if (car.exploitationGroup) row.getCell(8).value = car.exploitationGroup;
+  if (car.driver) row.getCell(9).value = car.driver;
+  if (car.driverRank) row.getCell(10).value = car.driverRank;
+  if (car.unit) row.getCell(11).value = car.unit;
+  if (car.senior) row.getCell(12).value = car.senior;
+  if (car.seniorRank) row.getCell(13).value = car.seniorRank;
 
   carInExcel = { ...carInExcel, ...car };
 
@@ -235,11 +231,10 @@ const addPersonToExcel = async person => {
     throw requestError(409, 'Такий службовець вже існує');
   }
 
-  const columnNumber = 19; // вибірка першого стовпця з даними про персонал
+  const columnNumber = 19;
   const startRowNumber = 2;
   let lastRowNumber;
 
-  // із-зі того що на одному листі декілька таблиць, відловлюю останню строку таблиці
   for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
     const row = worksheet.getRow(i);
     if (row.getCell(columnNumber).value) {
@@ -290,7 +285,6 @@ const updatePersonInExcel = async (name, person) => {
   const startRowNumber = 2;
   let lastRowNumber;
 
-  // із-зі того що на одному листі декілька таблиць, відловлюю останню строку таблиці
   for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
     const row = worksheet.getRow(i);
     if (row.getCell(columnNumber).value === name) {
@@ -304,15 +298,321 @@ const updatePersonInExcel = async (name, person) => {
   }
 
   const row = worksheet.getRow(lastRowNumber);
-  // перевірками віповідаю за те щоб не затерти дані, якщо вони не передані
-  if (person.position !== undefined) row.getCell(19).value = person.position;
-  if (person.rank !== undefined) row.getCell(20).value = person.rank;
-  if (person.rankShort !== undefined) row.getCell(21).value = person.rankShort;
-  if (person.name !== undefined) row.getCell(22).value = person.name;
+
+  if (person.position) row.getCell(19).value = person.position;
+  if (person.rank) row.getCell(20).value = person.rank;
+  if (person.rankShort) row.getCell(21).value = person.rankShort;
+  if (person.name) row.getCell(22).value = person.name;
 
   personInExcel = { ...personInExcel, ...person };
   await workbook.xlsx.writeFile(pathToExcel);
   return personInExcel;
+};
+
+const addRouteToExcel = async route => {
+  const workbook = new ExcelJS.Workbook();
+  const pathToExcel = path.resolve(
+    __dirname,
+    '..',
+    'fileStorage',
+    'excel',
+    'roadXS.xlsx'
+  );
+  await workbook.xlsx.readFile(pathToExcel);
+  const worksheet = workbook.getWorksheet('Довідники');
+  if (!worksheet) {
+    throw new Error('Worksheet not found');
+  }
+
+  const data = await parseInfo();
+  const routeInExcel = data.routes.find(
+    item =>
+      item.to === route.to &&
+      item.from === route.from &&
+      item.return === route.return
+  );
+  if (routeInExcel) {
+    throw requestError(409, 'Такий маршрут вже існує');
+  }
+
+  const columnNumber = 26;
+  const startRowNumber = 2;
+  let lastRowNumber;
+
+  for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value) {
+      lastRowNumber = i;
+      break;
+    }
+  }
+
+  if (route.return === undefined || route.return === 'ні') {
+    route.return = 'ні';
+    route.route = route.from + ' - ' + route.to + ' - ' + route.from;
+  } else {
+    route.return = 'так';
+    route.route = route.from + ' - ' + route.to;
+  }
+
+  const row = worksheet.getRow(lastRowNumber + 1);
+  row.getCell(25).value = nanoid();
+  row.getCell(26).value = route.from;
+  row.getCell(27).value = route.to;
+  row.getCell(28).value = route.return;
+  row.getCell(29).value = route.route;
+
+  await workbook.xlsx.writeFile(pathToExcel);
+  return route;
+};
+
+const updateRouteInExcel = async (id, routeNew) => {
+  const workbook = new ExcelJS.Workbook();
+  const pathToExcel = path.resolve(
+    __dirname,
+    '..',
+    'fileStorage',
+    'excel',
+    'roadXS.xlsx'
+  );
+  await workbook.xlsx.readFile(pathToExcel);
+  const worksheet = workbook.getWorksheet('Довідники');
+  if (!worksheet) {
+    throw new Error('Worksheet not found');
+  }
+
+  const data = await parseInfo();
+  let routeInExcel = data.routes.find(item => item.id === id);
+  if (!routeInExcel) {
+    throw requestError(404, 'Такого маршруту не існує');
+  }
+  const matchRoute = data.routes.some(
+    item =>
+      item.to === routeNew.to &&
+      item.from === routeNew.from &&
+      item.return === routeNew.return &&
+      item.id !== id
+  );
+  if (matchRoute) {
+    throw requestError(409, 'Такий маршрут вже існує');
+  }
+
+  const columnNumber = 25;
+  const startRowNumber = 2;
+  let lastRowNumber;
+
+  for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value === id) {
+      lastRowNumber = i;
+      break;
+    }
+  }
+
+  if (!routeNew.from) {
+    routeNew.from = routeInExcel.from;
+  }
+  if (!routeNew.to) {
+    routeNew.to = routeInExcel.to;
+  }
+  if (routeNew.return === undefined || routeNew.return === 'ні') {
+    routeNew.return = 'ні';
+    routeNew.route =
+      routeNew.from + ' - ' + routeNew.to + ' - ' + routeNew.from;
+  } else {
+    routeNew.return = 'так';
+    routeNew.route = routeNew.from + ' - ' + routeNew.to;
+  }
+
+  const row = worksheet.getRow(lastRowNumber);
+  if (routeNew.from) row.getCell(26).value = routeNew.from;
+  if (routeNew.to) row.getCell(27).value = routeNew.to;
+  if (routeNew.return) row.getCell(28).value = routeNew.return;
+  if (routeNew.route) row.getCell(29).value = routeNew.route;
+
+  routeInExcel = { ...routeInExcel, ...routeNew };
+  await workbook.xlsx.writeFile(pathToExcel);
+  return routeInExcel;
+};
+
+const deleteCarFromExcel = async sign => {
+  const workbook = new ExcelJS.Workbook();
+  const pathToExcel = path.resolve(
+    __dirname,
+    '..',
+    'fileStorage',
+    'excel',
+    'roadXS.xlsx'
+  );
+  await workbook.xlsx.readFile(pathToExcel);
+  const worksheet = workbook.getWorksheet('Довідники');
+  if (!worksheet) {
+    throw new Error('Worksheet not found');
+  }
+
+  const data = await parseInfo();
+  const carInExcel = data.cars.find(item => item.sign === sign);
+  if (!carInExcel) {
+    throw requestError(404, 'Такого автомобіля не існує');
+  }
+
+  const columnNumber = 2;
+  const startRowNumber = 2;
+  let lastRowNumber;
+
+  for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value) {
+      lastRowNumber = i;
+      break;
+    }
+  }
+
+  let rowToDelete;
+  for (let i = startRowNumber; i <= lastRowNumber; i++) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value === sign) {
+      rowToDelete = i;
+      break;
+    }
+  }
+
+  if (rowToDelete) {
+    for (let i = rowToDelete; i < lastRowNumber; i++) {
+      const row = worksheet.getRow(i);
+      const nextRow = worksheet.getRow(i + 1);
+      for (let j = 1; j <= 13; j++) {
+        row.getCell(j).value = nextRow.getCell(j).value;
+      }
+    }
+
+    const lastRow = worksheet.getRow(lastRowNumber);
+    for (let i = 1; i <= 13; i++) {
+      lastRow.getCell(i).value = null;
+    }
+  }
+
+  await workbook.xlsx.writeFile(pathToExcel);
+};
+
+const deletePersonnelFromExcel = async name => {
+  const workbook = new ExcelJS.Workbook();
+  const pathToExcel = path.resolve(
+    __dirname,
+    '..',
+    'fileStorage',
+    'excel',
+    'roadXS.xlsx'
+  );
+  await workbook.xlsx.readFile(pathToExcel);
+  const worksheet = workbook.getWorksheet('Довідники');
+  if (!worksheet) {
+    throw new Error('Worksheet not found');
+  }
+
+  const data = await parseInfo();
+  const personInExcel = data.personnel.find(item => item.name === name);
+  if (!personInExcel) {
+    throw requestError(404, 'Такого службовця не існує');
+  }
+
+  const columnNumber = 22;
+  const startRowNumber = 2;
+  let lastRowNumber;
+
+  for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value) {
+      lastRowNumber = i;
+      break;
+    }
+  }
+
+  let rowToDelete;
+  for (let i = startRowNumber; i <= lastRowNumber; i++) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value === name) {
+      rowToDelete = i;
+      break;
+    }
+  }
+
+  if (rowToDelete) {
+    for (let i = rowToDelete; i < lastRowNumber; i++) {
+      const row = worksheet.getRow(i);
+      const nextRow = worksheet.getRow(i + 1);
+      for (let j = 19; j <= 22; j++) {
+        row.getCell(j).value = nextRow.getCell(j).value;
+      }
+    }
+
+    const lastRow = worksheet.getRow(lastRowNumber);
+    for (let i = 19; i <= 22; i++) {
+      lastRow.getCell(i).value = null;
+    }
+  }
+
+  await workbook.xlsx.writeFile(pathToExcel);
+};
+
+const deleteRouteFromExcel = async id => {
+  const workbook = new ExcelJS.Workbook();
+  const pathToExcel = path.resolve(
+    __dirname,
+    '..',
+    'fileStorage',
+    'excel',
+    'roadXS.xlsx'
+  );
+  await workbook.xlsx.readFile(pathToExcel);
+  const worksheet = workbook.getWorksheet('Довідники');
+  if (!worksheet) {
+    throw new Error('Worksheet not found');
+  }
+
+  const data = await parseInfo();
+  const routeInExcel = data.routes.find(item => item.id === id);
+  if (!routeInExcel) {
+    throw requestError(404, 'Такого маршруту не існує');
+  }
+
+  const columnNumber = 25;
+  const startRowNumber = 2;
+  let lastRowNumber;
+
+  for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value) {
+      lastRowNumber = i;
+      break;
+    }
+  }
+
+  let rowToDelete;
+  for (let i = startRowNumber; i <= lastRowNumber; i++) {
+    const row = worksheet.getRow(i);
+    if (row.getCell(columnNumber).value === id) {
+      rowToDelete = i;
+      break;
+    }
+  }
+
+  if (rowToDelete) {
+    for (let i = rowToDelete; i < lastRowNumber; i++) {
+      const row = worksheet.getRow(i);
+      const nextRow = worksheet.getRow(i + 1);
+      for (let j = 25; j <= 29; j++) {
+        row.getCell(j).value = nextRow.getCell(j).value;
+      }
+    }
+
+    const lastRow = worksheet.getRow(lastRowNumber);
+    for (let i = 25; i <= 29; i++) {
+      lastRow.getCell(i).value = null;
+    }
+  }
+
+  await workbook.xlsx.writeFile(pathToExcel);
 };
 
 module.exports = {
@@ -321,4 +621,9 @@ module.exports = {
   addPersonToExcel,
   updateCarInExcel,
   updatePersonInExcel,
+  addRouteToExcel,
+  updateRouteInExcel,
+  deleteCarFromExcel,
+  deletePersonnelFromExcel,
+  deleteRouteFromExcel,
 };

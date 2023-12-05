@@ -4,6 +4,11 @@ const addCar = require('./addCar');
 const addPersonnel = require('./addPersonnel');
 const updateCars = require('./updateCars');
 const updatePersonnel = require('./updatePersonnel');
+const deleteCar = require('./deleteCar');
+const addRoute = require('./addRoute');
+const updateRoute = require('./updateRoute');
+const deletePersonnel = require('./deletePersonnel');
+const deleteRoute = require('./deleteRoute');
 
 module.exports = {
   getAll: ctrlWrapper(getAll),
@@ -11,4 +16,9 @@ module.exports = {
   addPersonnel: ctrlWrapper(addPersonnel),
   updateCars: ctrlWrapper(updateCars),
   updatePersonnel: ctrlWrapper(updatePersonnel),
+  deleteCar: ctrlWrapper(deleteCar),
+  addRoute: ctrlWrapper(addRoute),
+  updateRoute: ctrlWrapper(updateRoute),
+  deletePersonnel: ctrlWrapper(deletePersonnel),
+  deleteRoute: ctrlWrapper(deleteRoute),
 };
