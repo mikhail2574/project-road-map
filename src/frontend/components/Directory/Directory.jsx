@@ -45,18 +45,18 @@ const Directory = () => {
 
     const carData = {
       carName: 'Volvo',
-      sign: 'BB 1234 BB',
+      sign: 'BB 1234 ЧІ',
       fuelType: 'Бензин',
       fuelConsumption: '10',
       oilType: 'Моторна',
       oilConsumption: '1',
       exploitationGroupShort: 'А',
       exploitationGroup: 'Автомобілі',
-      driver: 'Петро Петренко',
-      driverRank: 'Старший сержант',
+      driver: 'Петро П.І.',
+      driverRank: { id: 1, result: 'Старший сержант' },
       unit: 'Відділ',
-      senior: 'Іван Іваненко',
-      seniorRank: 'Старший лейтенант',
+      senior: 'Іван І.І.',
+      seniorRank: { id: 1, result: 'Старший лейтенант' },
     };
     dispatch(addCarsThunk(carData));
   };
@@ -65,18 +65,18 @@ const Directory = () => {
     e.preventDefault();
     const carData = {
       carName: 'KAMAZ',
-      sign: 'AA 1234 SS',
+      sign: 'BB 1234 BB',
       fuelType: 'Voda z krana',
       fuelConsumption: '10',
       oilType: 'MAZUT',
       oilConsumption: '1',
       exploitationGroupShort: 'А',
       exploitationGroup: 'Автомобілі',
-      driver: 'Бандера',
-      driverRank: 'Старший сержант',
+      driver: 'Бандера Ш.І.',
+      driverRank: { id: 1, result: 'Старший сержант' },
       unit: 'Відділ',
-      senior: 'Іван Іваненко',
-      seniorRank: 'Старший лейтенант',
+      senior: 'Іван І.І.',
+      seniorRank: { id: 1, result: 'Старший лейтенант' },
     };
     dispatch(updateCarsThunk({ ...carData, sign }));
   };

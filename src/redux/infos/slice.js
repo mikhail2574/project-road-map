@@ -39,7 +39,7 @@ export const slice = createSlice({
         state.cars.push(payload);
       })
       .addCase(deleteCarsThunk.fulfilled, (state, { payload }) => {
-        state.cars = state.cars.filter(car => car.sign !== payload.sign);
+        state.cars = state.cars.filter(car => car.sign !== payload);
       })
       .addCase(updateCarsThunk.fulfilled, (state, { payload }) => {
         state.cars = state.cars.map(car =>
