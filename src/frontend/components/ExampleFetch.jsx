@@ -19,9 +19,7 @@ const ExampleFetch = () => {
   const cars = useSelector(selectCars);
   const personnel = useSelector(selectPersonnel);
   const roadType = useSelector(selectRoadType);
-  console.log(roadType);
   const routes = useSelector(selectRoutes);
-  console.log(routes);
 
   useEffect(() => {
     dispatch(fetchInfosThunk());
