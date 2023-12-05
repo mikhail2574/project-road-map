@@ -2,10 +2,15 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addCarsThunk,
+  deleteCarsThunk,
   fetchInfosThunk,
   updateCarsThunk,
 } from 'redux/infos/operations';
-import { selectCars } from 'redux/infos/selectors';
+import {
+  selectCars,
+  selectError,
+  selectIsLoading,
+} from 'redux/infos/selectors';
 import {
   StyledAddButton,
   StyledButtonWrapper,
@@ -27,7 +32,8 @@ import sprite from '../../icons/sprite.svg';
 
 const Directory = () => {
   const cars = useSelector(selectCars);
-  console.log(cars);
+  const loading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -74,6 +80,10 @@ const Directory = () => {
     };
     dispatch(updateCarsThunk({ ...carData, sign }));
   };
+
+  const handleDeleteCar = (e, sign) => {
+    dispatch(deleteCarsThunk(sign));
+  };
   return (
     <>
       <StyledHeaderWrapper>
@@ -101,6 +111,8 @@ const Directory = () => {
           </StyledTableHeaderTr>
         </StyledTableHead>
         <StyledTableBody>
+          {loading && <h1>Loading...</h1>}
+          {error && <h1>Щось пішло не так</h1>}
           {cars?.map(car => (
             <StyledTableBodyTr key={car.sign}>
               <StyledTableBodyTd>{car.carName}</StyledTableBodyTd>
@@ -128,7 +140,7 @@ const Directory = () => {
                     </svg>
                   </StyledTableEditButton>
                   <StyledTableDeleteButton
-                  //   onClick={e => handleDeleteCar(e, car.sign)}
+                    onClick={e => handleDeleteCar(e, car.sign)}
                   >
                     <svg width="16" height="16">
                       <use href={`${sprite}#icon-trash`}></use>
