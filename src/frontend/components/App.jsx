@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router';
 import Layout from './Layout';
 import CarWorkingInfo from './CarWorkingInfo/CarWorkingInfo';
-import ExampleFetch from './ExampleFetch';
+import Directory from './Directory/Directory';
 
 export const App = () => {
   return (
@@ -16,7 +16,7 @@ export const App = () => {
           />
         </Route>
       </Routes>
-      <ExampleFetch />
+      <Directory />
     </>
   );
 };
