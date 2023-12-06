@@ -1,9 +1,81 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const StyledSection = styled.section`
+export const BtnSection = styled.section`
+  padding: 0 20px;
+  margin-bottom: 10px;
+`;
+
+export const TableSection = styled.section`
   background: #fbfcfc;
   border-radius: 15px;
   padding: 28px 20px;
+`;
+
+/*  ========================= btn section ========================= */
+export const SectionHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 36px;
+`;
+
+export const StyledTitle = styled.h1``;
+
+export const BtnBox = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const InfoBtn = styled.button`
+  padding: 14px 28px;
+  border-radius: 12px;
+`;
+
+export const SaveBtn = styled(InfoBtn)`
+  padding: 14px 22px;
+  background: var(--white);
+`;
+
+export const StyledNav = styled.nav`
+  display: flex;
+  gap: 32px;
+`;
+
+export const StyledLink = styled(NavLink)`
+  position: relative;
+  color: var(--gray);
+  text-decoration: none;
+
+  &.active {
+    color: var(--text-dark);
+  }
+  &.active:before {
+    content: '';
+    position: absolute;
+    top: 35px;
+    width: 100%;
+    border-bottom: solid 2px var(--modal-btn-add);
+  }
+  &:hover:not(.active) {
+    color: var(--text-dark);
+  }
+`;
+
+export const Line = styled.hr`
+  border: none;
+  margin: 16px 0 20px;
+  border-top: 1px solid #e2e2e2;
+`;
+
+export const StyledText = styled.p`
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+`;
+
+export const StyledSpan = styled.span`
+  color: var(--text-dark);
 `;
 
 /*  ========================= table ========================= */
@@ -88,7 +160,7 @@ export const SubSubRow = styled(SubRow)`
 
 export const StyledRow = styled.tr`
   height: 60px;
-  text-align: left;
+  /* text-align: left; */
 `;
 
 /* ========================= Rest ========================= */

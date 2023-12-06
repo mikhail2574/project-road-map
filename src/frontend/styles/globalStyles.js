@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --nav-btn: #F1F1F1;
     --btn-active: #47523F;
+    --white: #FBFCFC;
     --dark: #202020;
     --text-dark: #191413;
     --gray: #8A8A89;
