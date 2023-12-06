@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
 import Navbar from '../NavBar/Navbar';
+import { LogoLink, StyledHeader } from './Header.styled';
 
 const Header = () => {
   return (
-    <header>
-      <Link to="/">
-        <svg width="25" height="32">
-          <use href="../../icons/sprite.svg#icon-logo"></use>
+    <StyledHeader>
+      <LogoLink to="/">
+        <svg width="38" height="45">
+          <use href="../../icons/sprite.svg#icon-edit" />
         </svg>
-        <span>Дорожня карта</span>
-      </Link>
+        Дорожня карта
+      </LogoLink>
       <Navbar />
-    </header>
+    </StyledHeader>
   );
 };
 

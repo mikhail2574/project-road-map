@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router';
-import Layout from './Layout';
+import Layout from './Layout/Layout';
 import CarWorkingInfo from './CarWorkingInfo/CarWorkingInfo';
 import Directory from './Directory/Directory';
 import { Icon } from './Icon';
@@ -12,14 +12,18 @@ export const App = () => {
       <Routes>
         <Route
           path="/"
-          element={<Icon name="trash" size={100} color="green" />}
-        />
-        <Route path="/papers/*">
-          <Route index element={<Layout children={<h2>main!</h2>} />} />
-          <Route
-            path="car"
-            element={<Layout children={<CarWorkingInfo />} />}
-          />
+          element={
+            <>
+              <Layout />
+              <Icon name="trash" size={100} color="green" />
+            </>
+          }
+        >
+          <Route index element={<Directory />} />
+          <Route path="papers" element={<CarWorkingInfo />}>
+            <Route path="general" element={<h2>main!</h2>} />
+            <Route path="car" element={<CarWorkingInfo />} />
+          </Route>
         </Route>
       </Routes>
       <Directory />

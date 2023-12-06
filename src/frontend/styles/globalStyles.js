@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --nav-btn: #F1F1F1;
     --btn-active: #47523F;
+    --white: #FBFCFC;
     --dark: #202020;
     --text-dark: #191413;
     --gray: #8A8A89;
@@ -13,7 +14,8 @@ const GlobalStyles = createGlobalStyle`
     --modal-btn-add-active: #30392A;
     --modal-btn-remove: #282828;
     
-
+    /* animation */
+    --fast: 0.15s ease;
   }
 
   body {
