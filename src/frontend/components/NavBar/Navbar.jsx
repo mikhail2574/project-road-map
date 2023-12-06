@@ -1,17 +1,11 @@
-import { StyledLink } from './Navbar.styled';
+import { StyledLink, StyledNav } from './Navbar.styled';
 
 const Navbar = () => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <StyledLink to="/">Довідник</StyledLink>
-        </li>
-        <li>
-          <StyledLink to="/papers">Дорожній лист</StyledLink>
-        </li>
-      </ul>
-    </nav>
+    <StyledNav>
+      <StyledLink to="/">Довідник</StyledLink>
+      <StyledLink to="/papers">Дорожній лист</StyledLink>
+    </StyledNav>
   );
 };
 
