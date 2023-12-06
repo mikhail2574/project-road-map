@@ -12,6 +12,7 @@ export const StyledLink = styled(NavLink)`
   text-decoration: none;
   border-radius: 12px;
   padding: 14px 51px;
+  transition: var(--fast);
 
   &.active {
     color: var(--white);

@@ -19,7 +19,10 @@ export const SectionHead = styled.div`
   margin-bottom: 36px;
 `;
 
-export const StyledTitle = styled.h1``;
+export const StyledTitle = styled.h1`
+  font-size: 32px;
+  line-height: 1;
+`;
 
 export const BtnBox = styled.div`
   display: flex;
@@ -27,8 +30,18 @@ export const BtnBox = styled.div`
 `;
 
 export const InfoBtn = styled.button`
+  font-weight: 600;
+  line-height: 1.43;
   padding: 14px 28px;
   border-radius: 12px;
+  border: 1px solid rgba(71, 82, 63, 0.2);
+  transition: var(--fast);
+
+  &:hover {
+    cursor: pointer;
+    color: var(--white);
+    background: var(--btn-active);
+  }
 `;
 
 export const SaveBtn = styled(InfoBtn)`

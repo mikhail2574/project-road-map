@@ -14,7 +14,8 @@ const GlobalStyles = createGlobalStyle`
     --modal-btn-add-active: #30392A;
     --modal-btn-remove: #282828;
     
-
+    /* animation */
+    --fast: 0.15s ease;
   }
 
   body {
