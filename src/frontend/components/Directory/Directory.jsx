@@ -44,19 +44,19 @@ const Directory = () => {
     e.preventDefault();
 
     const carData = {
-      carName: 'Volvo',
-      sign: 'BB 1234 ЧІ',
-      fuelType: 'Бензин',
+      carName: 'жигуль',
+      sign: 'BB 1234 ММ',
+      fuelType: 'ДТ',
       fuelConsumption: '10',
       oilType: 'Моторна',
       oilConsumption: '1',
-      exploitationGroupShort: 'А',
-      exploitationGroup: 'Автомобілі',
+      exploitationGroupShort: 'Транспортна',
+      exploitationGroup: 'Транспортна',
       driver: 'Петро П.І.',
-      driverRank: { id: 1, result: 'Старший сержант' },
+      driverRank: 'Старший сержант',
       unit: 'Відділ',
       senior: 'Іван І.І.',
-      seniorRank: { id: 1, result: 'Старший лейтенант' },
+      seniorRank: 'Старший лейтенант',
     };
     dispatch(addCarsThunk(carData));
   };
@@ -64,19 +64,19 @@ const Directory = () => {
   const handleEditCar = (e, sign) => {
     e.preventDefault();
     const carData = {
-      carName: 'KAMAZ',
-      sign: 'BB 1234 BB',
-      fuelType: 'Voda z krana',
+      carName: 'жигуль',
+      sign: 'BB 1234 ЙЦ',
+      fuelType: 'Дизель',
       fuelConsumption: '10',
       oilType: 'MAZUT',
       oilConsumption: '1',
-      exploitationGroupShort: 'А',
-      exploitationGroup: 'Автомобілі',
+      exploitationGroupShort: 'Транспортна',
+      exploitationGroup: 'Транспортна',
       driver: 'Бандера Ш.І.',
-      driverRank: { id: 1, result: 'Старший сержант' },
+      driverRank: 'Старший сержант',
       unit: 'Відділ',
       senior: 'Іван І.І.',
-      seniorRank: { id: 1, result: 'Старший лейтенант' },
+      seniorRank: 'Старший лейтенант',
     };
     dispatch(updateCarsThunk({ ...carData, sign }));
   };
@@ -86,6 +86,8 @@ const Directory = () => {
   };
   return (
     <>
+      {loading && <h1>Loading...</h1>}
+      {error && <p>Щось пішло не так</p>}
       <StyledHeaderWrapper>
         <StyledTitleDirectory>Довідник</StyledTitleDirectory>
         <form onSubmit={handleAddCar}>
@@ -111,8 +113,6 @@ const Directory = () => {
           </StyledTableHeaderTr>
         </StyledTableHead>
         <StyledTableBody>
-          {loading && <h1>Loading...</h1>}
-          {error && <h1>Щось пішло не так</h1>}
           {cars?.map(car => (
             <StyledTableBodyTr key={car.sign}>
               <StyledTableBodyTd>{car.carName}</StyledTableBodyTd>
@@ -124,12 +124,10 @@ const Directory = () => {
               <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
               <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
               <StyledTableShortTd>{car.driver}</StyledTableShortTd>
-              <StyledTableBodyTd>{car.driverRank.result}</StyledTableBodyTd>
+              <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
               <StyledTableShortTd>{car.unit}</StyledTableShortTd>
               <StyledTableShortTd>{car.senior}</StyledTableShortTd>
-              <StyledTableTdLastChild>
-                {car.seniorRank.result}
-              </StyledTableTdLastChild>
+              <StyledTableTdLastChild>{car.seniorRank}</StyledTableTdLastChild>
               <StyledTableBodyTd>
                 <StyledButtonWrapper>
                   <StyledTableEditButton

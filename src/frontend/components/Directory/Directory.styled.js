@@ -34,7 +34,7 @@ export const StyledTableWrapper = styled.table`
 `;
 
 export const StyledTableHead = styled.thead`
-  display: inline-flex;
+  display: flex;
   padding: 14px 158px 14px 20px;
   align-items: center;
 
@@ -44,14 +44,17 @@ export const StyledTableHead = styled.thead`
 `;
 
 export const StyledTableHeaderTr = styled.tr`
-  display: flex;
+  /* display: flex; */
+
+  display: grid;
+  grid-template-columns: repeat(14, auto);
   gap: 38px;
 
   text-align: left;
 `;
 
 export const StyledTableHeaderTh = styled.th`
-  flex: 1;
+  /* flex: 1; */
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -71,12 +74,12 @@ export const StyledTableBody = styled.tbody`
     box-shadow: black;
   }
   &::-webkit-scrollbar {
-    width: 0.4em;
+    width: 0.5em;
   }
 `;
 
 export const StyledTableBodyTr = styled.tr`
-  display: flex;
+  /* display: flex;
   align-items: center;
   justify-content: space-between;
 
@@ -85,11 +88,20 @@ export const StyledTableBodyTr = styled.tr`
   line-height: 20px;
 
   padding: 28px 20px;
+  border-bottom: 1px solid #e2e2e2; */
+
+  display: grid;
+  grid-template-columns: repeat(14, auto);
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 28px 20px;
   border-bottom: 1px solid #e2e2e2;
 `;
 
 export const StyledTableBodyTd = styled.td`
-  /* flex: 1; */
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -98,10 +110,11 @@ export const StyledTableBodyTd = styled.td`
 `;
 
 export const StyledTableShortTd = styled(StyledTableBodyTd)`
-  max-width: 67px;
+  max-width: 49px;
 `;
 
-export const StyledTableTdLastChild = styled.td`
+export const StyledTableTdLastChild = styled(StyledTableBodyTd)`
+  max-width: 49px;
   margin-right: 34px;
 `;
 
