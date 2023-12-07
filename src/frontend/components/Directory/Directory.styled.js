@@ -44,8 +44,6 @@ export const StyledTableHead = styled.thead`
 `;
 
 export const StyledTableHeaderTr = styled.tr`
-  /* display: flex; */
-
   display: grid;
   grid-template-columns: repeat(14, auto);
   gap: 38px;
@@ -54,7 +52,6 @@ export const StyledTableHeaderTr = styled.tr`
 `;
 
 export const StyledTableHeaderTh = styled.th`
-  /* flex: 1; */
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -79,17 +76,6 @@ export const StyledTableBody = styled.tbody`
 `;
 
 export const StyledTableBodyTr = styled.tr`
-  /* display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-
-  padding: 28px 20px;
-  border-bottom: 1px solid #e2e2e2; */
-
   display: grid;
   grid-template-columns: repeat(14, auto);
   align-items: center;

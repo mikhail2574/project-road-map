@@ -28,7 +28,6 @@ import {
   StyledTableWrapper,
   StyledTitleDirectory,
 } from './Directory.styled';
-import { Icons } from '../Icons';
 import { Icon } from '../Icon';
 
 const Directory = () => {
@@ -46,12 +45,12 @@ const Directory = () => {
 
     const carData = {
       carName: 'жигуль',
-      sign: 'BB 1234 ММ',
+      sign: 'BB1234ЗД',
       fuelType: 'ДТ',
       fuelConsumption: '10',
       oilType: 'Моторна',
       oilConsumption: '1',
-      exploitationGroupShort: 'Транспортна',
+      exploitationGroupShort: 'Тр',
       exploitationGroup: 'Транспортна',
       driver: 'Петро П.І.',
       driverRank: 'Старший сержант',
@@ -66,12 +65,12 @@ const Directory = () => {
     e.preventDefault();
     const carData = {
       carName: 'жигуль',
-      sign: 'BB 1234 ЙЦ',
+      sign: 'BB1234ЙЦ',
       fuelType: 'Дизель',
       fuelConsumption: '10',
       oilType: 'MAZUT',
       oilConsumption: '1',
-      exploitationGroupShort: 'Транспортна',
+      exploitationGroupShort: 'Тр',
       exploitationGroup: 'Транспортна',
       driver: 'Бандера Ш.І.',
       driverRank: 'Старший сержант',
@@ -123,7 +122,9 @@ const Directory = () => {
               <StyledTableShortTd>{car.oilType}</StyledTableShortTd>
               <StyledTableBodyTd>{car.oilConsumption}</StyledTableBodyTd>
               <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
-              <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
+              <StyledTableBodyTd>
+                {car.exploitationGroupShort}
+              </StyledTableBodyTd>
               <StyledTableShortTd>{car.driver}</StyledTableShortTd>
               <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
               <StyledTableShortTd>{car.unit}</StyledTableShortTd>
