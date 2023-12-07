@@ -16,7 +16,7 @@ import {
   SectionHead,
   InfoBtn,
   SaveBtn,
-  StyledRow,
+  TBodyRow,
   StyledTBody,
   StyledTFoot,
   StyledTHead,
@@ -31,17 +31,21 @@ import {
   StyledText,
   StyledSpan,
   Line,
+  TFootRow,
+  THeadRow,
 } from './CarWorkingInfo.styled';
 
 const CarWorkingInfo = () => {
   const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
   const roadType = useSelector(selectRoadType);
-  /* useEffect(() => {
+  useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
   console.log('routes :>> ', routes);
-  console.log('roadType :>> ', roadType); */
+  console.log('roadType :>> ', roadType);
+
+  const openEditModal = () => {};
 
   return (
     <>
@@ -49,7 +53,9 @@ const CarWorkingInfo = () => {
         <SectionHead>
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
-            <InfoBtn>Додати загальну інформацію</InfoBtn>
+            <InfoBtn onClick={openEditModal()}>
+              Додати загальну інформацію
+            </InfoBtn>
             <InfoBtn>Редагувати</InfoBtn>
             <SaveBtn>Зберегти в PDF</SaveBtn>
             <SaveBtn>Друк сторінки</SaveBtn>
@@ -69,7 +75,7 @@ const CarWorkingInfo = () => {
         <TableScroll>
           <StyledTable>
             <StyledTHead>
-              <tr>
+              <THeadRow>
                 <th scope="col" rowSpan={3}>
                   Маршрут руху (звідки, куди)
                 </th>
@@ -89,7 +95,7 @@ const CarWorkingInfo = () => {
                   Показанння спідометра, час і місце відпускання машини, підпис
                   старшого машини (особа, яка використовувала машину)
                 </th>
-              </tr>
+              </THeadRow>
               <SubRow>
                 <th scope="col" rowSpan={2}>
                   Вибуття
@@ -98,7 +104,7 @@ const CarWorkingInfo = () => {
                   Прибуття
                 </th>
                 <th scope="col" rowSpan={2}>
-                  З вантажом
+                  З ванта жом
                 </th>
                 <th scope="col" rowSpan={2}>
                   Без
@@ -126,95 +132,79 @@ const CarWorkingInfo = () => {
                 </th>
               </SubRow>
               <SubSubRow>
-                <th scope="col">З причепом</th>
+                <th scope="col">З приче пом</th>
                 <th scope="col">На буксир</th>
               </SubSubRow>
             </StyledTHead>
             <StyledTBody>
-              <StyledRow>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-              </StyledRow>
-              <StyledRow>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-              </StyledRow>
-              <StyledRow>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-              </StyledRow>
+              <TBodyRow>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </TBodyRow>
+              <TBodyRow>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </TBodyRow>
               {/* collection.map(item=>(
-            <StyledRow>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-            </StyledRow>)
+            <TBodyRow>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </TBodyRow>)
             ) */}
             </StyledTBody>
             <StyledTFoot>
-              <StyledRow>
+              <TFootRow>
                 <th scope="row">Всього:</th>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-              </StyledRow>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </TFootRow>
             </StyledTFoot>
           </StyledTable>
         </TableScroll>

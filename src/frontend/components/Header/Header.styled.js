@@ -22,5 +22,22 @@ export const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-right: 312px;
+  margin-right: 312px;
+
+  svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:after {
+    content: '';
+    height: 6px;
+    width: 11px;
+    position: absolute;
+    left: 48px;
+    top: 78px;
+    background: var(--transparent-gray);
+    clip-path: ellipse(70% 50% at 50% 50%);
+    box-shadow: 0px 0px 0px 20px var(--transparent-gray);
+  }
 `;
