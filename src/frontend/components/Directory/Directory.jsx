@@ -28,7 +28,8 @@ import {
   StyledTableWrapper,
   StyledTitleDirectory,
 } from './Directory.styled';
-import sprite from '../../icons/sprite.svg';
+import { Icons } from '../Icons';
+import { Icon } from '../Icon';
 
 const Directory = () => {
   const cars = useSelector(selectCars);
@@ -133,16 +134,12 @@ const Directory = () => {
                   <StyledTableEditButton
                     onClick={e => handleEditCar(e, car.sign)}
                   >
-                    <svg width="16" height="16">
-                      <use href={`${sprite}#icon-edit`}></use>
-                    </svg>
+                    <Icon name="edit" size={16} />
                   </StyledTableEditButton>
                   <StyledTableDeleteButton
                     onClick={e => handleDeleteCar(e, car.sign)}
                   >
-                    <svg width="16" height="16">
-                      <use href={`${sprite}#icon-trash`}></use>
-                    </svg>
+                    <Icon name="trash" size={16} />
                   </StyledTableDeleteButton>
                 </StyledButtonWrapper>
               </StyledTableBodyTd>
