@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
-import {
-  fetchInfosThunk,
-  // updateRoadTypesThunk,
-  // updateRoutesThunk,
-} from 'redux/infos/operations';
+// import { useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
+// import {
+//   fetchInfosThunk,
+//   updateRoadTypesThunk,
+//   updateRoutesThunk,
+// } from 'redux/infos/operations';
 import {
   AuxWrapper,
   BtnBox,
@@ -34,10 +34,10 @@ import {
 } from './CarWorkingInfo.styled';
 
 const CarWorkingInfo = () => {
-  const dispatch = useDispatch();
+  /* const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
   const roadType = useSelector(selectRoadType);
-  /* useEffect(() => {
+   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
   console.log('routes :>> ', routes);
