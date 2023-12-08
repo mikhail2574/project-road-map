@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import Select from 'react-select';
 import styled from 'styled-components';
 
 export const BtnSection = styled.section`
@@ -96,48 +97,59 @@ export const StyledSpan = styled.span`
 export const TableScroll = styled.div`
   position: relative;
   width: 1408px;
-  height: 280px;
-  border-radius: 15px;
+  height: 282px;
+  /* border-radius: 15px; */
 
   z-index: 1;
   overflow-y: auto;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background: #f0f0f0;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: black;
+  }
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
   margin-bottom: 20px;
 `;
 
 export const StyledTable = styled.table`
   width: 1368px;
   display: block;
-  overflow: hidden;
-  border-collapse: collapse;
-  /* border-collapse: separate; */
+  /* overflow: hidden; */
+  /* border-collapse: collapse; */
+  border-collapse: separate;
   border-spacing: 0;
-  border-radius: 15px;
+  /* border-radius: 15px; */
 
-  border: 1px solid #e2e2e2;
+  /* border: 1px solid #e2e2e2; */
 
   td,
   th {
     text-align: center;
     border: 1px solid #e2e2e2;
   }
-  th {
+  /* th {
     border-top: none;
   }
   td:first-child,
   th:first-child {
     border-left: none;
-  }
+  } */
 `;
 
 export const StyledTHead = styled.thead`
-  /* height: 120px; */
+  height: 120px;
   color: var(--gray);
   font-size: 12px;
   line-height: 1.3;
-  top: 0;
+
   th {
-    padding: 14px 0;
     font-weight: 500;
+    padding: 14px 0;
+    vertical-align: top;
   }
 `;
 
@@ -160,20 +172,62 @@ export const StyledTFoot = styled.tfoot`
   }
 `;
 
+export const THeadRow = styled.tr`
+  /* height: 40px; */
+
+  th {
+    /* text-align: left; */
+    /* padding: 10px 24px; */
+  }
+`;
+
 export const SubRow = styled.tr`
   th {
-    padding: 6px 0;
+    padding: 6px 10px;
   }
 `;
 
 export const SubSubRow = styled(SubRow)`
   font-size: 10px;
   line-height: 1.2;
+
+  th {
+    width: 48px;
+    padding: 6px 4px;
+  }
 `;
 
-export const StyledRow = styled.tr`
+export const TBodyRow = styled.tr`
   height: 60px;
-  /* text-align: left; */
+
+  td:first-child {
+    width: 207px;
+    text-align: left;
+    padding: 10px 24px;
+  }
+  td:last-child {
+    width: 395px;
+    padding: 10px 24px;
+  }
+  td:nth-child(2),
+  td:nth-child(3) {
+    width: 92px;
+    padding: 10px 15px;
+  }
+  td:nth-child(2),
+  td:nth-child(3) {
+    width: 92px;
+    padding: 10px 15px;
+  }
+`;
+
+export const TFootRow = styled.tr`
+  height: 40px;
+
+  th {
+    text-align: left;
+    padding: 10px 24px;
+  }
 `;
 
 /* ========================= Rest ========================= */
@@ -202,11 +256,96 @@ export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
 
-  input,
-  select {
+  input {
     padding: 12px;
     border-radius: 12px;
-    border: 1px solid rgba(25, 20, 19, 0.2);
+    border: 1px solid var(--transparent-gray);
+  }
+  input:hover {
+    border: 1px solid var(--dark);
+  }
+`;
+
+export const StyledSelect = styled(Select)`
+  width: 220px;
+
+  .Select__control {
+    font-weight: 500;
+    line-height: 1.29;
+    color: var(--text-dark);
+    cursor: pointer;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid var(--transparent-gray);
+
+    &:hover {
+      border-color: var(--dark);
+    }
+  }
+
+  .Select__value-container {
+    padding: 12px 16px;
+  }
+  .css-t3ipsp-control {
+    border: 1px solid var(--transparent-gray);
+    box-shadow: none;
+  }
+  .Select__input-container {
+    padding: 0;
+    margin: 0;
+  }
+
+  .Select__placeholder {
+    color: var(--gray);
+    font-weight: 500;
+    line-height: 1.29;
+  }
+
+  .Select__indicator {
+    /* color: red; */
+    width: auto;
+  }
+
+  .Select__indicator-separator {
+    display: none;
+  }
+
+  .Select__dropdown-indicator {
+    color: black;
+  }
+
+  .Select__menu {
+    padding: 12px 16px;
+    border-radius: 12px;
+  }
+  .Select__menu-list {
+    max-height: 102px;
+    padding: 0;
+    color: var(--text-dark);
+    font-weight: 500;
+    line-height: 1.29;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #f0f0f0;
+      border-radius: 12px;
+    }
+  }
+
+  .Select__option {
+    padding: 0;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .Select__option--is-selected {
+    text-decoration: underline;
+    color: var(--text-dark);
   }
 `;
 

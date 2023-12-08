@@ -1,11 +1,13 @@
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
-// import {
-//   fetchInfosThunk,
-//   updateRoadTypesThunk,
-//   updateRoutesThunk,
-// } from 'redux/infos/operations';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
+import { components } from 'react-select';
+import { VscChevronDown } from 'react-icons/vsc';
+import {
+  fetchInfosThunk,
+  // updateRoadTypesThunk,
+  // updateRoutesThunk,
+} from 'redux/infos/operations';
 import {
   AuxWrapper,
   BtnBox,
@@ -16,7 +18,7 @@ import {
   SectionHead,
   InfoBtn,
   SaveBtn,
-  StyledRow,
+  TBodyRow,
   StyledTBody,
   StyledTFoot,
   StyledTHead,
@@ -31,17 +33,52 @@ import {
   StyledText,
   StyledSpan,
   Line,
+  TFootRow,
+  THeadRow,
+  StyledSelect,
 } from './CarWorkingInfo.styled';
 
 const CarWorkingInfo = () => {
-  /* const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
   const roadType = useSelector(selectRoadType);
-   useEffect(() => {
+  useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
   console.log('routes :>> ', routes);
-  console.log('roadType :>> ', roadType); */
+  console.log('roadType :>> ', roadType);
+
+  const DropdownIndicator = props => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <VscChevronDown />
+      </components.DropdownIndicator>
+    );
+  };
+
+  const driverArr = ['Фара К.Л.', 'Орел Ф.І.'];
+  const checkedArr = [
+    'Солдат',
+    'Старший солдат',
+    'Молодший сержант',
+    'Сержант',
+  ];
+  const driverOptions = driverArr.map(name => ({
+    value: name,
+    label: name,
+  }));
+  const checkedOptions = checkedArr.map(rank => ({
+    value: rank,
+    label: rank,
+  }));
+
+  const addGenInfo = () => {}; // ????
+
+  const openEditModal = () => {}; // waiting for modal
+
+  const savePDF = () => {};
+
+  const printPDF = () => {};
 
   return (
     <>
@@ -49,10 +86,10 @@ const CarWorkingInfo = () => {
         <SectionHead>
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
-            <InfoBtn>Додати загальну інформацію</InfoBtn>
-            <InfoBtn>Редагувати</InfoBtn>
-            <SaveBtn>Зберегти в PDF</SaveBtn>
-            <SaveBtn>Друк сторінки</SaveBtn>
+            <InfoBtn onClick={addGenInfo}>Додати загальну інформацію</InfoBtn>
+            <InfoBtn onClick={openEditModal}>Редагувати</InfoBtn>
+            <SaveBtn onClick={savePDF}>Зберегти в PDF</SaveBtn>
+            <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
         <StyledNav>
@@ -69,7 +106,7 @@ const CarWorkingInfo = () => {
         <TableScroll>
           <StyledTable>
             <StyledTHead>
-              <tr>
+              <THeadRow>
                 <th scope="col" rowSpan={3}>
                   Маршрут руху (звідки, куди)
                 </th>
@@ -89,7 +126,7 @@ const CarWorkingInfo = () => {
                   Показанння спідометра, час і місце відпускання машини, підпис
                   старшого машини (особа, яка використовувала машину)
                 </th>
-              </tr>
+              </THeadRow>
               <SubRow>
                 <th scope="col" rowSpan={2}>
                   Вибуття
@@ -98,7 +135,7 @@ const CarWorkingInfo = () => {
                   Прибуття
                 </th>
                 <th scope="col" rowSpan={2}>
-                  З вантажом
+                  З ванта жом
                 </th>
                 <th scope="col" rowSpan={2}>
                   Без
@@ -126,95 +163,79 @@ const CarWorkingInfo = () => {
                 </th>
               </SubRow>
               <SubSubRow>
-                <th scope="col">З причепом</th>
+                <th scope="col">З приче пом</th>
                 <th scope="col">На буксир</th>
               </SubSubRow>
             </StyledTHead>
             <StyledTBody>
-              <StyledRow>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-              </StyledRow>
-              <StyledRow>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-              </StyledRow>
-              <StyledRow>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>placeholder</td>
-              </StyledRow>
+              <TBodyRow>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </TBodyRow>
+              <TBodyRow>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </TBodyRow>
               {/* collection.map(item=>(
-            <StyledRow>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-            </StyledRow>)
+            <TBodyRow>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </TBodyRow>)
             ) */}
             </StyledTBody>
             <StyledTFoot>
-              <StyledRow>
+              <TFootRow>
                 <th scope="row">Всього:</th>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-                <td>num</td>
-              </StyledRow>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </TFootRow>
             </StyledTFoot>
           </StyledTable>
         </TableScroll>
@@ -229,11 +250,14 @@ const CarWorkingInfo = () => {
         <PersonnelDiv>
           <p>Водій (механік - водій):</p>
           <InputWrapper>
-            <select name={'rank'} defaultValue={'Військове звання'}>
-              <option value={'Військове звання'} disabled>
-                Військове звання
-              </option>
-            </select>
+            <StyledSelect
+              options={driverOptions}
+              // onChange={}
+              components={{ DropdownIndicator }}
+              ariaLabel={'Військове звання'}
+              placeholder="Військове звання"
+              classNamePrefix="Select"
+            />
             <input type={'text'} placeholder={'Прізвище, ініціали'} />
           </InputWrapper>
         </PersonnelDiv>
@@ -241,11 +265,14 @@ const CarWorkingInfo = () => {
           <p>Правильність оформлення дорожнього листа перевірив:</p>
           <AuxWrapper>
             <InputWrapper>
-              <select name={'rank'} defaultValue={'Військове звання'}>
-                <option value={'Військове звання'} disabled>
-                  Військове звання
-                </option>
-              </select>
+              <StyledSelect
+                options={checkedOptions}
+                // onChange={}
+                components={{ DropdownIndicator }}
+                ariaLabel={'Військове звання'}
+                placeholder="Військове звання"
+                classNamePrefix="Select"
+              />
               <input type={'text'} placeholder={'Посада'} />
               <input type={'text'} placeholder={'Прізвище, ініціали'} />
             </InputWrapper>
