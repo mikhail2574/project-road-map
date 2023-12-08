@@ -50,15 +50,18 @@ export const StyledTableWrapper = styled.table`
   padding: 28px 20px;
   border-radius: 15px;
   background-color: #fbfcfc;
+  border-spacing: 0;
 `;
 
+//  -----------------  THEAD  -----------------  //
 export const StyledTableHead = styled.thead`
-  display: block;
+  height: 100px /* delete border in table head */;
+  /* display: block; */
 
   text-align: left;
-  border-radius: 15px;
-  border: 1px solid #e2e2e2;
-  background-color: #f0f0f0;
+
+  /* border-radius: 15px; */
+
   position: sticky;
   z-index: 1;
   top: 0;
@@ -66,9 +69,9 @@ export const StyledTableHead = styled.thead`
 
 export const StyledTableHeaderTr = styled.tr`
   padding: 14px 158px 14px 20px;
-  display: grid;
+  /* display: grid;
   gap: 38px;
-  grid-template-columns: repeat(14, auto);
+  grid-template-columns: repeat(14, auto); */
 
   text-align: left;
 `;
@@ -78,10 +81,33 @@ export const StyledTableHeaderTh = styled.th`
   font-weight: 500;
   line-height: 16px;
   color: #8a8a89;
+  background-color: #f0f0f0;
+
+  padding-left: 9px;
+  padding-right: 9px;
+
+  text-align: center;
+
+  &:nth-child(1) {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  &:nth-child(4) {
+    width: 70px;
+  }
+  &:nth-child(8) {
+    width: 100px;
+  }
+  &:last-child {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 120px;
+  }
 `;
 
+//  -----------------  TBODY  -----------------  //
 export const StyledTableBody = styled.tbody`
-  display: block;
+  /* display: block; */
   max-height: 40vh;
   overflow-y: scroll;
   &::-webkit-scrollbar-thumb {
@@ -97,16 +123,29 @@ export const StyledTableBody = styled.tbody`
 `;
 
 export const StyledTableBodyTr = styled.tr`
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(14, auto);
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
+  position: relative;
 
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   padding: 28px 20px;
-  border-bottom: 1px solid #e2e2e2;
+  height: 80px;
+  /* border-bottom: 1px solid #e2e2e2; */
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* border-bottom: 1px solid #e2e2e2; */
+    background-color: #e2e2e2;
+    height: 1px;
+    width: 100%;
+  }
 `;
 
 export const StyledTableBodyTd = styled.td`
@@ -129,6 +168,7 @@ export const StyledTableTdLastChild = styled.td`
 export const StyledButtonWrapper = styled.div`
   display: flex;
   gap: 8px;
+  justify-content: center;
 `;
 
 export const StyledTableEditButton = styled.button`

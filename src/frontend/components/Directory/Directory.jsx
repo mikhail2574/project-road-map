@@ -26,6 +26,7 @@ import {
   StyledTableShortTd,
   StyledTableWrapper,
   StyledTitleDirectory,
+  StyledTableTdLastChild,
 } from './Directory.styled';
 import { Icon } from '../Icon';
 
@@ -110,7 +111,7 @@ const Directory = () => {
             <StyledTableHeaderTh>Підозріл</StyledTableHeaderTh>
             <StyledTableHeaderTh>Старший</StyledTableHeaderTh>
             <StyledTableHeaderTh>Звання старшого</StyledTableHeaderTh>
-            {/* <StyledTableTdLastChild></StyledTableTdLastChild> */}
+            <StyledTableHeaderTh></StyledTableHeaderTh>
           </StyledTableHeaderTr>
         </StyledTableHead>
         <StyledTableBody>
