@@ -22,47 +22,25 @@ export const StyledAddButton = styled.button`
   line-height: 20px;
   border-radius: 12px;
   border: 1px solid rgba(71, 82, 63, 0.2);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #47523f;
+    color: #fff;
+  }
 `;
 
-export const StyledTableWrapper = styled.table`
-  width: 1408px;
-
-  padding: 28px 20px;
-
-  border-radius: 15px;
+export const StyledWhiteWrapper = styled.div`
   background-color: #fbfcfc;
-`;
-
-export const StyledTableHead = styled.thead`
-  display: flex;
-  padding: 14px 158px 14px 20px;
-  align-items: center;
-
+  padding-top: 28px;
+  padding-bottom: 28px;
   border-radius: 15px;
-  border: 1px solid #e2e2e2;
-  background-color: #f0f0f0;
 `;
 
-export const StyledTableHeaderTr = styled.tr`
-  display: grid;
-  grid-template-columns: repeat(14, auto);
-  gap: 38px;
-
-  text-align: left;
-`;
-
-export const StyledTableHeaderTh = styled.th`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-
-  color: #8a8a89;
-`;
-
-export const StyledTableBody = styled.tbody`
-  display: block;
-  max-height: 50vh;
+export const StyledTableScrollWrapper = styled.div`
+  max-height: 60vh;
   overflow-y: scroll;
+  margin-right: 6px;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: #f0f0f0;
@@ -71,42 +49,110 @@ export const StyledTableBody = styled.tbody`
     box-shadow: black;
   }
   &::-webkit-scrollbar {
-    width: 0.5em;
+    width: 0.6em;
   }
 `;
 
+export const StyledTableWrapper = styled.table`
+  width: 100%;
+  padding: 0px 20px 0px 20px;
+  border-radius: 15px;
+  background-color: #fbfcfc;
+  border-spacing: 0;
+  position: relative;
+`;
+
+//  -----------------  THEAD  -----------------  //
+export const StyledTableHead = styled.thead`
+  height: 100px;
+
+  text-align: left;
+
+  position: sticky;
+  z-index: 1;
+  top: 0;
+`;
+
+export const StyledTableHeaderTr = styled.tr`
+  padding: 14px 158px 14px 20px;
+`;
+
+export const StyledTableHeaderTh = styled.th`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: #8a8a89;
+  background-color: #f0f0f0;
+
+  padding-left: 19px;
+  padding-right: 19px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+
+  vertical-align: top;
+
+  &:nth-child(1) {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding-left: 20px;
+  }
+  &:nth-child(4) {
+    width: 70px;
+  }
+  &:nth-child(8) {
+    width: 100px;
+  }
+  &:nth-child(9) {
+    width: 85px;
+  }
+  &:last-child {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 120px;
+  }
+`;
+
+//  -----------------  TBODY  -----------------  //
+export const StyledTableBody = styled.tbody``;
+
 export const StyledTableBodyTr = styled.tr`
-  display: grid;
-  grid-template-columns: repeat(14, auto);
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   padding: 28px 20px;
-  border-bottom: 1px solid #e2e2e2;
+  height: 90px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #e2e2e2;
+    height: 1px;
+    width: 100%;
+  }
 `;
 
 export const StyledTableBodyTd = styled.td`
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
-
   color: #191413;
+
+  padding-left: 19px;
+  padding-right: 19px;
 `;
 
 export const StyledTableShortTd = styled(StyledTableBodyTd)`
   max-width: 49px;
 `;
 
-export const StyledTableTdLastChild = styled(StyledTableBodyTd)`
-  max-width: 49px;
-  margin-right: 34px;
-`;
-
 export const StyledButtonWrapper = styled.div`
   display: flex;
   gap: 8px;
+  justify-content: center;
 `;
 
 export const StyledTableEditButton = styled.button`
@@ -119,6 +165,10 @@ export const StyledTableEditButton = styled.button`
   border: none;
   border-radius: 50%;
   background-color: #47523f;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(40, 90, 70, 1);
+  }
 `;
 
 export const StyledTableDeleteButton = styled.button`
@@ -131,4 +181,8 @@ export const StyledTableDeleteButton = styled.button`
   border: none;
   border-radius: 50%;
   background-color: #191413;
+  cursor: pointer;
+  &:hover {
+    background-color: darkred;
+  }
 `;
