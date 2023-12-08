@@ -33,6 +33,7 @@ export const StyledAddButton = styled.button`
 export const StyledWhiteWrapper = styled.div`
   background-color: #fbfcfc;
   padding-top: 28px;
+  padding-bottom: 28px;
   border-radius: 15px;
 `;
 

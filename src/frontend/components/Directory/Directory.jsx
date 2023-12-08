@@ -46,7 +46,7 @@ const Directory = () => {
 
     const carData = {
       carName: 'жигуль',
-      sign: 'BB12347X',
+      sign: 'BB12347Й',
       fuelType: 'ДТ',
       fuelConsumption: '10',
       oilType: 'Моторна',
@@ -127,10 +127,10 @@ const Directory = () => {
                   <StyledTableBodyTd>{car.fuelConsumption}</StyledTableBodyTd>
                   <StyledTableShortTd>{car.oilType}</StyledTableShortTd>
                   <StyledTableBodyTd>{car.oilConsumption}</StyledTableBodyTd>
-                  <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
                   <StyledTableBodyTd>
                     {car.exploitationGroupShort}
                   </StyledTableBodyTd>
+                  <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
                   <StyledTableShortTd>{car.driver}</StyledTableShortTd>
                   <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
                   <StyledTableShortTd>{car.unit}</StyledTableShortTd>
