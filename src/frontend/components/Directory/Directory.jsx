@@ -24,7 +24,6 @@ import {
   StyledTableHeaderTh,
   StyledTableHeaderTr,
   StyledTableShortTd,
-  StyledTableTdLastChild,
   StyledTableWrapper,
   StyledTitleDirectory,
 } from './Directory.styled';
@@ -45,7 +44,7 @@ const Directory = () => {
 
     const carData = {
       carName: 'жигуль',
-      sign: 'BB1234ЗД',
+      sign: 'BB1234ЗK',
       fuelType: 'ДТ',
       fuelConsumption: '10',
       oilType: 'Моторна',
@@ -94,6 +93,7 @@ const Directory = () => {
           <StyledAddButton>Додадти дані</StyledAddButton>
         </form>
       </StyledHeaderWrapper>
+      {/* <StyledTableScrollWrapper> */}
       <StyledTableWrapper>
         <StyledTableHead>
           <StyledTableHeaderTr>
@@ -110,6 +110,7 @@ const Directory = () => {
             <StyledTableHeaderTh>Підозріл</StyledTableHeaderTh>
             <StyledTableHeaderTh>Старший</StyledTableHeaderTh>
             <StyledTableHeaderTh>Звання старшого</StyledTableHeaderTh>
+            {/* <StyledTableTdLastChild></StyledTableTdLastChild> */}
           </StyledTableHeaderTr>
         </StyledTableHead>
         <StyledTableBody>
@@ -129,7 +130,7 @@ const Directory = () => {
               <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
               <StyledTableShortTd>{car.unit}</StyledTableShortTd>
               <StyledTableShortTd>{car.senior}</StyledTableShortTd>
-              <StyledTableTdLastChild>{car.seniorRank}</StyledTableTdLastChild>
+              <StyledTableShortTd>{car.seniorRank}</StyledTableShortTd>
               <StyledTableBodyTd>
                 <StyledButtonWrapper>
                   <StyledTableEditButton
@@ -148,6 +149,7 @@ const Directory = () => {
           ))}
         </StyledTableBody>
       </StyledTableWrapper>
+      {/* </StyledTableScrollWrapper> */}
     </>
   );
 };
