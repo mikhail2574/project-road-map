@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
+import { components } from 'react-select';
+import { VscChevronDown } from 'react-icons/vsc';
 import {
   fetchInfosThunk,
   // updateRoadTypesThunk,
@@ -33,6 +35,7 @@ import {
   Line,
   TFootRow,
   THeadRow,
+  StyledSelect,
 } from './CarWorkingInfo.styled';
 
 const CarWorkingInfo = () => {
@@ -45,7 +48,37 @@ const CarWorkingInfo = () => {
   console.log('routes :>> ', routes);
   console.log('roadType :>> ', roadType);
 
-  const openEditModal = () => {};
+  const DropdownIndicator = props => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <VscChevronDown />
+      </components.DropdownIndicator>
+    );
+  };
+
+  const driverArr = ['Фара К.Л.', 'Орел Ф.І.'];
+  const checkedArr = [
+    'Солдат',
+    'Старший солдат',
+    'Молодший сержант',
+    'Сержант',
+  ];
+  const driverOptions = driverArr.map(name => ({
+    value: name,
+    label: name,
+  }));
+  const checkedOptions = checkedArr.map(rank => ({
+    value: rank,
+    label: rank,
+  }));
+
+  const addGenInfo = () => {}; // ????
+
+  const openEditModal = () => {}; // waiting for modal
+
+  const savePDF = () => {};
+
+  const printPDF = () => {};
 
   return (
     <>
@@ -53,12 +86,10 @@ const CarWorkingInfo = () => {
         <SectionHead>
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
-            <InfoBtn onClick={openEditModal()}>
-              Додати загальну інформацію
-            </InfoBtn>
-            <InfoBtn>Редагувати</InfoBtn>
-            <SaveBtn>Зберегти в PDF</SaveBtn>
-            <SaveBtn>Друк сторінки</SaveBtn>
+            <InfoBtn onClick={addGenInfo}>Додати загальну інформацію</InfoBtn>
+            <InfoBtn onClick={openEditModal}>Редагувати</InfoBtn>
+            <SaveBtn onClick={savePDF}>Зберегти в PDF</SaveBtn>
+            <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
         <StyledNav>
@@ -219,11 +250,14 @@ const CarWorkingInfo = () => {
         <PersonnelDiv>
           <p>Водій (механік - водій):</p>
           <InputWrapper>
-            <select name={'rank'} defaultValue={'Військове звання'}>
-              <option value={'Військове звання'} disabled>
-                Військове звання
-              </option>
-            </select>
+            <StyledSelect
+              options={driverOptions}
+              // onChange={}
+              components={{ DropdownIndicator }}
+              ariaLabel={'Військове звання'}
+              placeholder="Військове звання"
+              classNamePrefix="Select"
+            />
             <input type={'text'} placeholder={'Прізвище, ініціали'} />
           </InputWrapper>
         </PersonnelDiv>
@@ -231,11 +265,14 @@ const CarWorkingInfo = () => {
           <p>Правильність оформлення дорожнього листа перевірив:</p>
           <AuxWrapper>
             <InputWrapper>
-              <select name={'rank'} defaultValue={'Військове звання'}>
-                <option value={'Військове звання'} disabled>
-                  Військове звання
-                </option>
-              </select>
+              <StyledSelect
+                options={checkedOptions}
+                // onChange={}
+                components={{ DropdownIndicator }}
+                ariaLabel={'Військове звання'}
+                placeholder="Військове звання"
+                classNamePrefix="Select"
+              />
               <input type={'text'} placeholder={'Посада'} />
               <input type={'text'} placeholder={'Прізвище, ініціали'} />
             </InputWrapper>

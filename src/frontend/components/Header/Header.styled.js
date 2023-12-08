@@ -22,6 +22,7 @@ export const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
   margin-right: 312px;
 
   svg {
@@ -34,8 +35,8 @@ export const LogoLink = styled(Link)`
     height: 6px;
     width: 11px;
     position: absolute;
-    left: 48px;
-    top: 78px;
+    left: 11px;
+    top: 40px;
     background: var(--transparent-gray);
     clip-path: ellipse(70% 50% at 50% 50%);
     box-shadow: 0px 0px 0px 20px var(--transparent-gray);

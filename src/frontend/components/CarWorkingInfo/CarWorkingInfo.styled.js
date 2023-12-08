@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import Select from 'react-select';
 import styled from 'styled-components';
 
 export const BtnSection = styled.section`
@@ -255,11 +256,96 @@ export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
 
-  input,
-  select {
+  input {
     padding: 12px;
     border-radius: 12px;
-    border: 1px solid rgba(25, 20, 19, 0.2);
+    border: 1px solid var(--transparent-gray);
+  }
+  input:hover {
+    border: 1px solid var(--dark);
+  }
+`;
+
+export const StyledSelect = styled(Select)`
+  width: 220px;
+
+  .Select__control {
+    font-weight: 500;
+    line-height: 1.29;
+    color: var(--text-dark);
+    cursor: pointer;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid var(--transparent-gray);
+
+    &:hover {
+      border-color: var(--dark);
+    }
+  }
+
+  .Select__value-container {
+    padding: 12px 16px;
+  }
+  .css-t3ipsp-control {
+    border: 1px solid var(--transparent-gray);
+    box-shadow: none;
+  }
+  .Select__input-container {
+    padding: 0;
+    margin: 0;
+  }
+
+  .Select__placeholder {
+    color: var(--gray);
+    font-weight: 500;
+    line-height: 1.29;
+  }
+
+  .Select__indicator {
+    /* color: red; */
+    width: auto;
+  }
+
+  .Select__indicator-separator {
+    display: none;
+  }
+
+  .Select__dropdown-indicator {
+    color: black;
+  }
+
+  .Select__menu {
+    padding: 12px 16px;
+    border-radius: 12px;
+  }
+  .Select__menu-list {
+    max-height: 102px;
+    padding: 0;
+    color: var(--text-dark);
+    font-weight: 500;
+    line-height: 1.29;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #f0f0f0;
+      border-radius: 12px;
+    }
+  }
+
+  .Select__option {
+    padding: 0;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .Select__option--is-selected {
+    text-decoration: underline;
+    color: var(--text-dark);
   }
 `;
 
