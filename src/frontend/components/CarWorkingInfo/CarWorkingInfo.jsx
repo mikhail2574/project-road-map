@@ -72,6 +72,80 @@ const CarWorkingInfo = () => {
     label: rank,
   }));
 
+  //* ========================= mock data =========================
+  const collection = [
+    {
+      from: 'Кременець',
+      to: 'Тернопіль',
+      return: 'ні',
+      depTime: '7:30, 29.00.23',
+      arrTime: '18:10, 29.00.23',
+      mileageTotal: 111,
+      speedometer: 123888,
+    },
+    {
+      from: 'Львів',
+      to: 'Хмельницький',
+      return: 'так',
+      depTime: '7:50, 30.00.23',
+      arrTime: '19:00, 30.00.23',
+      mileageTotal: 1,
+      speedometer: 123889,
+    },
+  ];
+
+  const renderInstruction = () => {
+    const renderCollection = () => {
+      return collection.map(item => (
+        <TBodyRow>
+          <td>
+            {item.from} - {item.to}
+            {item.return === 'так' ? ` - ${item.from}` : null}
+          </td>
+          <td>{item.depTime}</td>
+          <td>{item.arrTime}</td>
+          <td></td>
+          <td></td>
+          <td>{item.mileageTotal}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{item.speedometer}</td>
+        </TBodyRow>
+      ));
+    };
+    let emptyRowArr = [];
+    for (let i = 0; i < 14; i++) {
+      emptyRowArr.push(<td></td>);
+    }
+    const renderEmpty = () => {
+      return <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>;
+    };
+    switch (collection.length) {
+      case 0:
+        return (
+          <>
+            {renderEmpty()}
+            {renderEmpty()}
+          </>
+        );
+      case 1:
+        return (
+          <>
+            {renderCollection()}
+            {renderEmpty()}
+          </>
+        );
+
+      default:
+        return renderCollection();
+    }
+  };
+
   const addGenInfo = () => {}; // ????
 
   const openEditModal = () => {}; // waiting for modal
@@ -79,6 +153,9 @@ const CarWorkingInfo = () => {
   const savePDF = () => {};
 
   const printPDF = () => {};
+  const totalMil = collection.reduce((acc, item) => {
+    return (acc += item.mileageTotal);
+  }, 0);
 
   return (
     <>
@@ -167,66 +244,15 @@ const CarWorkingInfo = () => {
                 <th scope="col">На буксир</th>
               </SubSubRow>
             </StyledTHead>
-            <StyledTBody>
-              <TBodyRow>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </TBodyRow>
-              <TBodyRow>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </TBodyRow>
-              {/* collection.map(item=>(
-            <TBodyRow>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </TBodyRow>)
-            ) */}
-            </StyledTBody>
+            <StyledTBody>{renderInstruction()}</StyledTBody>
             <StyledTFoot>
               <TFootRow>
-                <th scope="row">Всього:</th>
+                <th scope="row">Всього: </th>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td>{totalMil}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -241,10 +267,10 @@ const CarWorkingInfo = () => {
         </TableScroll>
         <CalcDiv>
           <p>
-            Всього пройдено: <span>*calc*</span>
+            Всього пройдено: <span>{totalMil}</span>
           </p>
           <p>
-            Всього витрачено: <span>*calc*</span>
+            Всього витрачено: <span>calc</span>
           </p>
         </CalcDiv>
         <PersonnelDiv>
