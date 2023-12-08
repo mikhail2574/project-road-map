@@ -97,8 +97,7 @@ export const StyledSpan = styled.span`
 export const TableScroll = styled.div`
   position: relative;
   width: 1408px;
-  height: 282px;
-  /* border-radius: 15px; */
+  height: 286px;
 
   z-index: 1;
   overflow-y: auto;
@@ -118,26 +117,14 @@ export const TableScroll = styled.div`
 export const StyledTable = styled.table`
   width: 1368px;
   display: block;
-  /* overflow: hidden; */
-  /* border-collapse: collapse; */
   border-collapse: separate;
   border-spacing: 0;
-  /* border-radius: 15px; */
-
-  /* border: 1px solid #e2e2e2; */
 
   td,
   th {
     text-align: center;
     border: 1px solid #e2e2e2;
   }
-  /* th {
-    border-top: none;
-  }
-  td:first-child,
-  th:first-child {
-    border-left: none;
-  } */
 `;
 
 export const StyledTHead = styled.thead`
@@ -153,12 +140,7 @@ export const StyledTHead = styled.thead`
   }
 `;
 
-export const StyledTBody = styled.tbody`
-  /* td {
-    border-bottom: none;
-    border-right: none;
-  } */
-`;
+export const StyledTBody = styled.tbody``;
 
 export const StyledTFoot = styled.tfoot`
   background: #fbfcfc;
@@ -168,16 +150,11 @@ export const StyledTFoot = styled.tfoot`
 
   th,
   td {
-    /* border-bottom: none; */
   }
 `;
 
 export const THeadRow = styled.tr`
-  /* height: 40px; */
-
   th {
-    /* text-align: left; */
-    /* padding: 10px 24px; */
   }
 `;
 
@@ -238,6 +215,27 @@ export const CalcDiv = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 35px;
+
+  p {
+    position: relative;
+  }
+
+  span {
+    margin-left: 55px;
+  }
+  p:last-child > span {
+    margin-left: 51px;
+  }
+
+  span:after {
+    content: '';
+    height: 1px;
+    width: 120px;
+    border-top: 1px solid #e2e2e2;
+    position: absolute;
+    bottom: 2px;
+    left: 142px;
+  }
 `;
 
 export const PersonnelDiv = styled.div`
@@ -302,7 +300,6 @@ export const StyledSelect = styled(Select)`
   }
 
   .Select__indicator {
-    /* color: red; */
     width: auto;
   }
 
