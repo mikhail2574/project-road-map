@@ -33,7 +33,7 @@ const Icon = ({
     <StyledSvg
       className={classnames(className, 'c-icon')}
       style={{
-        ...style,
+        // ...style,
         width: width ? vWidth : vSize,
         height: height ? vHeight : vSize,
         color: color || undefined,
