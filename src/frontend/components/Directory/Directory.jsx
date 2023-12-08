@@ -23,10 +23,11 @@ import {
   StyledTableHead,
   StyledTableHeaderTh,
   StyledTableHeaderTr,
+  StyledTableScrollWrapper,
   StyledTableShortTd,
   StyledTableWrapper,
   StyledTitleDirectory,
-  StyledTableTdLastChild,
+  StyledWhiteWrapper,
 } from './Directory.styled';
 import { Icon } from '../Icon';
 
@@ -45,7 +46,7 @@ const Directory = () => {
 
     const carData = {
       carName: 'жигуль',
-      sign: 'BB1234ЗK',
+      sign: 'BB12347X',
       fuelType: 'ДТ',
       fuelConsumption: '10',
       oilType: 'Моторна',
@@ -54,7 +55,7 @@ const Directory = () => {
       exploitationGroup: 'Транспортна',
       driver: 'Петро П.І.',
       driverRank: 'Старший сержант',
-      unit: 'Відділ',
+      unit: 'А0000 (ПВЗ)',
       senior: 'Іван І.І.',
       seniorRank: 'Старший лейтенант',
     };
@@ -74,7 +75,7 @@ const Directory = () => {
       exploitationGroup: 'Транспортна',
       driver: 'Бандера Ш.І.',
       driverRank: 'Старший сержант',
-      unit: 'Відділ',
+      unit: 'А0000 (ПВЗ)',
       senior: 'Іван І.І.',
       seniorRank: 'Старший лейтенант',
     };
@@ -94,63 +95,67 @@ const Directory = () => {
           <StyledAddButton>Додадти дані</StyledAddButton>
         </form>
       </StyledHeaderWrapper>
-      {/* <StyledTableScrollWrapper> */}
-      <StyledTableWrapper>
-        <StyledTableHead>
-          <StyledTableHeaderTr>
-            <StyledTableHeaderTh>Назва автомобіля</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Номерний знак</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Тип палива</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Розхід палива на 100 км</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Тип мастила</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Розхід оливи</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Група експлуатації</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Група експлуатації 2</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Водій</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Звання водія</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Підозріл</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Старший</StyledTableHeaderTh>
-            <StyledTableHeaderTh>Звання старшого</StyledTableHeaderTh>
-            <StyledTableHeaderTh></StyledTableHeaderTh>
-          </StyledTableHeaderTr>
-        </StyledTableHead>
-        <StyledTableBody>
-          {cars?.map(car => (
-            <StyledTableBodyTr key={car.sign}>
-              <StyledTableBodyTd>{car.carName}</StyledTableBodyTd>
-              <StyledTableBodyTd>{car.sign}</StyledTableBodyTd>
-              <StyledTableShortTd>{car.fuelType}</StyledTableShortTd>
-              <StyledTableBodyTd>{car.fuelConsumption}</StyledTableBodyTd>
-              <StyledTableShortTd>{car.oilType}</StyledTableShortTd>
-              <StyledTableBodyTd>{car.oilConsumption}</StyledTableBodyTd>
-              <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
-              <StyledTableBodyTd>
-                {car.exploitationGroupShort}
-              </StyledTableBodyTd>
-              <StyledTableShortTd>{car.driver}</StyledTableShortTd>
-              <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
-              <StyledTableShortTd>{car.unit}</StyledTableShortTd>
-              <StyledTableShortTd>{car.senior}</StyledTableShortTd>
-              <StyledTableShortTd>{car.seniorRank}</StyledTableShortTd>
-              <StyledTableBodyTd>
-                <StyledButtonWrapper>
-                  <StyledTableEditButton
-                    onClick={e => handleEditCar(e, car.sign)}
-                  >
-                    <Icon name="edit" size={16} />
-                  </StyledTableEditButton>
-                  <StyledTableDeleteButton
-                    onClick={e => handleDeleteCar(e, car.sign)}
-                  >
-                    <Icon name="trash" size={16} />
-                  </StyledTableDeleteButton>
-                </StyledButtonWrapper>
-              </StyledTableBodyTd>
-            </StyledTableBodyTr>
-          ))}
-        </StyledTableBody>
-      </StyledTableWrapper>
-      {/* </StyledTableScrollWrapper> */}
+      <StyledWhiteWrapper>
+        <StyledTableScrollWrapper>
+          <StyledTableWrapper>
+            <StyledTableHead>
+              <StyledTableHeaderTr>
+                <StyledTableHeaderTh>Назва автомобіля</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Номерний знак</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Тип палива</StyledTableHeaderTh>
+                <StyledTableHeaderTh>
+                  Розхід палива на 100 км
+                </StyledTableHeaderTh>
+                <StyledTableHeaderTh>Тип мастила</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Розхід оливи</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Група експлуатації</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Група експлуатації 2</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Водій</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Звання водія</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Підозріл</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Старший</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Звання старшого</StyledTableHeaderTh>
+                <StyledTableHeaderTh></StyledTableHeaderTh>
+              </StyledTableHeaderTr>
+            </StyledTableHead>
+            <StyledTableBody>
+              {cars?.map(car => (
+                <StyledTableBodyTr key={car.sign}>
+                  <StyledTableBodyTd>{car.carName}</StyledTableBodyTd>
+                  <StyledTableBodyTd>{car.sign}</StyledTableBodyTd>
+                  <StyledTableShortTd>{car.fuelType}</StyledTableShortTd>
+                  <StyledTableBodyTd>{car.fuelConsumption}</StyledTableBodyTd>
+                  <StyledTableShortTd>{car.oilType}</StyledTableShortTd>
+                  <StyledTableBodyTd>{car.oilConsumption}</StyledTableBodyTd>
+                  <StyledTableBodyTd>{car.exploitationGroup}</StyledTableBodyTd>
+                  <StyledTableBodyTd>
+                    {car.exploitationGroupShort}
+                  </StyledTableBodyTd>
+                  <StyledTableShortTd>{car.driver}</StyledTableShortTd>
+                  <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
+                  <StyledTableShortTd>{car.unit}</StyledTableShortTd>
+                  <StyledTableShortTd>{car.senior}</StyledTableShortTd>
+                  <StyledTableShortTd>{car.seniorRank}</StyledTableShortTd>
+                  <StyledTableBodyTd>
+                    <StyledButtonWrapper>
+                      <StyledTableEditButton
+                        onClick={e => handleEditCar(e, car.sign)}
+                      >
+                        <Icon name="edit" size={16} />
+                      </StyledTableEditButton>
+                      <StyledTableDeleteButton
+                        onClick={e => handleDeleteCar(e, car.sign)}
+                      >
+                        <Icon name="trash" size={16} />
+                      </StyledTableDeleteButton>
+                    </StyledButtonWrapper>
+                  </StyledTableBodyTd>
+                </StyledTableBodyTr>
+              ))}
+            </StyledTableBody>
+          </StyledTableWrapper>
+        </StyledTableScrollWrapper>
+      </StyledWhiteWrapper>
     </>
   );
 };

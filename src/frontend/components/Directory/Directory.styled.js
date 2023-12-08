@@ -30,10 +30,16 @@ export const StyledAddButton = styled.button`
   }
 `;
 
+export const StyledWhiteWrapper = styled.div`
+  background-color: #fbfcfc;
+  padding-top: 28px;
+  border-radius: 15px;
+`;
+
 export const StyledTableScrollWrapper = styled.div`
-  max-height: 30vh;
+  max-height: 60vh;
   overflow-y: scroll;
-  /* position: relative; */
+  margin-right: 6px;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: #f0f0f0;
@@ -42,25 +48,24 @@ export const StyledTableScrollWrapper = styled.div`
     box-shadow: black;
   }
   &::-webkit-scrollbar {
-    width: 0.5em;
+    width: 0.6em;
   }
 `;
 
 export const StyledTableWrapper = styled.table`
-  padding: 28px 20px;
+  width: 100%;
+  padding: 0px 20px 0px 20px;
   border-radius: 15px;
   background-color: #fbfcfc;
   border-spacing: 0;
+  position: relative;
 `;
 
 //  -----------------  THEAD  -----------------  //
 export const StyledTableHead = styled.thead`
-  height: 100px /* delete border in table head */;
-  /* display: block; */
+  height: 100px;
 
   text-align: left;
-
-  /* border-radius: 15px; */
 
   position: sticky;
   z-index: 1;
@@ -69,11 +74,6 @@ export const StyledTableHead = styled.thead`
 
 export const StyledTableHeaderTr = styled.tr`
   padding: 14px 158px 14px 20px;
-  /* display: grid;
-  gap: 38px;
-  grid-template-columns: repeat(14, auto); */
-
-  text-align: left;
 `;
 
 export const StyledTableHeaderTh = styled.th`
@@ -83,20 +83,26 @@ export const StyledTableHeaderTh = styled.th`
   color: #8a8a89;
   background-color: #f0f0f0;
 
-  padding-left: 9px;
-  padding-right: 9px;
+  padding-left: 19px;
+  padding-right: 19px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 
-  text-align: center;
+  vertical-align: top;
 
   &:nth-child(1) {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
+    padding-left: 20px;
   }
   &:nth-child(4) {
     width: 70px;
   }
   &:nth-child(8) {
     width: 100px;
+  }
+  &:nth-child(9) {
+    width: 85px;
   }
   &:last-child {
     border-top-right-radius: 15px;
@@ -106,42 +112,22 @@ export const StyledTableHeaderTh = styled.th`
 `;
 
 //  -----------------  TBODY  -----------------  //
-export const StyledTableBody = styled.tbody`
-  /* display: block; */
-  max-height: 40vh;
-  overflow-y: scroll;
-  &::-webkit-scrollbar-thumb {
-    border-radius: 15px;
-    background: #f0f0f0;
-  }
-  &::-webkit-scrollbar-track {
-    box-shadow: black;
-  }
-  &::-webkit-scrollbar {
-    width: 0.5em;
-  }
-`;
+export const StyledTableBody = styled.tbody``;
 
 export const StyledTableBodyTr = styled.tr`
-  /* display: grid;
-  grid-template-columns: repeat(14, auto);
-  align-items: center;
-  justify-content: space-between; */
   position: relative;
 
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   padding: 28px 20px;
-  height: 80px;
-  /* border-bottom: 1px solid #e2e2e2; */
+  height: 90px;
 
   &::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    /* border-bottom: 1px solid #e2e2e2; */
     background-color: #e2e2e2;
     height: 1px;
     width: 100%;
@@ -154,15 +140,12 @@ export const StyledTableBodyTd = styled.td`
   line-height: 20px;
   color: #191413;
 
-  text-align: center;
+  padding-left: 19px;
+  padding-right: 19px;
 `;
 
 export const StyledTableShortTd = styled(StyledTableBodyTd)`
   max-width: 49px;
-`;
-
-export const StyledTableTdLastChild = styled.td`
-  /* width: 158px; */
 `;
 
 export const StyledButtonWrapper = styled.div`
