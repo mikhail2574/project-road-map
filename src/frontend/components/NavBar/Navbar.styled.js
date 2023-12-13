@@ -7,7 +7,7 @@ export const StyledNav = styled.nav`
 `;
 
 export const StyledLink = styled(NavLink)`
-  color: #1914134d;
+  color: var(--transparent-gray);
   background-color: var(--nav-btn);
   text-decoration: none;
   border-radius: 12px;

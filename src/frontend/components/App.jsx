@@ -26,7 +26,6 @@ export const App = () => {
           </Route>
         </Route>
       </Routes>
-      <Directory />
-    </>)};
-
-export default App;
+    </>
+  );
+};
