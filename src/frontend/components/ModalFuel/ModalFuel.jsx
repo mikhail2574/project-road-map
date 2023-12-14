@@ -1,0 +1,388 @@
+import React, { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+
+import {
+  ModalWindowStyle,
+  OverlayStyle,
+  ButtonCloseStyle,
+  CancelBtnStyle,
+  AddBtnStyle,
+  BtnActive,
+  ModalTitle,
+  MainDiv,
+  InputRowDiv,
+  Label,
+  MidInputStyle,
+  Span,
+  ShortInput,
+  TitlePlusDiv,
+  BtnPlus,
+  Hr,
+} from './ModalFuelStyle';
+
+import { Icon } from '../Icon';
+import { Icons } from '../Icons';
+
+export default function Modal({ showCloseIcon = true, close }) {
+  const [duplicateInputs, setDuplicateInputs] = useState(1);
+
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = data => {
+    console.log(data);
+    // Дополнительная логика отправки формы
+  };
+
+  const handleKeyDown = e => {
+    if (e.key === 'Escape') {
+      close();
+    }
+  };
+
+  const handleBtnPlusClick = () => {
+    setDuplicateInputs(prevCount => prevCount + 1);
+  };
+
+  const handleBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      close();
+    }
+  };
+
+  const closeClick = e => {
+    if (e.target.name === 'cancel' || e.currentTarget.name === 'closeSvg') {
+      close();
+    }
+  };
+
+  return (
+    <OverlayStyle onClick={e => handleBackdropClick(e)}>
+      <Icons />
+      <ModalWindowStyle>
+        {showCloseIcon && (
+          <ButtonCloseStyle type="button" name="closeSvg" onClick={closeClick}>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M1 1L17 17" stroke="#FBFBFB" />
+              <path d="M1 17L17 0.999999" stroke="#FBFBFB" />
+            </svg>
+          </ButtonCloseStyle>
+        )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TitlePlusDiv>
+            <ModalTitle>
+              Витрата пально-мастильних
+              <br /> матеріалів (у літрах)
+            </ModalTitle>
+            <BtnPlus onClick={handleBtnPlusClick}>
+              <Icon size={28} name="plus" />
+            </BtnPlus>
+          </TitlePlusDiv>
+
+          <MainDiv>
+            {[...Array(duplicateInputs)].map((_, index) => (
+              <React.Fragment key={index}>
+                <InputRowDiv>
+                  <Label>
+                    <Span>Найменування ПММ</Span>
+                    <Controller
+                      name={`itemName_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <MidInputStyle
+                            type="text"
+                            placeholder="Введіть текст"
+                            {...field}
+                            onChange={e =>
+                              setValue(`itemName_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`itemName_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`itemName_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Код номенклатури</Span>
+                    <Controller
+                      name={`itemCode_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <MidInputStyle
+                            type="text"
+                            placeholder="Введіть текст"
+                            {...field}
+                            onChange={e =>
+                              setValue(`itemCode_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`itemCode_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`itemCode_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Наявність перед виїздом</Span>
+                    <Controller
+                      name={`availabilityBeforeDeparture_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <MidInputStyle
+                            type="text"
+                            placeholder="Введіть текст"
+                            {...field}
+                            onChange={e =>
+                              setValue(
+                                `availabilityBeforeDeparture_${index}`,
+                                e.target.value
+                              )
+                            }
+                          />
+                          {errors[`availabilityBeforeDeparture_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`availabilityBeforeDeparture_${index}`]
+                                .message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+                </InputRowDiv>
+
+                <InputRowDiv>
+                  <Label>
+                    <Span>Отримано</Span>
+                    <Controller
+                      name={`received_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <MidInputStyle
+                            type="text"
+                            placeholder="Кількість"
+                            {...field}
+                            onChange={e =>
+                              setValue(`received_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`received_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`received_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Дата отримання</Span>
+                    <Controller
+                      name={`receivedDate_${index}`}
+                      control={control}
+                      rules={{
+                        required: "Обов'язкове поле",
+                        pattern: {
+                          value: /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                          message:
+                            'Невірний формат (приклад правильного формату: 01.01.2023)',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <>
+                          <MidInputStyle
+                            type="text"
+                            placeholder="00.00.0000"
+                            {...field}
+                            onChange={e =>
+                              setValue(`receivedDate_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`receivedDate_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`receivedDate_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Наявність під час постановки </Span>
+                    <Controller
+                      name={`availability_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <MidInputStyle
+                            type="text"
+                            placeholder="Введіть текст"
+                            {...field}
+                            onChange={e =>
+                              setValue(`availability_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`availability_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`availability_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+                </InputRowDiv>
+
+                <InputRowDiv>
+                  <Label>
+                    <Span>Витрачено</Span>
+                    <Controller
+                      name={`spent_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <ShortInput
+                            type="text"
+                            placeholder="0"
+                            {...field}
+                            onChange={e =>
+                              setValue(`spent_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`spent_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`spent_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Належить за нормою</Span>
+                    <Controller
+                      name={`norm_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <ShortInput
+                            type="text"
+                            placeholder="0"
+                            {...field}
+                            onChange={e =>
+                              setValue(`norm_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`norm_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`norm_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Економія</Span>
+                    <Controller
+                      name={`saving_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <ShortInput
+                            type="text"
+                            placeholder="0"
+                            {...field}
+                            onChange={e =>
+                              setValue(`saving_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`saving_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`saving_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+
+                  <Label>
+                    <Span>Перевитрата</Span>
+                    <Controller
+                      name={`overuse_${index}`}
+                      control={control}
+                      rules={{ required: "Обов'язкове поле" }}
+                      render={({ field }) => (
+                        <>
+                          <ShortInput
+                            type="text"
+                            placeholder="0"
+                            {...field}
+                            onChange={e =>
+                              setValue(`overuse_${index}`, e.target.value)
+                            }
+                          />
+                          {errors[`overuse_${index}`] && (
+                            <span style={{ color: 'red' }}>
+                              {errors[`overuse_${index}`].message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Label>
+                </InputRowDiv>
+                <Hr />
+              </React.Fragment>
+            ))}
+          </MainDiv>
+
+          <BtnActive>
+            <AddBtnStyle type="submit" name="add">
+              Додати
+            </AddBtnStyle>
+            <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
+              Видалити
+            </CancelBtnStyle>
+          </BtnActive>
+        </form>
+      </ModalWindowStyle>
+    </OverlayStyle>
+  );
+}
