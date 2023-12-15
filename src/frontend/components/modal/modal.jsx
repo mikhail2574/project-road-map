@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import {
@@ -18,6 +17,7 @@ import {
 } from './Modal.styled';
 import { useDispatch } from 'react-redux';
 import { addCarsThunk } from 'redux/infos/operations';
+import { useEffect } from 'react';
 
 export default function Modal({ children, showCloseIcon = true, close }) {
   const {
@@ -30,16 +30,23 @@ export default function Modal({ children, showCloseIcon = true, close }) {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    console.log(data);
-    // Дополнительная логика отправки формы
     dispatch(addCarsThunk(data));
+
+    close();
   };
 
-  const handleKeyDown = e => {
-    if (e.key === 'Escape') {
-      close();
-    }
-  };
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        close();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [close]);
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  addCarsThunk,
   deleteCarsThunk,
   fetchInfosThunk,
   updateCarsThunk,
@@ -30,6 +29,11 @@ import {
   StyledWhiteWrapper,
 } from './Directory.styled';
 import { Icon } from '../Icon';
+import Modal from '../modal/modal';
+import ModalDelete from '../ModalDelete/ModalDelete';
+import { DeleteCar } from '../DeleteCar/DeleteCar';
+import ModalEditing from '../ModalEditing/ModalEditing';
+import { set } from 'backend/app';
 
 const Directory = () => {
   const cars = useSelector(selectCars);
@@ -37,63 +41,56 @@ const Directory = () => {
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
+  const [selectedCarSign, setSelectedCarSign] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [isEditModalVisible, setEditModalVisible] = useState(false);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const openDeleteModal = sign => {
+    setSelectedCarSign(sign);
+    setDeleteModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalVisible(false);
+  };
+
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
 
-  const handleAddCar = e => {
-    e.preventDefault();
-
-    const carData = {
-      carName: 'жигуль',
-      sign: 'BB12347Й',
-      fuelType: 'ДТ',
-      fuelConsumption: '10',
-      oilType: 'Моторна',
-      oilConsumption: '1',
-      exploitationGroupShort: 'Тр',
-      exploitationGroup: 'Транспортна',
-      driver: 'Петро П.І.',
-      driverRank: 'Старший сержант',
-      unit: 'А0000 (ПВЗ)',
-      senior: 'Іван І.І.',
-      seniorRank: 'Старший лейтенант',
-    };
-    dispatch(addCarsThunk(carData));
-  };
-
-  const handleEditCar = (e, sign) => {
-    e.preventDefault();
-    const carData = {
-      carName: 'жигуль',
-      sign: 'BB1234ЙЦ',
-      fuelType: 'Дизель',
-      fuelConsumption: '10',
-      oilType: 'MAZUT',
-      oilConsumption: '1',
-      exploitationGroupShort: 'Тр',
-      exploitationGroup: 'Транспортна',
-      driver: 'Бандера Ш.І.',
-      driverRank: 'Старший сержант',
-      unit: 'А0000 (ПВЗ)',
-      senior: 'Іван І.І.',
-      seniorRank: 'Старший лейтенант',
-    };
-    dispatch(updateCarsThunk({ ...carData, sign }));
-  };
-
-  const handleDeleteCar = (e, sign) => {
+  const handleDeleteCar = sign => {
     dispatch(deleteCarsThunk(sign));
   };
+
+  const handleEditCar = sign => {
+    setSelectedCarSign(sign);
+  };
+
+  const openEditModal = sign => {
+    setSelectedCarSign(sign);
+    setEditModalVisible(true);
+  };
+
+  const closeEditModal = () => {
+    setEditModalVisible(false);
+  };
+
   return (
     <>
       {loading && <h1>Loading...</h1>}
       {error && <p>Щось пішло не так</p>}
       <StyledHeaderWrapper>
         <StyledTitleDirectory>Довідник</StyledTitleDirectory>
-        <form onSubmit={handleAddCar}>
-          <StyledAddButton>Додадти дані</StyledAddButton>
-        </form>
+        <StyledAddButton onClick={openModal}>Додадти дані</StyledAddButton>
       </StyledHeaderWrapper>
       <StyledWhiteWrapper>
         <StyledTableScrollWrapper>
@@ -139,12 +136,12 @@ const Directory = () => {
                   <StyledTableBodyTd>
                     <StyledButtonWrapper>
                       <StyledTableEditButton
-                        onClick={e => handleEditCar(e, car.sign)}
+                        onClick={() => handleEditCar(car.sign)}
                       >
                         <Icon name="edit" size={16} />
                       </StyledTableEditButton>
                       <StyledTableDeleteButton
-                        onClick={e => handleDeleteCar(e, car.sign)}
+                        onClick={() => openDeleteModal(car.sign)}
                       >
                         <Icon name="trash" size={16} />
                       </StyledTableDeleteButton>
@@ -155,6 +152,25 @@ const Directory = () => {
             </StyledTableBody>
           </StyledTableWrapper>
         </StyledTableScrollWrapper>
+        {isModalVisible && (
+          <Modal showCloseIcon={true} close={closeModal}></Modal>
+        )}
+        {isDeleteModalVisible && (
+          <ModalDelete showCloseIcon={true} close={closeDeleteModal}>
+            <DeleteCar
+              deleteCar={() => handleDeleteCar(selectedCarSign)}
+              carSign={selectedCarSign}
+              close={closeDeleteModal}
+            />
+          </ModalDelete>
+        )}
+        {selectedCarSign && (
+          <ModalEditing
+            showCloseIcon={true}
+            close={closeDeleteModal}
+            car={selectedCarSign}
+          />
+        )}
       </StyledWhiteWrapper>
     </>
   );
