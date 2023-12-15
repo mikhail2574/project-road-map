@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteCarsThunk,
-  fetchInfosThunk,
-  updateCarsThunk,
-} from 'redux/infos/operations';
+import { deleteCarsThunk, fetchInfosThunk } from 'redux/infos/operations';
 import {
   selectCars,
   selectError,
@@ -33,7 +29,6 @@ import Modal from '../modal/modal';
 import ModalDelete from '../ModalDelete/ModalDelete';
 import { DeleteCar } from '../DeleteCar/DeleteCar';
 import ModalEditing from '../ModalEditing/ModalEditing';
-import { set } from 'backend/app';
 
 const Directory = () => {
   const cars = useSelector(selectCars);
@@ -69,10 +64,6 @@ const Directory = () => {
 
   const handleDeleteCar = sign => {
     dispatch(deleteCarsThunk(sign));
-  };
-
-  const handleEditCar = sign => {
-    setSelectedCarSign(sign);
   };
 
   const openEditModal = sign => {
@@ -136,7 +127,7 @@ const Directory = () => {
                   <StyledTableBodyTd>
                     <StyledButtonWrapper>
                       <StyledTableEditButton
-                        onClick={() => handleEditCar(car.sign)}
+                        onClick={() => openEditModal(car.sign)}
                       >
                         <Icon name="edit" size={16} />
                       </StyledTableEditButton>
@@ -164,11 +155,11 @@ const Directory = () => {
             />
           </ModalDelete>
         )}
-        {selectedCarSign && (
+        {selectedCarSign && isEditModalVisible && (
           <ModalEditing
             showCloseIcon={true}
-            close={closeDeleteModal}
-            car={selectedCarSign}
+            close={closeEditModal}
+            id={selectedCarSign}
           />
         )}
       </StyledWhiteWrapper>
