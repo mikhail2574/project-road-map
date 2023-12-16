@@ -36,8 +36,8 @@ import { selectPersonnel } from 'redux/infos/selectors';
 
 export default function Modal({ showCloseIcon = true, close }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
-  const Personnel = useSelector(selectPersonnel);
-  console.log(Personnel);
+  // const personnel = useSelector(selectPersonnel);
+  // console.log(personnel);
   const {
     handleSubmit,
     control,
