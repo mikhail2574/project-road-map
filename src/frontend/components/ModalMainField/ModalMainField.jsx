@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   ModalWindowStyle,
@@ -23,12 +25,19 @@ import {
   ConfirmBtnStyle,
   BtnBox,
   BtnTrash,
+  DatePickerOne,
+  DatePickerTwo,
 } from '../ModalMainField/ModalMainFieldStyle';
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
+import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
+import { useSelector } from 'react-redux';
+import { selectPersonnel } from 'redux/infos/selectors';
 
 export default function Modal({ showCloseIcon = true, close }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
+  const Personnel = useSelector(selectPersonnel);
+  console.log(Personnel);
   const {
     handleSubmit,
     control,
@@ -38,6 +47,19 @@ export default function Modal({ showCloseIcon = true, close }) {
 
   const handleBtnPlusClick = () => {
     setDuplicateInputs(prevCount => prevCount + 1);
+  };
+
+  const handleBtnTrashClick = index => {
+    // Создаем копию массива duplicateInputs
+    const updatedInputs = [...Array(duplicateInputs)];
+    // Удаляем элемент с указанным индексом
+    updatedInputs.splice(index, 1);
+    // Обновляем состояние
+
+    setValue(`departureDate[${index}]`, null);
+    setValue(`departureTime[${index}]`, '');
+    setValue(`speedOmeter[${index}]`, '');
+    setDuplicateInputs(updatedInputs.length);
   };
 
   useEffect(() => {
@@ -109,17 +131,23 @@ export default function Modal({ showCloseIcon = true, close }) {
                   }}
                   render={({ field }) => (
                     <>
-                      <ShortInputStyle
-                        type="text"
-                        placeholder="00.00.0000"
-                        {...field}
-                        onChange={e => setValue('documentDate', e.target.value)}
-                      />
-                      {errors.documentDate && (
-                        <span style={{ color: 'red' }}>
-                          {errors.documentDate.message}
-                        </span>
-                      )}
+                      <PickerContainer>
+                        <DatePickerOne
+                          selected={field.value}
+                          onChange={date => setValue('documentDate', date)}
+                          dateFormat="dd.MM.yyyy"
+                          placeholderText="00.00.0000"
+                          showIcon
+                          icon={
+                            <IconStyle size={16} height={18} name="calendar" />
+                          }
+                        />
+                        {errors.documentDate && (
+                          <span style={{ color: 'red' }}>
+                            {errors.documentDate.message}
+                          </span>
+                        )}
+                      </PickerContainer>
                     </>
                   )}
                 />
@@ -490,7 +518,7 @@ export default function Modal({ showCloseIcon = true, close }) {
                 <Label>
                   <Span>Дата вибуття</Span>
                   <Controller
-                    name="departureDate"
+                    name={`departureDate[${index}]`}
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
@@ -503,19 +531,29 @@ export default function Modal({ showCloseIcon = true, close }) {
                     }}
                     render={({ field }) => (
                       <>
-                        <MidInputStyle
-                          type="text"
-                          placeholder="00.00.0000"
-                          {...field}
-                          onChange={e =>
-                            setValue('departureDate', e.target.value)
-                          }
-                        />
-                        {errors.departureDate && (
-                          <span style={{ color: 'red' }}>
-                            {errors.departureDate.message}
-                          </span>
-                        )}
+                        <PickerContainer>
+                          <DatePickerTwo
+                            selected={field.value}
+                            onChange={date =>
+                              setValue(`departureDate[${index}]`, date)
+                            }
+                            dateFormat="dd.MM.yyyy"
+                            placeholderText="00.00.0000"
+                            showIcon
+                            icon={
+                              <IconStyle
+                                size={16}
+                                height={18}
+                                name="calendar"
+                              />
+                            }
+                          />
+                          {errors.departureDate && (
+                            <span style={{ color: 'red' }}>
+                              {errors.departureDate.message}
+                            </span>
+                          )}
+                        </PickerContainer>
                       </>
                     )}
                   />
@@ -523,7 +561,7 @@ export default function Modal({ showCloseIcon = true, close }) {
                 <Label>
                   <Span>Час вибуття</Span>
                   <Controller
-                    name="departureTime"
+                    name={`departureTime[${index}]`}
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
@@ -537,10 +575,10 @@ export default function Modal({ showCloseIcon = true, close }) {
                       <>
                         <MidInputStyle
                           type="text"
-                          placeholder="00.00.0000"
+                          placeholder="00:00"
                           {...field}
                           onChange={e =>
-                            setValue('departureTime', e.target.value)
+                            setValue(`departureTime[${index}]`, e.target.value)
                           }
                         />
                         {errors.departureTime && (
@@ -555,7 +593,7 @@ export default function Modal({ showCloseIcon = true, close }) {
                 <Label>
                   <Span>Показники спідометра по вибуттю</Span>
                   <Controller
-                    name="speedOmeter"
+                    name={`speedOmeter[${index}]`}
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
@@ -571,7 +609,7 @@ export default function Modal({ showCloseIcon = true, close }) {
                           placeholder="Введіть текст"
                           {...field}
                           onChange={e =>
-                            setValue('speedOmeter', e.target.value)
+                            setValue(`speedOmeter[${index}]`, e.target.value)
                           }
                         />
                         {errors.speedOmeter && (
@@ -589,6 +627,7 @@ export default function Modal({ showCloseIcon = true, close }) {
                   <BtnTrash
                     type="button
           "
+                    onClick={() => handleBtnTrashClick(index)}
                   >
                     {' '}
                     <Icon size={16} name="trash" />
@@ -604,7 +643,7 @@ export default function Modal({ showCloseIcon = true, close }) {
               name="confirm"
               onClick={closeClick}
             >
-              Так, видалити
+              Додати
             </ConfirmBtnStyle>
             <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
               Відмінити
