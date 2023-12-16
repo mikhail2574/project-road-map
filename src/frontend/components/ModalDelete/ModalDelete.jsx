@@ -4,13 +4,9 @@ import {
   ModalWindowStyle,
   OverlayStyle,
   ButtonCloseStyle,
-  CancelBtnStyle,
-  ConfirmBtnStyle,
-  BtnBox,
-  RequestDel,
 } from '../ModalDelete/ModalDeleteStyle';
 
-export default function Modal({ children, showCloseIcon = true, close }) {
+export default function ModalDelete({ children, showCloseIcon = true, close }) {
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.key === 'Escape') {
@@ -54,18 +50,6 @@ export default function Modal({ children, showCloseIcon = true, close }) {
           </ButtonCloseStyle>
         )}
         {children}
-        <RequestDel>
-          Впевнені, що <br /> бажаєте видалити <br />
-          цю стрічку ?{' '}
-        </RequestDel>
-        <BtnBox>
-          <ConfirmBtnStyle type="button" name="confirm" onClick={closeClick}>
-            Так, видалити
-          </ConfirmBtnStyle>
-          <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
-            Відмінити
-          </CancelBtnStyle>
-        </BtnBox>
       </ModalWindowStyle>
     </OverlayStyle>
   );
