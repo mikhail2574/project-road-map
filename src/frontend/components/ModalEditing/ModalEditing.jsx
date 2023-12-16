@@ -1,45 +1,74 @@
-import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCarsThunk } from 'redux/infos/operations';
 import {
-  ModalWindowStyle,
-  OverlayStyle,
-  ButtonCloseStyle,
-  CancelBtnStyle,
   AddBtnStyle,
   BtnActive,
-  ModalTitle,
-  MainDiv,
+  ButtonCloseStyle,
+  CancelBtnStyle,
   InputDiv,
   Label,
   LongInput,
+  MainDiv,
+  ModalTitle,
+  ModalWindowStyle,
+  OverlayStyle,
   ShortInput,
   Span,
-} from './Modal.styled';
-import { useDispatch } from 'react-redux';
-import { addCarsThunk } from 'redux/infos/operations';
+} from './ModalEditingStyle';
+import { useEffect } from 'react';
+import { selectCars } from 'redux/infos/selectors';
 
-export default function Modal({ children, showCloseIcon = true, close }) {
+export default function Modal({ showCloseIcon = true, close, id }) {
+  const car = useSelector(selectCars).find(car => car.sign === id);
+
   const {
     handleSubmit,
     control,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      carName: car.carName,
+      sign: car.sign,
+      fuelType: car.fuelType,
+      fuelConsumption: car.fuelConsumption,
+      oilType: car.oilType,
+      oilConsumption: car.oilConsumption,
+      exploitationGroup: car.exploitationGroup,
+      exploitationGroupShort: car.exploitationGroupShort,
+      driver: car.driver,
+      driverRank: car.driverRank,
+      unit: car.unit,
+      senior: car.senior,
+      seniorRank: car.seniorRank,
+    },
+  });
 
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    console.log(data);
-    // Дополнительная логика отправки формы
-    dispatch(addCarsThunk(data));
-  };
-
-  const handleKeyDown = e => {
-    if (e.key === 'Escape') {
+    try {
+      dispatch(updateCarsThunk(data));
       close();
+    } catch (error) {
+      return error.message;
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        close();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [close]);
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
