@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
+import { Icon } from '../Icon';
 
 // ----------------------------------------------------------------------
 
@@ -124,7 +126,37 @@ export const Hr = styled.hr`
   width: 616px;
   height: 0px;
   flex-shrink: 0;
-  border: 1px solid rgba(251, 252, 252, 0.40);;
+  border: 1px solid rgba(251, 252, 252, 0.4);
+`;
+
+export const DatePickerStyle = styled(DatePicker)`
+  width: 200px;
+  height: 46px;
+  border-radius: 12px;
+  background: #282828;
+  border: none;
+  color: rgba(251, 252, 252, 0.3);
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  text-indent: 10px;
+  color: #fbfcfc;
+  cursor: pointer;
+
+`;
+export const IconStyle = styled(Icon)`
+  cursor: pointer;
+  bottom: 15%;
+  right: 5%;
+  z-index: 1;
+`;
+
+export const PickerContainer = styled.div`
+  .react-datepicker__view-calendar-icon input {
+    padding: 0!important;
+  }
 `;
 
 // -------------------------------------

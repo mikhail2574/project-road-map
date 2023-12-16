@@ -32,6 +32,50 @@ const Icons = () => {
               d="M20.061 1.834c-5.802-1.664-11.788 1.394-13.342 6.815-1.496 5.219 4.555 20.149 4.814 20.781l0.241 0.591c0.028 0.069 0.089 0.123 0.164 0.144 0.075 0.022 0.155 0.009 0.216-0.035l0.518-0.374c0.555-0.4 13.598-9.854 15.095-15.073 1.555-5.421-1.902-11.186-7.704-12.85zM18.252 8.144c2.079 0.596 3.317 2.66 2.76 4.603-0.557 1.941-2.701 3.037-4.779 2.441-2.078-0.596-3.316-2.661-2.76-4.603s2.702-3.037 4.779-2.441z"
             ></path>
           </symbol>
+
+          <symbol id="calendar" viewBox="0 0 28 32">
+            <path
+              fill="none"
+              stroke="#fbfcfc"
+              // style="stroke: var(--color1, #fbfcfc)"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-miterlimit="4"
+              stroke-width="2.6667"
+              d="M23.556 5.333h-18.667c-1.473 0-2.667 1.194-2.667 2.667v18.667c0 1.473 1.194 2.667 2.667 2.667h18.667c1.473 0 2.667-1.194 2.667-2.667v-18.667c0-1.473-1.194-2.667-2.667-2.667z"
+            ></path>
+            <path
+              fill="none"
+              stroke="#fbfcfc"
+              // style="stroke: var(--color1, #fbfcfc)"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-miterlimit="4"
+              stroke-width="2.6667"
+              d="M19.556 2.667v5.333"
+            ></path>
+            <path
+              fill="none"
+              stroke="#fbfcfc"
+              // style="stroke: var(--color1, #fbfcfc)"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-miterlimit="4"
+              stroke-width="2.6667"
+              d="M8.889 2.667v5.333"
+            ></path>
+            <path
+              fill="none"
+              stroke="#fbfcfc"
+              // style="stroke: var(--color1, #fbfcfc)"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-miterlimit="4"
+              stroke-width="2.6667"
+              d="M2.222 13.333h24"
+            ></path>
+          </symbol>
+
           <symbol id="plus" viewBox="0 0 32 32">
             <path
               fill="none"
