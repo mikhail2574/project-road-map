@@ -131,7 +131,7 @@ export const updatePersonnelThunk = createAsyncThunk(
     };
     try {
       const { data } = await roadApi.put(
-        `/infos/personnel/${body.name}`,
+        `/infos/personnel/${body.oldName}`,
         newBody
       );
       return data;

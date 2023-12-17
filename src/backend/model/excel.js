@@ -199,14 +199,17 @@ const updateCarInExcel = async (sign, car) => {
 };
 
 const shortRanksEnum = {
+  генерал: 'ген',
   майор: 'м-р',
   полковник: 'п-к',
   підполковник: 'п-пк',
   капітан: 'к-н',
   'старший лейтенант': 'ст. л-т',
   лейтенант: 'л-т',
+  ' молодший лейтенант': 'мл. л-т',
   'старший сержант': 'ст. с-т',
   сержант: 'с-т',
+  'молодший сержант': 'мл. с-т',
   солдат: 'солд',
 };
 
@@ -247,12 +250,12 @@ const addPersonToExcel = async person => {
   }
 
   if (person.rankShort === undefined) {
-    person.rankShort = shortRanksEnum[person.rank];
+    person.rankShort = shortRanksEnum[person.rank.toLowerCase()];
   }
 
   const row = worksheet.getRow(lastRowNumber + 1);
   row.getCell(19).value = person.position;
-  row.getCell(20).value = person.rank;
+  row.getCell(20).value = person.rank.toLowerCase();
   row.getCell(21).value = person.rankShort;
   row.getCell(22).value = person.name;
 
@@ -294,17 +297,17 @@ const updatePersonInExcel = async (name, person) => {
   }
 
   if (person.rank && !person.rankShort) {
-    person.rankShort = shortRanksEnum[person.rank];
+    person.rankShort = shortRanksEnum[person.rank.toLowerCase()];
   }
 
   const row = worksheet.getRow(lastRowNumber);
 
   if (person.position) row.getCell(19).value = person.position;
-  if (person.rank) row.getCell(20).value = person.rank;
+  if (person.rank) row.getCell(20).value = person.rank.toLowerCase();
   if (person.rankShort) row.getCell(21).value = person.rankShort;
   if (person.name) row.getCell(22).value = person.name;
 
-  personInExcel = { ...personInExcel, ...person };
+  personInExcel = { ...personInExcel, ...person, oldName: name };
   await workbook.xlsx.writeFile(pathToExcel);
   return personInExcel;
 };
