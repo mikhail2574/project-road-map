@@ -23,9 +23,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePersonnelThunk, fetchInfosThunk } from 'redux/infos/operations';
 import { StyledEmptyTableTh } from '../AddPersonnelForm/AddPersonnelForm.styled';
+import EditPersonnelForm from '../EditPersonnelForm/EditPersonnelForm';
 
 const Personnel = () => {
-  const drivers = useSelector(selectPersonnel);
+  const personnel = useSelector(selectPersonnel);
   const loading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const dispatch = useDispatch();
@@ -83,21 +84,21 @@ const Personnel = () => {
               </StyledTableHeaderTr>
             </StyledTableHead>
             <StyledTableBody>
-              {drivers?.map((driver, idx) => (
+              {personnel?.map((person, idx) => (
                 <StyledTableBodyTr key={idx}>
-                  <StyledTableBodyTd>{driver.position}</StyledTableBodyTd>
-                  <StyledTableBodyTd>{driver.rank}</StyledTableBodyTd>
-                  <StyledTableShortTd>{driver.rankShort}</StyledTableShortTd>
-                  <StyledTableBodyTd>{driver.name}</StyledTableBodyTd>
+                  <StyledTableBodyTd>{person.position}</StyledTableBodyTd>
+                  <StyledTableBodyTd>{person.rank}</StyledTableBodyTd>
+                  <StyledTableShortTd>{person.rankShort}</StyledTableShortTd>
+                  <StyledTableBodyTd>{person.name}</StyledTableBodyTd>
                   <StyledTableBodyTd>
                     <StyledButtonWrapper>
                       <StyledTableEditButton
-                      //   onClick={() => openEditModal(car.sign)}
+                        onClick={() => openEditDriverModal(idx)}
                       >
                         <Icon name="edit" size={16} />
                       </StyledTableEditButton>
                       <StyledTableDeleteButton
-                      //   onClick={() => openDeleteModal(car.sign)}
+                        onClick={() => openDeleteDriverModal(idx)}
                       >
                         <Icon name="trash" size={16} />
                       </StyledTableDeleteButton>
@@ -108,27 +109,14 @@ const Personnel = () => {
             </StyledTableBody>
           </StyledTableWrapper>
         </StyledTableScrollWrapper>
-
-        {/* {isModalVisible && (
-            <Modal showCloseIcon={true} close={closeModal}></Modal>
-          )}
-          {isDeleteModalVisible && (
-            <ModalDelete showCloseIcon={true} close={closeDeleteModal}>
-              <DeleteCar
-                deleteCar={() => handleDeleteCar(selectedCarSign)}
-                carSign={selectedCarSign}
-                close={closeDeleteModal}
-              />
-            </ModalDelete>
-          )}
-          {selectedCarSign && isEditModalVisible && (
-            <ModalEditing
-              showCloseIcon={true}
-              close={closeEditModal}
-              id={selectedCarSign}
-            />
-          )} */}
       </StyledWhiteWrapper>
+      {isEditDriverModalVisible && (
+        <EditPersonnelForm
+          close={closeEditDriverModal}
+          showCloseIcon={true}
+          id={selectedDriverId}
+        />
+      )}
     </>
   );
 };
