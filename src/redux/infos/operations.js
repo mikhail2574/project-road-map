@@ -97,6 +97,7 @@ export const addPersonnelThunk = createAsyncThunk(
       name: body.name,
       rank: body.rank,
       position: body.position,
+      rankShort: body.rankShort,
     };
     try {
       const res = await roadApi.post('/infos/personnel', data);
@@ -126,6 +127,7 @@ export const updatePersonnelThunk = createAsyncThunk(
       name: body.name,
       rank: body.rank,
       position: body.position,
+      rankShort: body.rankShort,
     };
     try {
       const { data } = await roadApi.put(
