@@ -51,7 +51,7 @@ export const slice = createSlice({
       })
       .addCase(deletePersonnelThunk.fulfilled, (state, { payload }) => {
         state.personnel = state.personnel.filter(
-          personnel => personnel.name !== payload.name
+          personnel => personnel.name !== payload
         );
       })
       .addCase(updatePersonnelThunk.fulfilled, (state, { payload }) => {

@@ -15,7 +15,6 @@ export const StyledModalWindowWrapper = styled.div`
 export const StyledModalInputWrapper = styled.div`
   display: flex;
   gap: 17px;
-  margin-bottom: 24px;
 `;
 
 export const StyledModalInput = styled.input`
@@ -40,7 +39,6 @@ export const StyledModalInput = styled.input`
 
 export const StyledModalInputPosition = styled(StyledModalInput)`
   width: 100%;
-  margin-bottom: 44px;
 `;
 
 export const StyledErrorSpan = styled.span`
@@ -48,19 +46,30 @@ export const StyledErrorSpan = styled.span`
   position: absolute;
 `;
 
+export const StyledInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const StyledInputWrapperPosition = styled(StyledInputWrapper)`
+  margin-bottom: 44px;
+`;
+
 export const StyledErrorSpanRank = styled(StyledErrorSpan)`
-  top: 143px;
-  left: 50px;
+  position: relative;
+  font-size: 11px;
+  min-height: 20px;
 `;
 
 export const StyledErrorSpanName = styled(StyledErrorSpan)`
-  bottom: 200px;
-  right: 135px;
+  position: relative;
+  font-size: 11px;
+  min-height: 20px;
 `;
 
 export const StyledErrorSpanPosition = styled(StyledErrorSpan)`
-  bottom: 130px;
-  left: 50px;
+  position: relative;
+  font-size: 11px;
 `;
 
 export const StyledEmptyTableTh = styled.th`

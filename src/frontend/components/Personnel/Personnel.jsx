@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deletePersonnelThunk, fetchInfosThunk } from 'redux/infos/operations';
 import { StyledEmptyTableTh } from '../AddPersonnelForm/AddPersonnelForm.styled';
 import EditPersonnelForm from '../EditPersonnelForm/EditPersonnelForm';
+import DeletePersonnelForm from '../DeletePersonnelForm/DeletePersonnelForm';
+import ModalDelete from '../ModalDelete/ModalDelete';
 
 const Personnel = () => {
   const personnel = useSelector(selectPersonnel);
@@ -35,15 +37,10 @@ const Personnel = () => {
   const [isDeleteDriverModalVisible, setDeleteDriverModalVisible] =
     useState(false);
   const [isEditDriverModalVisible, setEditDriverModalVisible] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
 
   const openDeleteDriverModal = idx => {
     setSelectedDriverId(idx);
@@ -54,8 +51,9 @@ const Personnel = () => {
     setDeleteDriverModalVisible(false);
   };
 
-  const openEditDriverModal = idx => {
-    setSelectedDriverId(idx);
+  const openEditDriverModal = name => {
+    console.log(name);
+    setSelectedDriverId(name);
     setEditDriverModalVisible(true);
   };
 
@@ -85,7 +83,7 @@ const Personnel = () => {
             </StyledTableHead>
             <StyledTableBody>
               {personnel?.map((person, idx) => (
-                <StyledTableBodyTr key={idx}>
+                <StyledTableBodyTr key={person.name}>
                   <StyledTableBodyTd>{person.position}</StyledTableBodyTd>
                   <StyledTableBodyTd>{person.rank}</StyledTableBodyTd>
                   <StyledTableShortTd>{person.rankShort}</StyledTableShortTd>
@@ -93,12 +91,12 @@ const Personnel = () => {
                   <StyledTableBodyTd>
                     <StyledButtonWrapper>
                       <StyledTableEditButton
-                        onClick={() => openEditDriverModal(idx)}
+                        onClick={() => openEditDriverModal(person.name)}
                       >
                         <Icon name="edit" size={16} />
                       </StyledTableEditButton>
                       <StyledTableDeleteButton
-                        onClick={() => openDeleteDriverModal(idx)}
+                        onClick={() => openDeleteDriverModal(person.name)}
                       >
                         <Icon name="trash" size={16} />
                       </StyledTableDeleteButton>
@@ -116,6 +114,15 @@ const Personnel = () => {
           showCloseIcon={true}
           id={selectedDriverId}
         />
+      )}
+      {isDeleteDriverModalVisible && (
+        <ModalDelete showCloseIcon={true} close={closeDeleteDriverModal}>
+          <DeletePersonnelForm
+            deletePersonnel={() => handleDeleteDriver(selectedDriverId)}
+            id={selectedDriverId}
+            close={closeDeleteDriverModal}
+          />
+        </ModalDelete>
       )}
     </>
   );

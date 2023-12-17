@@ -14,6 +14,8 @@ import {
   StyledErrorSpanName,
   StyledErrorSpanPosition,
   StyledErrorSpanRank,
+  StyledInputWrapper,
+  StyledInputWrapperPosition,
   StyledModalInput,
   StyledModalInputPosition,
   StyledModalInputWrapper,
@@ -26,6 +28,7 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
     control,
     setValue,
     formState: { errors },
+    trigger,
   } = useForm();
   const dispatch = useDispatch();
 
@@ -83,7 +86,7 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
           </ButtonCloseStyle>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalTitle>Заповніть дані</ModalTitle>
+          <ModalTitle>Додати людину</ModalTitle>
           <StyledModalInputWrapper>
             <Controller
               name="rank"
@@ -91,24 +94,27 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
               rules={{
                 required: "Обов'язкове поле",
                 pattern: {
-                  value: /^[a-zA-Zа-яА-Я0-9 ]*$/,
+                  value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
                   message: 'Може містити літери та цифри',
                 },
               }}
               render={({ field }) => (
-                <>
+                <StyledInputWrapper>
                   <StyledModalInput
                     type="text"
                     placeholder="Військове звання"
                     {...field}
-                    onChange={e => setValue('rank', e.target.value)}
+                    onChange={e => {
+                      setValue('rank', e.target.value);
+                      trigger('rank');
+                    }}
                   />
                   {errors.rank && (
                     <StyledErrorSpanRank>
                       {errors.rank.message}
                     </StyledErrorSpanRank>
                   )}
-                </>
+                </StyledInputWrapper>
               )}
             />
             <Controller
@@ -118,24 +124,24 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
                 required: "Обов'язкове поле",
                 pattern: {
                   value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
-                  message:
-                    'Невірний формат (приклад правильного формату : Бандера С.А.)',
+                  message: 'Невірний формат (приклад: Бандера С.А.)',
                 },
               }}
               render={({ field }) => (
-                <>
+                <StyledInputWrapper>
                   <StyledModalInput
                     type="text"
                     placeholder="Прізвище, ініціали"
                     {...field}
-                    onChange={e => setValue('name', e.target.value)}
+                    onChange={e => {
+                      setValue('name', e.target.value);
+                      trigger('name');
+                    }}
                   />
-                  {errors.name && (
-                    <StyledErrorSpanName>
-                      {errors.name.message}
-                    </StyledErrorSpanName>
-                  )}
-                </>
+                  <StyledErrorSpanName>
+                    {errors.name ? errors.name.message : ''}
+                  </StyledErrorSpanName>
+                </StyledInputWrapper>
               )}
             />
           </StyledModalInputWrapper>
@@ -145,24 +151,29 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
             rules={{
               required: "Обов'язкове поле",
               pattern: {
-                value: /^[a-zA-Zа-яА-Я0-9 ]*$/,
+                value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
                 message: 'Може містити літери та цифри',
               },
             }}
             render={({ field }) => (
-              <>
+              <StyledInputWrapperPosition
+                style={{ display: 'flex', flexDirection: 'column' }}
+              >
                 <StyledModalInputPosition
                   type="text"
                   placeholder="Посада"
                   {...field}
-                  onChange={e => setValue('position', e.target.value)}
+                  onChange={e => {
+                    setValue('position', e.target.value);
+                    trigger('position');
+                  }}
                 />
                 {errors.position && (
                   <StyledErrorSpanPosition>
                     {errors.position.message}
                   </StyledErrorSpanPosition>
                 )}
-              </>
+              </StyledInputWrapperPosition>
             )}
           />
           <BtnActive>
