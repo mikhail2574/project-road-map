@@ -55,9 +55,25 @@ export default function Modal({ children, showCloseIcon = true, close }) {
   };
 
   const closeClick = e => {
-    if (e.target.name === 'cancel' || e.currentTarget.name === 'closeSvg') {
+    if (e.currentTarget.name === 'closeSvg') {
       close();
     }
+  };
+
+  const handleReset = () => {
+    setValue('carName', '');
+    setValue('sign', '');
+    setValue('fuelType', '');
+    setValue('fuelConsumption', '');
+    setValue('oilType', '');
+    setValue('oilConsumption', '');
+    setValue('exploitationGroup', '');
+    setValue('exploitationGroupShort', '');
+    setValue('driver', '');
+    setValue('driverRank', '');
+    setValue('unit', '');
+    setValue('senior', '');
+    setValue('seniorRank', '');
   };
 
   return (
@@ -413,7 +429,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
             <AddBtnStyle type="submit" name="add">
               Додати
             </AddBtnStyle>
-            <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
+            <CancelBtnStyle type="button" onClick={handleReset}>
               Видалити
             </CancelBtnStyle>
           </BtnActive>

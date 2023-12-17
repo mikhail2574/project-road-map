@@ -186,3 +186,41 @@ export const StyledTableDeleteButton = styled.button`
     background-color: darkred;
   }
 `;
+
+// Table swithing
+
+export const StyledActiveButton = styled.button`
+  position: relative;
+
+  font-family: Manrope;
+  font-size: 14.039px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20.056px;
+  cursor: pointer;
+
+  color: var(--black);
+  border: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 37px;
+    left: 0;
+    width: 100%;
+    border-bottom: solid 2px var(--modal-btn-add);
+  }
+`;
+
+export const InnactiveButton = styled.button`
+  font-family: Manrope;
+  font-size: 14.039px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20.056px;
+
+  cursor: pointer;
+
+  border: none;
+  color: var(--gray);
+`;
