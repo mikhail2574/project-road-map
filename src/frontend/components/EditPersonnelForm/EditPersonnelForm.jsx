@@ -43,7 +43,14 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    dispatch(updatePersonnelThunk(data));
+    const body = {
+      name: data.name,
+      rank: data.rank,
+      position: data.position,
+      oldName: personnel.name,
+    };
+    console.log(data);
+    dispatch(updatePersonnelThunk(body));
     close();
   };
 

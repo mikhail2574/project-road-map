@@ -56,7 +56,7 @@ export const slice = createSlice({
       })
       .addCase(updatePersonnelThunk.fulfilled, (state, { payload }) => {
         state.personnel = state.personnel.map(item =>
-          item.name === payload.name ? payload : item
+          item.name === payload.oldName ? payload : item
         );
       })
       .addCase(addRoadTypesThunk.fulfilled, (state, { payload }) => {
