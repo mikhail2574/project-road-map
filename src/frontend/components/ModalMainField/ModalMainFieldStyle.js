@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
 
 export const OverlayStyle = styled.div`
   position: fixed;
@@ -114,6 +115,7 @@ export const Label = styled.label`
   font-style: normal;
   font-weight: 500;
   line-height: 18px;
+  
 `;
 
 export const Span = styled.span`
@@ -204,7 +206,7 @@ export const BtnPlus = styled.button`
 // Time container
 
 export const BtnTrash = styled.button`
-display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
@@ -230,7 +232,6 @@ export const TimeDiv = styled.div`
   flex-wrap: wrap;
   row-gap: 36px;
   margin-bottom: 44px;
-  
 `;
 export const InputTimeDiv = styled.div`
   display: flex;
@@ -239,6 +240,30 @@ export const InputTimeDiv = styled.div`
   gap: 8px;
   justify-content: center;
   align-items: center;
+`;
+
+// PICKER
+
+export const DatePickerOne = styled(DatePicker)`
+  text-indent: 10px;
+  width: 135px;
+  height: 46px;
+  border-radius: 12px;
+  background: #282828;
+  border: none;
+  color: #fbfcfc;
+  cursor: pointer;
+`;
+
+export const DatePickerTwo = styled(DatePicker)`
+  text-indent: 10px;
+  width: 182x;
+  height: 46px;
+  border-radius: 12px;
+  background: #282828;
+  border: none;
+  color: #fbfcfc;
+  cursor:pointer;
 `;
 
 // Input S,M,L

@@ -15,9 +15,10 @@ import {
   ShortInput,
   Span,
 } from './Modal.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCarsThunk } from 'redux/infos/operations';
 import { useEffect } from 'react';
+import { selectPersonnel } from 'redux/infos/selectors';
 
 export default function Modal({ children, showCloseIcon = true, close }) {
   const {
@@ -26,6 +27,9 @@ export default function Modal({ children, showCloseIcon = true, close }) {
     setValue,
     formState: { errors },
   } = useForm();
+
+  const personnel = useSelector(selectPersonnel);
+  console.log(personnel);
 
   const dispatch = useDispatch();
 
