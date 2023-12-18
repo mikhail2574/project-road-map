@@ -105,7 +105,7 @@ const Directory = () => {
           <StyledAddButton onClick={openModal}>Додати дані</StyledAddButton>
         ) : (
           <StyledAddButton onClick={openPersonnelModal}>
-            Додати водія
+            Додати людину
           </StyledAddButton>
         )}
       </StyledHeaderWrapper>
@@ -121,11 +121,11 @@ const Directory = () => {
         )}
         {selectedTable === 'drivers' ? (
           <StyledActiveButton onClick={() => handleTableChange('drivers')}>
-            Водії
+            Люди
           </StyledActiveButton>
         ) : (
           <InnactiveButton onClick={() => handleTableChange('drivers')}>
-            Водії
+            Люди
           </InnactiveButton>
         )}
       </StyledNav>
