@@ -1,7 +1,6 @@
 import { Icon } from '../Icon';
 import React, { useEffect, useState } from 'react';
 import {
-  StyledButtonWrapper,
   StyledTableBody,
   StyledTableBodyTd,
   StyledTableBodyTr,
