@@ -1,7 +1,6 @@
 import { Icon } from '../Icon';
 import React, { useEffect, useState } from 'react';
 import {
-  StyledButtonWrapper,
   StyledTableBody,
   StyledTableBodyTd,
   StyledTableBodyTr,
@@ -22,10 +21,13 @@ import {
 } from 'redux/infos/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePersonnelThunk, fetchInfosThunk } from 'redux/infos/operations';
-import { StyledEmptyTableTh } from '../AddPersonnelForm/AddPersonnelForm.styled';
 import EditPersonnelForm from '../EditPersonnelForm/EditPersonnelForm';
 import DeletePersonnelForm from '../DeletePersonnelForm/DeletePersonnelForm';
 import ModalDelete from '../ModalDelete/ModalDelete';
+import {
+  StyledEmptyTableTh,
+  StyledPersonnelTableButtonWrapper,
+} from './Personnel.styled';
 
 const Personnel = () => {
   const personnel = useSelector(selectPersonnel);
@@ -89,7 +91,7 @@ const Personnel = () => {
                   <StyledTableShortTd>{person.rankShort}</StyledTableShortTd>
                   <StyledTableBodyTd>{person.name}</StyledTableBodyTd>
                   <StyledTableBodyTd>
-                    <StyledButtonWrapper>
+                    <StyledPersonnelTableButtonWrapper>
                       <StyledTableEditButton
                         onClick={() => openEditDriverModal(person.name)}
                       >
@@ -100,7 +102,7 @@ const Personnel = () => {
                       >
                         <Icon name="trash" size={16} />
                       </StyledTableDeleteButton>
-                    </StyledButtonWrapper>
+                    </StyledPersonnelTableButtonWrapper>
                   </StyledTableBodyTd>
                 </StyledTableBodyTr>
               ))}

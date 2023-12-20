@@ -71,10 +71,3 @@ export const StyledErrorSpanPosition = styled(StyledErrorSpan)`
   position: relative;
   font-size: 11px;
 `;
-
-export const StyledEmptyTableTh = styled.th`
-  background-color: #f0f0f0;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  width: 200px;
-`;
