@@ -170,8 +170,8 @@ const CarWorkingInfo = () => {
           </BtnBox>
         </SectionHead>
         <StyledNav>
-          <StyledLink to="general">Загальна інформація</StyledLink>
-          <StyledLink to="car">Робота машини</StyledLink>
+          <StyledLink to="/papers/general">Загальна інформація</StyledLink>
+          <StyledLink to="/papers/car">Робота машини</StyledLink>
         </StyledNav>
         <Line />
         <StyledText>

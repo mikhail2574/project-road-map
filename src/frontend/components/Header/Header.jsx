@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <LogoLink to="/">
-        <Icon name="logo" width={38} height={45} />
+        <Icon name="main_logo" size={45} />
         Дорожня карта
       </LogoLink>
       <Navbar />
