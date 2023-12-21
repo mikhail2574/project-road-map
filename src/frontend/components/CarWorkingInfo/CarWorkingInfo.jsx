@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
 import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
@@ -37,8 +38,27 @@ import {
   THeadRow,
   StyledSelect,
 } from './CarWorkingInfo.styled';
+import { DatePickerOne } from '../ModalMainField/ModalMainFieldStyle';
+import { IconStyle } from '../ModalFuel/ModalFuelStyle';
+import CarInfoModal from '../CarInfoModal/CarInfoModal';
 
 const CarWorkingInfo = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
   const roadType = useSelector(selectRoadType);
@@ -80,8 +100,15 @@ const CarWorkingInfo = () => {
       return: 'ні',
       depTime: '7:30, 29.00.23',
       arrTime: '18:10, 29.00.23',
-      mileageTotal: 111,
-      speedometer: 123888,
+      mileage: {
+        withCargo: 10,
+        withoutCargo: 10,
+        total: 20,
+        withTrailer: '',
+        withTug: '',
+      },
+      totalMileage: 31,
+      odometer: 123888,
     },
     {
       from: 'Львів',
@@ -89,10 +116,42 @@ const CarWorkingInfo = () => {
       return: 'так',
       depTime: '7:50, 30.00.23',
       arrTime: '19:00, 30.00.23',
-      mileageTotal: 1,
-      speedometer: 123889,
+      mileage: {
+        withCargo: 10,
+        withoutCargo: 10,
+        total: 20,
+        withTrailer: '',
+        withTug: '',
+      },
+      totalMileage: 13,
+      odometer: 123889,
     },
   ];
+  // const mockData = {
+  //   routes: [
+  //     {
+  //       from: 'Кременець',
+  //       to: 'Тернопіль',
+  //       return: 'ні',
+  //       depTime: '7:30, 29.00.23',
+  //       arrTime: '18:10, 29.00.23',
+  //       mileage: {
+  //         withCargo: 10,
+  //         withoutCargo: 10,
+  //         total: 20,
+  //         withTrailer: '',
+  //         withTug: '',
+  //       },
+  //   motorHours: { onStay: 10, onMove: 50, sum: 60 },
+  //   work: { nameCargo: 'Пісок', weight: 15 },
+  //   odometer: 12304,
+  // },
+  //   ],
+  //   totalMileage: 118,
+  //   driver: { name: 'Святий О.Я.', rank: 'солдат' },
+  //   senior: { name: 'Кернес А.О.', rank: 'капітан' },
+  //   fuelConsumption: 10,
+  // };
 
   const renderInstruction = () => {
     const renderCollection = () => {
@@ -106,7 +165,7 @@ const CarWorkingInfo = () => {
           <td>{item.arrTime}</td>
           <td></td>
           <td></td>
-          <td>{item.mileageTotal}</td>
+          <td>{item.totalMileage}</td>
           <td></td>
           <td></td>
           <td></td>
@@ -114,7 +173,7 @@ const CarWorkingInfo = () => {
           <td></td>
           <td></td>
           <td></td>
-          <td>{item.speedometer}</td>
+          <td>{item.odometer}</td>
         </TBodyRow>
       ));
     };
@@ -146,15 +205,19 @@ const CarWorkingInfo = () => {
     }
   };
 
+  const onSubmit = data => {
+    console.log(data);
+  };
+
   const addGenInfo = () => {}; // ????
 
   const openEditModal = () => {}; // waiting for modal
 
-  const savePDF = () => {};
+  const saveExcel = () => {};
 
   const printPDF = () => {};
   const totalMil = collection.reduce((acc, item) => {
-    return (acc += item.mileageTotal);
+    return (acc += item.totalMileage);
   }, 0);
 
   return (
@@ -164,8 +227,8 @@ const CarWorkingInfo = () => {
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
             <InfoBtn onClick={addGenInfo}>Додати загальну інформацію</InfoBtn>
-            <InfoBtn onClick={openEditModal}>Редагувати</InfoBtn>
-            <SaveBtn onClick={savePDF}>Зберегти в PDF</SaveBtn>
+            <InfoBtn onClick={openModal}>Редагувати</InfoBtn>
+            <SaveBtn onClick={saveExcel}>Зберегти в Excel</SaveBtn>
             <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
@@ -273,40 +336,71 @@ const CarWorkingInfo = () => {
             Всього витрачено: <span>calc</span>
           </p>
         </CalcDiv>
-        <PersonnelDiv>
-          <p>Водій (механік - водій):</p>
-          <InputWrapper>
-            <StyledSelect
-              options={driverOptions}
-              // onChange={}
-              components={{ DropdownIndicator }}
-              ariaLabel={'Військове звання'}
-              placeholder="Військове звання"
-              classNamePrefix="Select"
-            />
-            <input type={'text'} placeholder={'Прізвище, ініціали'} />
-          </InputWrapper>
-        </PersonnelDiv>
-        <PersonnelDiv>
-          <p>Правильність оформлення дорожнього листа перевірив:</p>
-          <AuxWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <PersonnelDiv>
+            <p>Водій (механік - водій):</p>
             <InputWrapper>
               <StyledSelect
-                options={checkedOptions}
+                options={driverOptions}
                 // onChange={}
                 components={{ DropdownIndicator }}
                 ariaLabel={'Військове звання'}
                 placeholder="Військове звання"
                 classNamePrefix="Select"
               />
-              <input type={'text'} placeholder={'Посада'} />
               <input type={'text'} placeholder={'Прізвище, ініціали'} />
             </InputWrapper>
-            <input type="date" />
-            {/* datepicker */}
-          </AuxWrapper>
-        </PersonnelDiv>
+          </PersonnelDiv>
+          <PersonnelDiv>
+            <p>Правильність оформлення дорожнього листа перевірив:</p>
+            <AuxWrapper>
+              <InputWrapper>
+                <StyledSelect
+                  options={checkedOptions}
+                  // onChange={}
+                  components={{ DropdownIndicator }}
+                  ariaLabel={'Військове звання'}
+                  placeholder="Військове звання"
+                  classNamePrefix="Select"
+                />
+                <input type={'text'} placeholder={'Посада'} />
+                <input type={'text'} placeholder={'Прізвище, ініціали'} />
+              </InputWrapper>
+              <Controller
+                name="documentDate"
+                control={control}
+                rules={{
+                  required: "Обов'язкове поле",
+                  pattern: {
+                    value:
+                      /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                    message:
+                      'Невірний формат (приклад правильного формату: 01.01.2023)',
+                  },
+                }}
+                render={({ field }) => (
+                  <>
+                    <DatePickerOne
+                      selected={field.value}
+                      onChange={date => setValue('documentDate', date)}
+                      dateFormat="dd.MM.yyyy"
+                      placeholderText="00.00.0000"
+                      showIcon
+                      icon={<IconStyle size={16} height={18} name="calendar" />}
+                    />
+                    {errors.documentDate && (
+                      <span style={{ color: 'red' }}>
+                        {errors.documentDate.message}
+                      </span>
+                    )}
+                  </>
+                )}
+              />
+            </AuxWrapper>
+          </PersonnelDiv>
+        </form>
       </TableSection>
+      {isModalOpen && <CarInfoModal onClose={closeModal} />}
     </>
   );
 };
