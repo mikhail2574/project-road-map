@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
+import { Icon } from '../Icon';
 
 export const OverlayStyle = styled.div`
   position: fixed;
@@ -115,7 +116,7 @@ export const Label = styled.label`
   font-style: normal;
   font-weight: 500;
   line-height: 18px;
-  
+  position:relative;
 `;
 
 export const Span = styled.span`
@@ -263,7 +264,7 @@ export const DatePickerTwo = styled(DatePicker)`
   background: #282828;
   border: none;
   color: #fbfcfc;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 // Input S,M,L
@@ -371,4 +372,12 @@ export const CancelBtnStyle = styled.button`
     opacity: 0.8;
     transform: translateY(-1px);
   }
+`;
+
+export const IconStyleClock = styled(Icon)`
+  position: absolute;
+  cursor: pointer;
+  bottom: 21%;
+  right: 9%;
+  z-index: 2;
 `;

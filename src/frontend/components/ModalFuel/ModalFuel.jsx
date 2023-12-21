@@ -26,7 +26,7 @@ import {
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
 
-export default function Modal({ showCloseIcon = true, close }) {
+export default function Modal({ showCloseIcon = true, onCloseFuel }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
 
   const {
@@ -38,12 +38,11 @@ export default function Modal({ showCloseIcon = true, close }) {
 
   const onSubmit = data => {
     console.log(data);
-    // Дополнительная логика отправки формы
   };
 
   const handleKeyDown = e => {
     if (e.key === 'Escape') {
-      close();
+      onCloseFuel();
     }
   };
 
@@ -53,13 +52,13 @@ export default function Modal({ showCloseIcon = true, close }) {
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      close();
+      onCloseFuel();
     }
   };
 
   const closeClick = e => {
     if (e.target.name === 'cancel' || e.currentTarget.name === 'closeSvg') {
-      close();
+      onCloseFuel();
     }
   };
 

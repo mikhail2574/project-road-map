@@ -27,6 +27,7 @@ import {
   BtnTrash,
   DatePickerOne,
   DatePickerTwo,
+  IconStyleClock,
 } from '../ModalMainField/ModalMainFieldStyle';
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
@@ -34,7 +35,7 @@ import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 import { useSelector } from 'react-redux';
 import { selectPersonnel } from 'redux/infos/selectors';
 
-export default function Modal({ showCloseIcon = true, close }) {
+export default function Modal({ showCloseIcon = true, onClose }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
   // console.log(personnel);
@@ -50,11 +51,9 @@ export default function Modal({ showCloseIcon = true, close }) {
   };
 
   const handleBtnTrashClick = index => {
-    // Создаем копию массива duplicateInputs
     const updatedInputs = [...Array(duplicateInputs)];
-    // Удаляем элемент с указанным индексом
+
     updatedInputs.splice(index, 1);
-    // Обновляем состояние
 
     setValue(`departureDate[${index}]`, null);
     setValue(`departureTime[${index}]`, '');
@@ -65,7 +64,7 @@ export default function Modal({ showCloseIcon = true, close }) {
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.key === 'Escape') {
-        close();
+        onClose();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -73,22 +72,22 @@ export default function Modal({ showCloseIcon = true, close }) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [close]);
+  }, [onClose]);
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      close();
+      onClose();
     }
   };
 
   const closeClick = e => {
     if (e.target.name === 'cancel' || e.currentTarget.name === 'closeSvg') {
-      close();
+      onClose();
     }
   };
 
   const onSubmit = data => {
-    console.log(data); // Обработка данных формы
+    console.log(data);
   };
 
   return (
@@ -581,6 +580,7 @@ export default function Modal({ showCloseIcon = true, close }) {
                             setValue(`departureTime[${index}]`, e.target.value)
                           }
                         />
+                        <IconStyleClock size={18} height={18} name="clock" />
                         {errors.departureTime && (
                           <span style={{ color: 'red' }}>
                             {errors.departureTime.message}
