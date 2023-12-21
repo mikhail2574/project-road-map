@@ -131,6 +131,28 @@ const Icons = () => {
               fill="#47523F"
             />
           </symbol>
+
+          <symbol id="clock" viewBox="0 0 32 32">
+            <path
+              fill="none"
+              stroke="#fbfcfc"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-miterlimit="4"
+              stroke-width="2.6667"
+              d="M16 29.333c7.364 0 13.333-5.97 13.333-13.333s-5.97-13.333-13.333-13.333c-7.364 0-13.333 5.97-13.333 13.333s5.97 13.333 13.333 13.333z"
+            ></path>
+            <path
+              fill="none"
+              stroke="#fbfcfc"
+              le="stroke: var(--color1, #fbfcfc)"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-miterlimit="4"
+              stroke-width="2.6667"
+              d="M16 8v8l5.333 2.667"
+            ></path>
+          </symbol>
         </defs>
       </svg>
     </div>
