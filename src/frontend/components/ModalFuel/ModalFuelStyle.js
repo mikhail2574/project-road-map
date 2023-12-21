@@ -67,7 +67,7 @@ export const ModalWindowStyle = styled.div`
 
 export const TitlePlusDiv = styled.div`
   display: flex;
-  gap: 271px;
+  gap: 260px;
   justify-content: center;
   align-items: center;
 `;
@@ -76,8 +76,8 @@ export const BtnPlus = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px; 
   background-color: #47523f;
   color: #fff;
   border: none;

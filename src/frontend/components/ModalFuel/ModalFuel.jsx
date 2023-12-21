@@ -87,7 +87,7 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
               <br /> матеріалів (у літрах)
             </ModalTitle>
             <BtnPlus onClick={handleBtnPlusClick}>
-              <Icon size={28} name="plus" />
+              <Icon size={24} name="plus" />
             </BtnPlus>
           </TitlePlusDiv>
 
