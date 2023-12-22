@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
+import {
+  selectPersonnel,
+  selectRoadType,
+  selectRoutes,
+} from 'redux/infos/selectors';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
 import {
@@ -43,12 +47,17 @@ import { IconStyle } from '../ModalFuel/ModalFuelStyle';
 import CarInfoModal from '../CarInfoModal/CarInfoModal';
 
 const CarWorkingInfo = () => {
+  const [modalData, setModalData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const routes = useSelector(selectRoutes);
+  const roadType = useSelector(selectRoadType);
+  const personnel = useSelector(selectPersonnel);
 
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -57,16 +66,17 @@ const CarWorkingInfo = () => {
     handleSubmit,
     control,
     setValue,
+    register,
     formState: { errors },
   } = useForm();
-  const dispatch = useDispatch();
-  const routes = useSelector(selectRoutes);
-  const roadType = useSelector(selectRoadType);
+
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
+
+  console.log('modalData :>> ', modalData);
   console.log('routes :>> ', routes);
-  console.log('roadType :>> ', roadType);
+  console.log('personnel :>> ', personnel);
 
   const DropdownIndicator = props => {
     return (
@@ -76,106 +86,100 @@ const CarWorkingInfo = () => {
     );
   };
 
-  const driverArr = ['Фара К.Л.', 'Орел Ф.І.'];
+  const driverArr = personnel.filter(el => el.position === 'водій');
+  console.log('driverArr :>> ', driverArr);
   const checkedArr = [
     'Солдат',
     'Старший солдат',
     'Молодший сержант',
     'Сержант',
   ];
-  const driverOptions = driverArr.map(name => ({
+  const driverOptions = driverArr.map(({ name, rank }) => ({
     value: name,
     label: name,
   }));
+  console.log('driverOptions :>> ', driverOptions);
   const checkedOptions = checkedArr.map(rank => ({
     value: rank,
     label: rank,
   }));
 
   //* ========================= mock data =========================
-  const collection = [
-    {
-      from: 'Кременець',
-      to: 'Тернопіль',
-      return: 'ні',
-      depTime: '7:30, 29.00.23',
-      arrTime: '18:10, 29.00.23',
-      mileage: {
-        withCargo: 10,
-        withoutCargo: 10,
-        total: 20,
-        withTrailer: '',
-        withTug: '',
-      },
-      totalMileage: 31,
-      odometer: 123888,
-    },
-    {
-      from: 'Львів',
-      to: 'Хмельницький',
-      return: 'так',
-      depTime: '7:50, 30.00.23',
-      arrTime: '19:00, 30.00.23',
-      mileage: {
-        withCargo: 10,
-        withoutCargo: 10,
-        total: 20,
-        withTrailer: '',
-        withTug: '',
-      },
-      totalMileage: 13,
-      odometer: 123889,
-    },
-  ];
-  // const mockData = {
-  //   routes: [
-  //     {
-  //       from: 'Кременець',
-  //       to: 'Тернопіль',
-  //       return: 'ні',
-  //       depTime: '7:30, 29.00.23',
-  //       arrTime: '18:10, 29.00.23',
-  //       mileage: {
-  //         withCargo: 10,
-  //         withoutCargo: 10,
-  //         total: 20,
-  //         withTrailer: '',
-  //         withTug: '',
-  //       },
-  //   motorHours: { onStay: 10, onMove: 50, sum: 60 },
-  //   work: { nameCargo: 'Пісок', weight: 15 },
-  //   odometer: 12304,
-  // },
-  //   ],
-  //   totalMileage: 118,
-  //   driver: { name: 'Святий О.Я.', rank: 'солдат' },
-  //   senior: { name: 'Кернес А.О.', rank: 'капітан' },
-  //   fuelConsumption: 10,
-  // };
+  /* const mockData = {
+    routes: [
+      {
+        from: 'Кременець',
+        to: 'Тернопіль',
+        return: 'ні',
+        depTime: '7:30, 29.00.23',
+        arrTime: '18:10, 29.00.23',
+        mileage: {
+          withCargo: 10,
+          withoutCargo: 10,
+          total: 20,
+          withTrailer: '',
+          withTug: '',
+        },
+    motorHours: { onStay: 10, onMove: 50, sum: 60 },
+    work: { nameCargo: 'Пісок', weight: 15 },
+    odometer: 12304,
+  },
+    ],
+    totalMileage: 118,
+    driver: { name: 'Святий О.Я.', rank: 'солдат' },
+    senior: { name: 'Кернес А.О.', rank: 'капітан' },
+    fuelConsumption: 10,
+  }; */
+  // const addData = {};
 
   const renderInstruction = () => {
     const renderCollection = () => {
-      return collection.map(item => (
-        <TBodyRow>
-          <td>
-            {item.from} - {item.to}
-            {item.return === 'так' ? ` - ${item.from}` : null}
-          </td>
-          <td>{item.depTime}</td>
-          <td>{item.arrTime}</td>
-          <td></td>
-          <td></td>
-          <td>{item.totalMileage}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>{item.odometer}</td>
-        </TBodyRow>
-      ));
+      return modalData.map(
+        ({
+          routeFrom,
+          routeTo,
+          oneway,
+          departureDate,
+          departureTime,
+          arrivalDate,
+          arrivalTime,
+          withCargo,
+          withoutCargo,
+          total,
+          withTrailer,
+          withTug,
+          onStay,
+          onMove,
+          sum,
+          nameCargo,
+          weight,
+          odometer,
+        }) => (
+          <TBodyRow>
+            <td>
+              {routeFrom} - {routeTo}
+              {oneway ? ` - ${routeFrom}` : null}
+            </td>
+            <td>
+              {departureTime}, {departureDate}
+            </td>
+            <td>
+              {arrivalTime}, {arrivalDate}
+            </td>
+            <td>{withCargo}</td>
+            <td>{withoutCargo}</td>
+            <td>{total}</td>
+            <td>{withTrailer}</td>
+            <td>{withTug}</td>
+            <td>{onStay}</td>
+            <td>{onMove}</td>
+            <td>{sum}</td>
+            <td>{nameCargo}</td>
+            <td>{weight}</td>
+            <td>{odometer}</td>
+          </TBodyRow>
+        )
+      );
     };
     let emptyRowArr = [];
     for (let i = 0; i < 14; i++) {
@@ -184,7 +188,7 @@ const CarWorkingInfo = () => {
     const renderEmpty = () => {
       return <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>;
     };
-    switch (collection.length) {
+    switch (modalData.length) {
       case 0:
         return (
           <>
@@ -211,14 +215,16 @@ const CarWorkingInfo = () => {
 
   const addGenInfo = () => {}; // ????
 
-  const openEditModal = () => {}; // waiting for modal
-
   const saveExcel = () => {};
 
   const printPDF = () => {};
-  const totalMil = collection.reduce((acc, item) => {
-    return (acc += item.totalMileage);
+
+  const totalMil = modalData.reduce((acc, item) => {
+    return (acc += Number(item.total));
   }, 0);
+  //* Fuel consumption is needed
+  const formula =
+    (10 * totalMil) / 100 - ((10 * totalMil) / 100) * roadType[0]?.correction;
 
   return (
     <>
@@ -315,7 +321,7 @@ const CarWorkingInfo = () => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{totalMil}</td>
+                <td>{totalMil || null}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -333,7 +339,7 @@ const CarWorkingInfo = () => {
             Всього пройдено: <span>{totalMil}</span>
           </p>
           <p>
-            Всього витрачено: <span>calc</span>
+            Всього витрачено: <span>{formula || 0}</span>
           </p>
         </CalcDiv>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -342,12 +348,14 @@ const CarWorkingInfo = () => {
             <InputWrapper>
               <StyledSelect
                 options={driverOptions}
+                {...register('driver')}
                 // onChange={}
                 components={{ DropdownIndicator }}
                 ariaLabel={'Військове звання'}
                 placeholder="Військове звання"
                 classNamePrefix="Select"
               />
+              <p></p>
               <input type={'text'} placeholder={'Прізвище, ініціали'} />
             </InputWrapper>
           </PersonnelDiv>
@@ -357,6 +365,7 @@ const CarWorkingInfo = () => {
               <InputWrapper>
                 <StyledSelect
                   options={checkedOptions}
+                  {...register('checkMan')}
                   // onChange={}
                   components={{ DropdownIndicator }}
                   ariaLabel={'Військове звання'}
@@ -400,7 +409,9 @@ const CarWorkingInfo = () => {
           </PersonnelDiv>
         </form>
       </TableSection>
-      {isModalOpen && <CarInfoModal onClose={closeModal} />}
+      {isModalOpen && (
+        <CarInfoModal onClose={closeModal} modalSubmit={setModalData} />
+      )}
     </>
   );
 };

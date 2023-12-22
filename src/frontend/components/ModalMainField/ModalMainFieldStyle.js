@@ -116,7 +116,7 @@ export const Label = styled.label`
   font-style: normal;
   font-weight: 500;
   line-height: 18px;
-  position:relative;
+  position: relative;
 `;
 
 export const Span = styled.span`

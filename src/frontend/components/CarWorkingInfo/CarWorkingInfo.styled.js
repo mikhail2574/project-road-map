@@ -262,7 +262,8 @@ export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
 
-  input {
+  input,
+  p {
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--transparent-gray);
