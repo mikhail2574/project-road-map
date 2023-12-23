@@ -9,6 +9,7 @@ const addRoute = require('./addRoute');
 const updateRoute = require('./updateRoute');
 const deletePersonnel = require('./deletePersonnel');
 const deleteRoute = require('./deleteRoute');
+const generateMainList = require('./generateMainList');
 
 module.exports = {
   getAll: ctrlWrapper(getAll),
@@ -21,4 +22,5 @@ module.exports = {
   updateRoute: ctrlWrapper(updateRoute),
   deletePersonnel: ctrlWrapper(deletePersonnel),
   deleteRoute: ctrlWrapper(deleteRoute),
+  generateMainList: ctrlWrapper(generateMainList),
 };

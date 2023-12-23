@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { downloadFileThunk } from './operations';
+import downloadMainList from './operations';
 
 const initialState = {
   isDownloading: false,
@@ -10,15 +10,15 @@ export const slice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(downloadFileThunk.fulfilled, (state, action) => {
+      .addCase(downloadMainList.fulfilled, (state, action) => {
         state.isDownloading = false;
         state.error = null;
       })
-      .addCase(downloadFileThunk.pending, (state, action) => {
+      .addCase(downloadMainList.pending, (state, action) => {
         state.isDownloading = true;
         state.error = null;
       })
-      .addCase(downloadFileThunk.rejected, (state, action) => {
+      .addCase(downloadMainList.rejected, (state, action) => {
         state.isDownloading = false;
         state.error = action.payload;
       });
