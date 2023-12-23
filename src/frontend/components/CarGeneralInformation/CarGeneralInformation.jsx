@@ -38,6 +38,10 @@ import {
 } from './CarGeneralInformation.styled';
 import downloadMainList from '../../../redux/download/operations';
 
+import React, { useState } from 'react';
+import ModalMainField from '../ModalMainField/ModalMainField';
+import ModalFuel from '../ModalFuel/ModalFuel';
+
 const CarGeneralInformation = () => {
   const dispatch = useDispatch();
 
@@ -123,14 +127,35 @@ const CarGeneralInformation = () => {
         console.error('Error:', error);
       });
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openFuelExpensesModal = () => {
+    setIsFuelExpensesModalOpen(true);
+  };
+
+  const closeFuelExpensesModal = () => {
+    setIsFuelExpensesModalOpen(false);
+  };
+
   return (
     <MainContainer>
       <BtnSection>
         <SectionHead>
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
-            <InfoBtn>Додати загальну інформацію</InfoBtn>
-            <InfoBtn>Додати витрати ПММ</InfoBtn>
+            <InfoBtn onClick={openModal}>Додати загальну інформацію</InfoBtn>
+            <InfoBtn onClick={openFuelExpensesModal}>
+              Додати витрати ПММ
+            </InfoBtn>
             <SaveBtn onClick={handleClick}>Зберегти в Excel</SaveBtn>
             <SaveBtn>Друк сторінки</SaveBtn>
           </BtnBox>
@@ -374,6 +399,10 @@ const CarGeneralInformation = () => {
           </TableSection2>
         </PaperSection>
       </PaperWrapper>
+      {isModalOpen && <ModalMainField onClose={closeModal} />}
+      {isFuelExpensesModalOpen && (
+        <ModalFuel onCloseFuel={closeFuelExpensesModal} />
+      )}
     </MainContainer>
   );
 };
