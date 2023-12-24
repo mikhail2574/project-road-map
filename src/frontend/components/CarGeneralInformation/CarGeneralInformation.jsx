@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import {
   BtnBox,
   BtnSection,
@@ -35,12 +36,97 @@ import {
   TableSection2,
   StyledTHead2,
 } from './CarGeneralInformation.styled';
+import downloadMainList from '../../../redux/download/operations';
 
 import React, { useState } from 'react';
 import ModalMainField from '../ModalMainField/ModalMainField';
 import ModalFuel from '../ModalFuel/ModalFuel';
 
 const CarGeneralInformation = () => {
+  const dispatch = useDispatch();
+
+  const mockData = {
+    supervisor: {
+      name: 'Кумар М.Б.',
+      rank: 'капітан',
+      position: 'Начальник автомобільної служби',
+    },
+    driver: {
+      name: 'Петренко В.В.',
+      rank: 'солдат',
+      position: 'Водій',
+    },
+    route: 'Київ - Вінниця',
+    documentDate: '15.10.2023',
+    documentNumber: '123456',
+    dutyNumber: '25',
+    militaryUnit: 'А1234',
+    engineer: {
+      name: 'Дизель В.М.',
+      rank: 'солдат',
+      position: 'Начальник КТП',
+    },
+    car: { carSign: 'AA1234FF', carName: 'ЗІЛ-131' },
+    formal: {
+      departureTime: '7:30 29.09.2023',
+      arrivalTime: '18:10 29.09.2023',
+    },
+    expenses: [
+      {
+        name: 'Масло',
+        amountBefore: 10,
+        amountDuring: 5,
+        expense: 5,
+        byNorm: 5,
+        economy: 0,
+        overExpense: 0,
+        code: 24,
+        got: 5,
+        date: '29.09.2023',
+      },
+    ],
+    facts: [
+      {
+        departure: { time: '1 29.09.2023', odometer: 12337 },
+        arrival: { time: '2 29.09.2023', odometer: 12338 },
+      },
+      {
+        departure: { time: '3 30.09.2023', odometer: 12339 },
+        arrival: { time: '4 30.09.2023', odometer: 12340 },
+      },
+      {
+        departure: { time: '7:30 01.10.2023', odometer: 12340 },
+        arrival: { time: '18:10 01.10.2023', odometer: 12345 },
+      },
+      {
+        departure: { time: '7:30 02.10.2023', odometer: 12345 },
+        arrival: { time: '18:10 02.10.2023', odometer: 12349 },
+      },
+      {
+        departure: { time: '7:30 03.10.2023', odometer: 12349 },
+        arrival: { time: '18:10 03.10.2023', odometer: 12353 },
+      },
+    ],
+  };
+
+  const handleClick = () => {
+    dispatch(downloadMainList(mockData))
+      .unwrap()
+      .then(blob => {
+        console.log(blob);
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const date = new Date().toLocaleDateString();
+        a.download = `roadList#${date}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
 
@@ -67,8 +153,10 @@ const CarGeneralInformation = () => {
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
             <InfoBtn onClick={openModal}>Додати загальну інформацію</InfoBtn>
-            <InfoBtn onClick={openFuelExpensesModal}>Додати витрати ПММ</InfoBtn>
-            <SaveBtn>Зберегти в PDF</SaveBtn>
+            <InfoBtn onClick={openFuelExpensesModal}>
+              Додати витрати ПММ
+            </InfoBtn>
+            <SaveBtn onClick={handleClick}>Зберегти в Excel</SaveBtn>
             <SaveBtn>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
@@ -312,7 +400,9 @@ const CarGeneralInformation = () => {
         </PaperSection>
       </PaperWrapper>
       {isModalOpen && <ModalMainField onClose={closeModal} />}
-      {isFuelExpensesModalOpen && <ModalFuel onCloseFuel={closeFuelExpensesModal} />}
+      {isFuelExpensesModalOpen && (
+        <ModalFuel onCloseFuel={closeFuelExpensesModal} />
+      )}
     </MainContainer>
   );
 };

@@ -41,6 +41,7 @@ export const StyledTableScrollWrapper = styled.div`
   max-height: 60vh;
   overflow-y: scroll;
   margin-right: 6px;
+  margin-left: 12px;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: #f0f0f0;

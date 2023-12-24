@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express();
 
-// const { routerExcel } = require('./routes/api/excel');
+const { routerExcel } = require('./routes/api/excel');
 const { routerInfos } = require('./routes/api/infos');
 
 const formatLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/infos', routerInfos);
-// app.use('/api/excel', routerExcel);
+app.use('/api/excel', routerExcel);
 
 app.use((req, res, next) => {
   const err = new Error('Not found');
