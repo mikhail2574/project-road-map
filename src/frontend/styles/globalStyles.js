@@ -28,6 +28,16 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.43;
     color: var(--text-dark);
     background: #F0F0F0;
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
   }
   
   p,

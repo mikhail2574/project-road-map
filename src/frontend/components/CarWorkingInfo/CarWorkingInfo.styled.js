@@ -176,6 +176,7 @@ export const SubSubRow = styled(SubRow)`
 
 export const TBodyRow = styled.tr`
   height: 60px;
+  /* position: relative; */
 
   td:first-child {
     width: 207px;
@@ -196,6 +197,13 @@ export const TBodyRow = styled.tr`
     width: 92px;
     padding: 10px 15px;
   }
+
+  /* td:last-child::after {
+    content: 'strelka';
+    position: absolute;
+    top: 0;
+    left: 0;
+  } */
 `;
 
 export const TFootRow = styled.tr`
@@ -254,7 +262,8 @@ export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
 
-  input {
+  input,
+  p {
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--transparent-gray);

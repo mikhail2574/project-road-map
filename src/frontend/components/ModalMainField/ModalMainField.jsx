@@ -265,7 +265,7 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                 />
               </Label>
               <Label>
-                <Span>Маршрут руху</Span>
+                <Span>Маршрут руху</Span> {/* legend */}
                 <Controller
                   name="trafficRoute"
                   control={control}

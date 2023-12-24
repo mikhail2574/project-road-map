@@ -1,6 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectRoadType, selectRoutes } from 'redux/infos/selectors';
+import { useForm, Controller } from 'react-hook-form';
+import {
+  selectPersonnel,
+  selectRoadType,
+  selectRoutes,
+} from 'redux/infos/selectors';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
 import {
@@ -37,16 +42,41 @@ import {
   THeadRow,
   StyledSelect,
 } from './CarWorkingInfo.styled';
+import { DatePickerOne } from '../ModalMainField/ModalMainFieldStyle';
+import { IconStyle } from '../ModalFuel/ModalFuelStyle';
+import CarInfoModal from '../CarInfoModal/CarInfoModal';
 
 const CarWorkingInfo = () => {
+  const [modalData, setModalData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
   const roadType = useSelector(selectRoadType);
+  const personnel = useSelector(selectPersonnel);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    register,
+    formState: { errors },
+  } = useForm();
+
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
+
+  console.log('modalData :>> ', modalData);
   console.log('routes :>> ', routes);
-  console.log('roadType :>> ', roadType);
+  console.log('personnel :>> ', personnel);
 
   const DropdownIndicator = props => {
     return (
@@ -56,67 +86,100 @@ const CarWorkingInfo = () => {
     );
   };
 
-  const driverArr = ['Фара К.Л.', 'Орел Ф.І.'];
+  const driverArr = personnel.filter(el => el.position === 'водій');
+  console.log('driverArr :>> ', driverArr);
   const checkedArr = [
     'Солдат',
     'Старший солдат',
     'Молодший сержант',
     'Сержант',
   ];
-  const driverOptions = driverArr.map(name => ({
+  const driverOptions = driverArr.map(({ name, rank }) => ({
     value: name,
     label: name,
   }));
+  console.log('driverOptions :>> ', driverOptions);
   const checkedOptions = checkedArr.map(rank => ({
     value: rank,
     label: rank,
   }));
 
   //* ========================= mock data =========================
-  const collection = [
-    {
-      from: 'Кременець',
-      to: 'Тернопіль',
-      return: 'ні',
-      depTime: '7:30, 29.00.23',
-      arrTime: '18:10, 29.00.23',
-      mileageTotal: 111,
-      speedometer: 123888,
-    },
-    {
-      from: 'Львів',
-      to: 'Хмельницький',
-      return: 'так',
-      depTime: '7:50, 30.00.23',
-      arrTime: '19:00, 30.00.23',
-      mileageTotal: 1,
-      speedometer: 123889,
-    },
-  ];
+  /* const mockData = {
+    routes: [
+      {
+        from: 'Кременець',
+        to: 'Тернопіль',
+        return: 'ні',
+        depTime: '7:30, 29.00.23',
+        arrTime: '18:10, 29.00.23',
+        mileage: {
+          withCargo: 10,
+          withoutCargo: 10,
+          total: 20,
+          withTrailer: '',
+          withTug: '',
+        },
+    motorHours: { onStay: 10, onMove: 50, sum: 60 },
+    work: { nameCargo: 'Пісок', weight: 15 },
+    odometer: 12304,
+  },
+    ],
+    totalMileage: 118,
+    driver: { name: 'Святий О.Я.', rank: 'солдат' },
+    senior: { name: 'Кернес А.О.', rank: 'капітан' },
+    fuelConsumption: 10,
+  }; */
+  // const addData = {};
 
   const renderInstruction = () => {
     const renderCollection = () => {
-      return collection.map(item => (
-        <TBodyRow>
-          <td>
-            {item.from} - {item.to}
-            {item.return === 'так' ? ` - ${item.from}` : null}
-          </td>
-          <td>{item.depTime}</td>
-          <td>{item.arrTime}</td>
-          <td></td>
-          <td></td>
-          <td>{item.mileageTotal}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>{item.speedometer}</td>
-        </TBodyRow>
-      ));
+      return modalData.map(
+        ({
+          routeFrom,
+          routeTo,
+          oneway,
+          departureDate,
+          departureTime,
+          arrivalDate,
+          arrivalTime,
+          withCargo,
+          withoutCargo,
+          total,
+          withTrailer,
+          withTug,
+          onStay,
+          onMove,
+          sum,
+          nameCargo,
+          weight,
+          odometer,
+        }) => (
+          <TBodyRow>
+            <td>
+              {routeFrom} - {routeTo}
+              {oneway ? ` - ${routeFrom}` : null}
+            </td>
+            <td>
+              {departureTime}, {departureDate}
+            </td>
+            <td>
+              {arrivalTime}, {arrivalDate}
+            </td>
+            <td>{withCargo}</td>
+            <td>{withoutCargo}</td>
+            <td>{total}</td>
+            <td>{withTrailer}</td>
+            <td>{withTug}</td>
+            <td>{onStay}</td>
+            <td>{onMove}</td>
+            <td>{sum}</td>
+            <td>{nameCargo}</td>
+            <td>{weight}</td>
+            <td>{odometer}</td>
+          </TBodyRow>
+        )
+      );
     };
     let emptyRowArr = [];
     for (let i = 0; i < 14; i++) {
@@ -125,7 +188,7 @@ const CarWorkingInfo = () => {
     const renderEmpty = () => {
       return <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>;
     };
-    switch (collection.length) {
+    switch (modalData.length) {
       case 0:
         return (
           <>
@@ -146,16 +209,22 @@ const CarWorkingInfo = () => {
     }
   };
 
+  const onSubmit = data => {
+    console.log(data);
+  };
+
   const addGenInfo = () => {}; // ????
 
-  const openEditModal = () => {}; // waiting for modal
-
-  const savePDF = () => {};
+  const saveExcel = () => {};
 
   const printPDF = () => {};
-  const totalMil = collection.reduce((acc, item) => {
-    return (acc += item.mileageTotal);
+
+  const totalMil = modalData.reduce((acc, item) => {
+    return (acc += Number(item.total));
   }, 0);
+  //* Fuel consumption is needed
+  const formula =
+    (10 * totalMil) / 100 - ((10 * totalMil) / 100) * roadType[0]?.correction;
 
   return (
     <>
@@ -164,8 +233,8 @@ const CarWorkingInfo = () => {
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
             <InfoBtn onClick={addGenInfo}>Додати загальну інформацію</InfoBtn>
-            <InfoBtn onClick={openEditModal}>Редагувати</InfoBtn>
-            <SaveBtn onClick={savePDF}>Зберегти в PDF</SaveBtn>
+            <InfoBtn onClick={openModal}>Редагувати</InfoBtn>
+            <SaveBtn onClick={saveExcel}>Зберегти в Excel</SaveBtn>
             <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
@@ -252,7 +321,7 @@ const CarWorkingInfo = () => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{totalMil}</td>
+                <td>{totalMil || null}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -270,43 +339,79 @@ const CarWorkingInfo = () => {
             Всього пройдено: <span>{totalMil}</span>
           </p>
           <p>
-            Всього витрачено: <span>calc</span>
+            Всього витрачено: <span>{formula || 0}</span>
           </p>
         </CalcDiv>
-        <PersonnelDiv>
-          <p>Водій (механік - водій):</p>
-          <InputWrapper>
-            <StyledSelect
-              options={driverOptions}
-              // onChange={}
-              components={{ DropdownIndicator }}
-              ariaLabel={'Військове звання'}
-              placeholder="Військове звання"
-              classNamePrefix="Select"
-            />
-            <input type={'text'} placeholder={'Прізвище, ініціали'} />
-          </InputWrapper>
-        </PersonnelDiv>
-        <PersonnelDiv>
-          <p>Правильність оформлення дорожнього листа перевірив:</p>
-          <AuxWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <PersonnelDiv>
+            <p>Водій (механік - водій):</p>
             <InputWrapper>
               <StyledSelect
-                options={checkedOptions}
+                options={driverOptions}
+                {...register('driver')}
                 // onChange={}
                 components={{ DropdownIndicator }}
                 ariaLabel={'Військове звання'}
                 placeholder="Військове звання"
                 classNamePrefix="Select"
               />
-              <input type={'text'} placeholder={'Посада'} />
+              <p></p>
               <input type={'text'} placeholder={'Прізвище, ініціали'} />
             </InputWrapper>
-            <input type="date" />
-            {/* datepicker */}
-          </AuxWrapper>
-        </PersonnelDiv>
+          </PersonnelDiv>
+          <PersonnelDiv>
+            <p>Правильність оформлення дорожнього листа перевірив:</p>
+            <AuxWrapper>
+              <InputWrapper>
+                <StyledSelect
+                  options={checkedOptions}
+                  {...register('checkMan')}
+                  // onChange={}
+                  components={{ DropdownIndicator }}
+                  ariaLabel={'Військове звання'}
+                  placeholder="Військове звання"
+                  classNamePrefix="Select"
+                />
+                <input type={'text'} placeholder={'Посада'} />
+                <input type={'text'} placeholder={'Прізвище, ініціали'} />
+              </InputWrapper>
+              <Controller
+                name="documentDate"
+                control={control}
+                rules={{
+                  required: "Обов'язкове поле",
+                  pattern: {
+                    value:
+                      /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                    message:
+                      'Невірний формат (приклад правильного формату: 01.01.2023)',
+                  },
+                }}
+                render={({ field }) => (
+                  <>
+                    <DatePickerOne
+                      selected={field.value}
+                      onChange={date => setValue('documentDate', date)}
+                      dateFormat="dd.MM.yyyy"
+                      placeholderText="00.00.0000"
+                      showIcon
+                      icon={<IconStyle size={16} height={18} name="calendar" />}
+                    />
+                    {errors.documentDate && (
+                      <span style={{ color: 'red' }}>
+                        {errors.documentDate.message}
+                      </span>
+                    )}
+                  </>
+                )}
+              />
+            </AuxWrapper>
+          </PersonnelDiv>
+        </form>
       </TableSection>
+      {isModalOpen && (
+        <CarInfoModal onClose={closeModal} modalSubmit={setModalData} />
+      )}
     </>
   );
 };

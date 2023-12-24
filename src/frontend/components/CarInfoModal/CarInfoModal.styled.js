@@ -25,7 +25,7 @@ export const OverlayStyle = styled.div`
 
 export const ModalWindowStyle = styled.div`
   display: block;
-  height: 656px;
+  max-width: 800px;
   overflow-y: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
@@ -40,13 +40,9 @@ export const ModalWindowStyle = styled.div`
   }
 
   position: relative;
-  width: 746px;
-  /* min-height: 700px; */
   padding: 44px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: center; */
   background: #202020;
   border-radius: 15px;
   box-shadow: 0px 4px 60px 0px rgba(0, 0, 0, 0.25);
@@ -102,7 +98,20 @@ export const InputContainerDiv = styled.div`
 
 export const InputRowDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* width: 100%; */
+
+  gap: 8px;
+`;
+
+export const InputLegendDiv = styled.div`
+  display: grid;
+  /* width: 100%; */
+
+  gap: 8px;
+`;
+
+export const InputMultiDiv = styled.div`
+  display: flex;
   width: 100%;
 
   gap: 8px;
@@ -110,6 +119,9 @@ export const InputRowDiv = styled.div`
 
 // First Row
 export const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   color: #fbfcfc;
   font-family: Manrope;
   font-size: 14px;
@@ -119,13 +131,49 @@ export const Label = styled.label`
   position: relative;
 `;
 
+export const CheckboxLabel = styled(Label)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  > input[type='checkbox'] {
+    height: 46px;
+    width: 20px;
+  }
+`;
+
+export const CheckboxDiv = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Legend = styled.legend`
+  color: #fbfcfc;
+  font-weight: 500;
+  line-height: 18px;
+  text-indent: 10px;
+  /* position: relative; */
+`;
+
 export const Span = styled.span`
   margin-left: 10px;
 `;
+
+export const ErrorSpan = styled.span`
+  font-size: 12px;
+  font-weight: 400;
+  position: absolute;
+  top: 45px;
+  left: 10px;
+`;
+
+export const InputDiv = styled.div`
+  position: relative;
+`;
+
 export const DocumentNumber = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -301,7 +349,7 @@ export const LongInput = styled.input`
 
 export const ToLongInput = styled.input`
   text-indent: 10px;
-  width: 220px;
+  width: 280px;
   height: 46px;
   border-radius: 12px;
   background: #282828;
