@@ -50,6 +50,7 @@ export const OverlayStyle = styled.div`
   transition: opacity 500ms ease-in-out, visibility 500ms ease-in-out;
   opacity: 1;
   visibility: visible;
+  .css-1u9des2-indicatorSeparator{display:none}
 
   @media screen and (min-width: 768px) {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 60px 0px;
@@ -57,7 +58,7 @@ export const OverlayStyle = styled.div`
 `;
 
 export const ModalWindowStyle = styled.div`
-overflow-y: scroll;
+  overflow-y: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: #282828;
@@ -196,9 +197,13 @@ export const AddBtnStyle = styled.button`
 
 export const BtnActive = styled.div`
   display: flex;
-  
+
   text-align: center;
   gap: 8px;
   margin-top: 15px;
   margin-right: 295px;
+`;
+
+export const StyledSelect = styled.select`
+
 `;

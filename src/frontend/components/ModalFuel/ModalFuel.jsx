@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
@@ -33,17 +33,12 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = data => {
     console.log(data);
-  };
-
-  const handleKeyDown = e => {
-    if (e.key === 'Escape') {
-      onCloseFuel();
-    }
   };
 
   const handleBtnPlusClick = () => {
@@ -61,9 +56,44 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
       onCloseFuel();
     }
   };
+  const handleReset = () => {
+    reset();
+    setDuplicateInputs(1);
+    for (let i = 0; i < duplicateInputs; i++) {
+      setValue(`itemName_${i}`, '');
+      setValue(`itemCode_${i}`, '');
+      setValue(`availabilityBeforeDeparture_${i}`, '');
+      setValue(`received_${i}`, '');
+      setValue(`receivedDate_${i}`, null);
+      setValue(`availability_${i}`, '');
+      setValue(`spent_${i}`, '');
+      setValue(`norm_${i}`, '');
+      setValue(`saving_${i}`, '');
+      setValue(`overuse_${i}`, '');
+    }
+  };
 
+  const handleKeyDown = e => {
+    if (e.key === 'Escape') {
+      onCloseFuel();
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        onCloseFuel();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onCloseFuel]);
+  
   return (
-    <OverlayStyle onClick={e => handleBackdropClick(e)}>
+    <OverlayStyle onClick={e => handleBackdropClick(e)}onKeyDown={handleKeyDown} tabIndex="0">
       <Icons />
       <ModalWindowStyle>
         {showCloseIcon && (
@@ -211,7 +241,7 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
                     <Span>Дата отримання</Span>
 
                     <Controller
-                      name={`receivedDate${index}`}
+                      name={`receivedDate_${index}`}
                       control={control}
                       rules={{
                         required: "Обов'язкове поле",
@@ -222,7 +252,7 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
                             <DatePickerStyle
                               selected={field.value}
                               onChange={date =>
-                                setValue(`receivedDate${index}`, date)
+                                setValue(`receivedDate_${index}`, date)
                               }
                               dateFormat="dd.MM.yyyy"
                               placeholderText="00.00.0000"
@@ -236,9 +266,9 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
                               }
                             />
 
-                            {errors[`receivedDate${index}`] && (
+                            {errors[`receivedDate_${index}`] && (
                               <span style={{ color: 'red' }}>
-                                {errors[`receivedDate${index}`].message}
+                                {errors[`receivedDate_${index}`].message}
                               </span>
                             )}
                           </PickerContainer>
@@ -388,7 +418,7 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
             <AddBtnStyle type="submit" name="add">
               Додати
             </AddBtnStyle>
-            <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
+            <CancelBtnStyle type="button" name="cancel" onClick={handleReset}>
               Видалити
             </CancelBtnStyle>
           </BtnActive>

@@ -129,3 +129,5 @@ export const StyledTHead2 = styled.thead`
     vertical-align: top;
   }
 `;
+
+

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import DatePicker from 'react-datepicker';
+import Select from 'react-select';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import uk from 'date-fns/locale/uk';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPersonnel } from 'redux/infos/selectors';
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -32,10 +35,8 @@ import {
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
 import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
-import { useSelector } from 'react-redux';
-import { selectPersonnel } from 'redux/infos/selectors';
 
-export default function Modal({ showCloseIcon = true, onClose }) {
+export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
   // console.log(personnel);
@@ -43,6 +44,7 @@ export default function Modal({ showCloseIcon = true, onClose }) {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -87,8 +89,161 @@ export default function Modal({ showCloseIcon = true, onClose }) {
   };
 
   const onSubmit = data => {
-    console.log(data);
+    modalSubmit(data);
+    onClose();
   };
+
+  const handleReset = () => {
+    reset();
+
+    for (let i = 0; i < duplicateInputs; i++) {
+      setValue(`departureDate[${i}]`, null);
+      setValue(`departureTime[${i}]`, '');
+      setValue(`speedOmeter[${i}]`, '');
+      setValue(`documentDate`, '');
+      setValue(`numberDocument`, '');
+      setValue(`militaryBase`, '');
+      setValue(`driver`, '');
+      setValue(`seniorCar`, '');
+      setValue(`trafficRoute`, '');
+      setValue(`headAutoservice`, '');
+      setValue(`seniorTechUnit`, '');
+      setValue(`seniorKtp`, '');
+      setValue(`purposeStatement`, '');
+      setValue(`carName`, '');
+      setValue(`sign`, '');
+      setValue(`exploitationGroup`, '');
+    }
+  };
+  registerLocale('uk', uk);
+  setDefaultLocale('uk');
+  // ----------------
+  const personnel = useSelector(selectPersonnel);
+
+  const [selectedDriver, setSelectedDriver] = useState(null);
+  console.log(selectedDriver);
+  const driverArr = personnel.filter(
+    el => el.position.toLowerCase() === 'водій'
+  );
+  const driverOptions = driverArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+  // --
+  const [selectedSeniorCar, setSelectedSeniorCar] = useState(null);
+  console.log(selectedSeniorCar);
+  const seniorCarArr = personnel.filter(
+    el => el.position.toLowerCase() === 'старший машини'
+  );
+  const seniorCarOptions = seniorCarArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+
+  // --
+
+  const [selectedHeadOfCarService, setSelectedHeadOfCarService] =
+    useState(null);
+  console.log(selectedHeadOfCarService);
+  const headOfCarServiceArr = personnel.filter(
+    el => el.position.toLowerCase() === 'начальник автомобільної служби'
+  );
+  const headOfCarServiceOptions = headOfCarServiceArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+
+  // --
+  const [selectedSeniorTechUnit, setSelectedSeniorTechUnit] = useState(null);
+  console.log(selectedSeniorTechUnit);
+  const seniorTechUnitArr = personnel.filter(
+    el => el.position.toLowerCase() === 'старший (технік) підрозділу'
+  );
+  const seniorTechUnitOptions = seniorTechUnitArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+  // --
+  const [selectedSeniorKtp, setSelectedSeniorKtp] = useState(null);
+  console.log(selectedSeniorKtp);
+  const seniorKtpArr = personnel.filter(
+    el => el.position.toLowerCase() === 'начальник ктп'
+  );
+  const seniorKtpOptions = seniorKtpArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+  // --
+  const customStyles = {
+    control: provided => ({
+      ...provided,
+      width: '182px',
+      height: '46px',
+      borderRadius: '12px',
+      background: '#282828',
+      border: 'none',
+      color: '#fbfcfc',
+      textIndent: '10px',
+      cursor: 'pointer',
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: '#fbfcfc',
+    }),
+    dropdownIndicator: provided => ({
+      ...provided,
+      color: '#fbfcfc',
+    }),
+    menu: provided => ({
+      ...provided,
+      background: '#282828',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#505050' : '#282828',
+      color: '#fbfcfc',
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#505050',
+      },
+    }),
+  };
+
+  const customStylesSen = {
+    control: provided => ({
+      ...provided,
+      width: '214px',
+      height: '46px',
+      borderRadius: '12px',
+      background: '#282828',
+      border: 'none',
+      color: '#fbfcfc',
+      textIndent: '10px',
+      cursor: 'pointer',
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: '#fbfcfc',
+    }),
+    dropdownIndicator: provided => ({
+      ...provided,
+      color: '#fbfcfc',
+    }),
+    menu: provided => ({
+      ...provided,
+      background: '#282828',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#505050' : '#282828',
+      color: '#fbfcfc',
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#505050',
+      },
+    }),
+  };
+  // ----------------
 
   return (
     <OverlayStyle onClick={e => handleBackdropClick(e)}>
@@ -140,6 +295,7 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                           icon={
                             <IconStyle size={16} height={18} name="calendar" />
                           }
+                          locale="uk"
                         />
                         {errors.documentDate && (
                           <span style={{ color: 'red' }}>
@@ -216,21 +372,23 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                     },
                   }}
                   render={({ field }) => (
-                    <>
-                      <MidInputStyle
-                        type="text"
-                        placeholder="ПІБ, військове звання"
-                        {...field}
-                        onChange={e => setValue('driver', e.target.value)}
-                      />
-                      {errors.driver && (
-                        <span style={{ color: 'red' }}>
-                          {errors.driver.message}
-                        </span>
-                      )}
-                    </>
+                    <Select
+                      {...field}
+                      options={driverOptions}
+                      onChange={selectedOption => {
+                        setValue('driver', selectedOption);
+                        setSelectedDriver(selectedOption);
+                        setValue('driverRank', selectedOption.value.rank);
+                      }}
+                      value={selectedDriver}
+                      placeholder="Введіть текст"
+                      styles={customStyles}
+                    />
                   )}
                 />
+                {errors.driver && (
+                  <span style={{ color: 'red' }}>{errors.driver.message}</span>
+                )}
               </Label>
             </InputRowDiv>
             <InputRowDiv>
@@ -249,20 +407,26 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                   }}
                   render={({ field }) => (
                     <>
-                      <LongInput
-                        type="text"
-                        placeholder="ПІБ, військове звання"
+                      <Select
                         {...field}
-                        onChange={e => setValue('seniorCar', e.target.value)}
+                        options={seniorCarOptions}
+                        onChange={selectedOption => {
+                          setValue('seniorCar', selectedOption);
+                          setSelectedSeniorCar(selectedOption);
+                          setValue('seniorCarRank', selectedOption.value.rank);
+                        }}
+                        value={selectedSeniorCar}
+                        placeholder="Введіть текст"
+                        styles={customStylesSen}
                       />
-                      {errors.seniorCar && (
-                        <span style={{ color: 'red' }}>
-                          {errors.seniorCar.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
+                {errors.seniorCar && (
+                  <span style={{ color: 'red' }}>
+                    {errors.seniorCar.message}
+                  </span>
+                )}
               </Label>
               <Label>
                 <Span>Маршрут руху</Span> {/* legend */}
@@ -290,7 +454,7 @@ export default function Modal({ showCloseIcon = true, onClose }) {
               <Label>
                 <Span>Начальник автомобільної служби</Span>
                 <Controller
-                  name="headAutoservice"
+                  name="headOfCarService"
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
@@ -302,22 +466,29 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                   }}
                   render={({ field }) => (
                     <>
-                      <LongInput
-                        type="text"
-                        placeholder="ПІБ, військове звання"
+                      <Select
                         {...field}
-                        onChange={e =>
-                          setValue('headAutoservice', e.target.value)
-                        }
+                        options={headOfCarServiceOptions}
+                        onChange={selectedOption => {
+                          setValue('headOfCarService', selectedOption);
+                          setSelectedHeadOfCarService(selectedOption);
+                          setValue(
+                            'headOfCarServiceRank',
+                            selectedOption.value.rank
+                          );
+                        }}
+                        value={selectedHeadOfCarService}
+                        placeholder="Введіть текст"
+                        styles={customStylesSen}
                       />
-                      {errors.headAutoservice && (
-                        <span style={{ color: 'red' }}>
-                          {errors.headAutoservice.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
+                {errors.headOfCarService && (
+                  <span style={{ color: 'red' }}>
+                    {errors.headOfCarService.message}
+                  </span>
+                )}
               </Label>
             </InputRowDiv>
             <InputRowDiv>
@@ -336,22 +507,29 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                   }}
                   render={({ field }) => (
                     <>
-                      <LongInput
-                        type="text"
-                        placeholder="ПІБ, військове звання"
+                      <Select
                         {...field}
-                        onChange={e =>
-                          setValue('seniorTechUnit', e.target.value)
-                        }
+                        options={seniorTechUnitOptions}
+                        onChange={selectedOption => {
+                          setValue('seniorTechUnit', selectedOption);
+                          setSelectedSeniorTechUnit(selectedOption);
+                          setValue(
+                            'seniorTechUnitRank',
+                            selectedOption.value.rank
+                          );
+                        }}
+                        value={selectedSeniorTechUnit}
+                        placeholder="Введіть текст"
+                        styles={customStylesSen}
                       />
-                      {errors.seniorTechUnit && (
-                        <span style={{ color: 'red' }}>
-                          {errors.seniorTechUnit.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
+                {errors.seniorTechUnit && (
+                  <span style={{ color: 'red' }}>
+                    {errors.seniorTechUnit.message}
+                  </span>
+                )}
               </Label>
               <Label>
                 <Span>Начальник КТП</Span>
@@ -368,20 +546,26 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                   }}
                   render={({ field }) => (
                     <>
-                      <LongInput
-                        type="text"
-                        placeholder="ПІБ, військове звання"
+                      <Select
                         {...field}
-                        onChange={e => setValue('seniorKtp', e.target.value)}
+                        options={seniorKtpOptions}
+                        onChange={selectedOption => {
+                          setValue('seniorKtp', selectedOption);
+                          setSelectedSeniorKtp(selectedOption);
+                          setValue('seniorKtpRank', selectedOption.value.rank);
+                        }}
+                        value={selectedSeniorKtp}
+                        placeholder="Введіть текст"
+                        styles={customStylesSen}
                       />
-                      {errors.seniorKtp && (
-                        <span style={{ color: 'red' }}>
-                          {errors.seniorKtp.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
+                {errors.seniorKtp && (
+                  <span style={{ color: 'red' }}>
+                    {errors.seniorKtp.message}
+                  </span>
+                )}
               </Label>
               <Label>
                 <Span>Підстава (мета) виписки</Span>
@@ -564,32 +748,91 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
-                      pattern: {
-                        value: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
-                        message:
-                          'Невірний формат (приклад правильного формату: 14:30)',
-                      },
                     }}
                     render={({ field }) => (
                       <>
-                        <MidInputStyle
-                          type="text"
-                          placeholder="00:00"
+                        <Select
                           {...field}
-                          onChange={e =>
-                            setValue(`departureTime[${index}]`, e.target.value)
+                          options={Array.from({ length: 24 }, (v, i) => {
+                            const hour = i.toString().padStart(2, '0');
+                            return [
+                              { value: `${hour}:00`, label: `${hour}:00` },
+                              { value: `${hour}:30`, label: `${hour}:30` },
+                            ];
+                          }).flat()}
+                          onChange={selectedOption =>
+                            setValue(
+                              `departureTime[${index}]`,
+                              selectedOption.value
+                            )
                           }
+                          placeholder="00:00"
+                          value={
+                            field.value
+                              ? { value: field.value, label: field.value }
+                              : null
+                          }
+                          styles={{
+                            control: provided => ({
+                              ...provided,
+                              width: '182px',
+                              height: '46px',
+                              borderRadius: '12px',
+                              background: '#282828',
+                              border: 'none',
+                              color: '#fbfcfc',
+                              textIndent: '10px',
+                              cursor: 'pointer',
+                            }),
+                            singleValue: provided => ({
+                              ...provided,
+                              color: '#fbfcfc',
+                            }),
+                            dropdownIndicator: provided => ({
+                              ...provided,
+                              color: '#fbfcfc',
+                            }),
+                            menu: provided => ({
+                              ...provided,
+                              background: '#282828',
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? '#505050'
+                                : '#282828',
+                              color: '#fbfcfc',
+                              cursor: 'pointer',
+                              ':hover': {
+                                backgroundColor: '#505050',
+                              },
+                            }),
+                            // Стили для полосы прокрутки
+                            menuList: base => ({
+                              ...base,
+                              '::-webkit-scrollbar': {
+                                width: '8px',
+                              },
+                              '::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#505050',
+                                borderRadius: '4px',
+                              },
+                              '::-webkit-scrollbar-track': {
+                                backgroundColor: '#282828',
+                              },
+                            }),
+                          }}
                         />
-                        <IconStyleClock size={18} height={18} name="clock" />
-                        {errors.departureTime && (
+                        {errors[`departureTime[${index}]`] && (
                           <span style={{ color: 'red' }}>
-                            {errors.departureTime.message}
+                            {errors[`departureTime[${index}]`].message}
                           </span>
                         )}
                       </>
                     )}
                   />
                 </Label>
+
                 <Label>
                   <Span>Показники спідометра по вибуттю</Span>
                   <Controller
@@ -638,15 +881,14 @@ export default function Modal({ showCloseIcon = true, onClose }) {
           </TimeDiv>
           <BtnBox>
             <ConfirmBtnStyle
-              type="button
+              type="submit
           "
               name="confirm"
-              onClick={closeClick}
             >
               Додати
             </ConfirmBtnStyle>
-            <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
-              Відмінити
+            <CancelBtnStyle type="button" name="cancel" onClick={handleReset}>
+              Видалити
             </CancelBtnStyle>
           </BtnBox>
         </form>

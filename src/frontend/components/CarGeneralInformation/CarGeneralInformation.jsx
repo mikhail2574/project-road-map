@@ -145,7 +145,8 @@ const CarGeneralInformation = () => {
   const closeFuelExpensesModal = () => {
     setIsFuelExpensesModalOpen(false);
   };
-
+  const [modalData, setModalData] = useState([]);
+  console.log(modalData);
   return (
     <MainContainer>
       <BtnSection>
@@ -399,10 +400,8 @@ const CarGeneralInformation = () => {
           </TableSection2>
         </PaperSection>
       </PaperWrapper>
-      {isModalOpen && <ModalMainField onClose={closeModal} />}
-      {isFuelExpensesModalOpen && (
-        <ModalFuel onCloseFuel={closeFuelExpensesModal} />
-      )}
+      {isModalOpen && <ModalMainField onClose={closeModal} modalSubmit={setModalData}  />}
+      {isFuelExpensesModalOpen && <ModalFuel onCloseFuel={closeFuelExpensesModal} />}
     </MainContainer>
   );
 };
