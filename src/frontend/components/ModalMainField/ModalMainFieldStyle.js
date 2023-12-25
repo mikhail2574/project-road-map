@@ -17,6 +17,9 @@ export const OverlayStyle = styled.div`
   transition: opacity 500ms ease-in-out, visibility 500ms ease-in-out;
   opacity: 1;
   visibility: visible;
+  .css-1u9des2-indicatorSeparator {
+    display: none;
+  }
 
   @media screen and (min-width: 768px) {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 60px 0px;
