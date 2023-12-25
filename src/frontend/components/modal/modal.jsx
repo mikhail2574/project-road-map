@@ -1,5 +1,5 @@
 import { useForm, Controller } from 'react-hook-form';
-
+import Select from 'react-select';
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -17,7 +17,7 @@ import {
 } from './Modal.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCarsThunk } from 'redux/infos/operations';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { selectPersonnel } from 'redux/infos/selectors';
 
 export default function Modal({ children, showCloseIcon = true, close }) {
@@ -26,10 +26,20 @@ export default function Modal({ children, showCloseIcon = true, close }) {
     control,
     setValue,
     formState: { errors },
+    register,
   } = useForm();
 
   const personnel = useSelector(selectPersonnel);
-  console.log(personnel);
+
+  const [selectedDriver, setSelectedDriver] = useState(null);
+  console.log(selectedDriver);
+  const driverArr = personnel.filter(
+    el => el.position.toLowerCase() === 'водій'
+  );
+  const driverOptions = driverArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
 
   const dispatch = useDispatch();
 
@@ -78,6 +88,52 @@ export default function Modal({ children, showCloseIcon = true, close }) {
     setValue('unit', '');
     setValue('senior', '');
     setValue('seniorRank', '');
+  };
+
+  const [selectedSenior, setSelectedSenior] = useState(null);
+
+  const seniorArr = personnel.filter(
+    el => el.position.toLowerCase() === 'старший'
+  );
+  const seniorOptions = seniorArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+
+  const [selectedSeniorRank, setSelectedSeniorRank] = useState(null);
+  const customStyles = {
+    control: provided => ({
+      ...provided,
+      width: '315px',
+      height: '46px',
+      borderRadius: '12px',
+      background: '#282828',
+      border: 'none',
+      color: '#fbfcfc',
+      textIndent: '10px',
+      cursor: 'pointer',
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: '#fbfcfc', 
+    }),
+    dropdownIndicator: provided => ({
+      ...provided,
+      color: '#fbfcfc', 
+    }),
+    menu: provided => ({
+      ...provided,
+      background: '#282828', 
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#505050' : '#282828', 
+      color: '#fbfcfc', 
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#505050', 
+      },
+    }),
   };
 
   return (
@@ -314,18 +370,19 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
-                    pattern: {
-                      value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
-                      message:
-                        'Невірний формат (приклад правильного формату : Бандера С.А.)',
-                    },
                   }}
                   render={({ field }) => (
-                    <LongInput
-                      type="text"
-                      placeholder="Введіть текст"
+                    <Select
                       {...field}
-                      onChange={e => setValue('driver', e.target.value)}
+                      options={driverOptions}
+                      onChange={selectedOption => {
+                        setValue('driver', selectedOption);
+                        setSelectedDriver(selectedOption);
+                        setValue('driverRank', selectedOption.value.rank);
+                      }}
+                      value={selectedDriver}
+                      placeholder="Введіть текст"
+                      styles={customStyles}
                     />
                   )}
                 />
@@ -338,19 +395,16 @@ export default function Modal({ children, showCloseIcon = true, close }) {
             <InputDiv>
               <Label>
                 <Span>Звання водія</Span>
-                <Controller
-                  name="driverRank"
-                  control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
-                    <LongInput
-                      type="text"
-                      placeholder="Введіть текст"
-                      {...field}
-                      onChange={e => setValue('driverRank', e.target.value)}
-                    />
-                  )}
+
+                <LongInput
+                  readOnly
+                  // value={selectedDriver?.value.rank}
+                  type="text"
+                  placeholder="Введіть текст"
+                  {...register('driverRank')}
+                  onChange={e => setValue('driverRank', e.target.value)}
                 />
+
                 {errors.driverRank && (
                   <span style={{ color: 'red' }}>
                     {errors.driverRank.message}
@@ -386,18 +440,19 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
-                    pattern: {
-                      value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
-                      message:
-                        'Невірний формат (приклад правильного формату : Бандера С.А.)',
-                    },
                   }}
                   render={({ field }) => (
-                    <LongInput
-                      type="text"
-                      placeholder="Введіть текст"
+                    <Select
                       {...field}
-                      onChange={e => setValue('senior', e.target.value)}
+                      options={seniorOptions}
+                      onChange={selectedOption => {
+                        setValue('senior', selectedOption);
+                        setSelectedSenior(selectedOption);
+                        setValue('seniorRank', selectedOption.value.rank);
+                      }}
+                      value={selectedSenior}
+                      placeholder="Введіть текст"
+                      styles={customStyles}
                     />
                   )}
                 />
@@ -413,9 +468,11 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
                     <LongInput
+                      readOnly
+                      // value={selectedSenior?.value.rank}
                       type="text"
                       placeholder="Введіть текст"
-                      {...field}
+                      {...register('seniorRank')}
                       onChange={e => setValue('seniorRank', e.target.value)}
                     />
                   )}

@@ -57,7 +57,7 @@ export const OverlayStyle = styled.div`
 `;
 
 export const ModalWindowStyle = styled.div`
-overflow-y: scroll;
+  overflow-y: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: #282828;
@@ -196,9 +196,13 @@ export const AddBtnStyle = styled.button`
 
 export const BtnActive = styled.div`
   display: flex;
-  
+
   text-align: center;
   gap: 8px;
   margin-top: 15px;
   margin-right: 295px;
+`;
+
+export const StyledSelect = styled.select`
+
 `;

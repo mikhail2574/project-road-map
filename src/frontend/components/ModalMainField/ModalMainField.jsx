@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import DatePicker from 'react-datepicker';
+
 import 'react-datepicker/dist/react-datepicker.css';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import uk from 'date-fns/locale/uk';
 
 import {
   ModalWindowStyle,
@@ -32,10 +34,8 @@ import {
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
 import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
-import { useSelector } from 'react-redux';
-import { selectPersonnel } from 'redux/infos/selectors';
 
-export default function Modal({ showCloseIcon = true, onClose }) {
+export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
   // console.log(personnel);
@@ -43,6 +43,7 @@ export default function Modal({ showCloseIcon = true, onClose }) {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -87,9 +88,35 @@ export default function Modal({ showCloseIcon = true, onClose }) {
   };
 
   const onSubmit = data => {
-    console.log(data);
+    modalSubmit(data);
+    onClose();
   };
 
+  const handleReset = () => {
+    reset();
+
+    for (let i = 0; i < duplicateInputs; i++) {
+      setValue(`departureDate[${i}]`, null);
+      setValue(`departureTime[${i}]`, '');
+      setValue(`speedOmeter[${i}]`, '');
+      setValue(`documentDate`, '');
+      setValue(`numberDocument`, '');
+      setValue(`militaryBase`, '');
+      setValue(`driver`, '');
+      setValue(`seniorCar`, '');
+      setValue(`trafficRoute`, '');
+      setValue(`headAutoservice`, '');
+      setValue(`seniorTechUnit`, '');
+      setValue(`seniorKtp`, '');
+      setValue(`purposeStatement`, '');
+      setValue(`carName`, '');
+      setValue(`sign`, '');
+      setValue(`exploitationGroup`, '');
+    }
+  };
+  registerLocale('uk', uk);
+  setDefaultLocale('uk');
+  
   return (
     <OverlayStyle onClick={e => handleBackdropClick(e)}>
       <Icons />
@@ -140,6 +167,8 @@ export default function Modal({ showCloseIcon = true, onClose }) {
                           icon={
                             <IconStyle size={16} height={18} name="calendar" />
                           }
+                          locale="uk"
+                        
                         />
                         {errors.documentDate && (
                           <span style={{ color: 'red' }}>
@@ -638,15 +667,14 @@ export default function Modal({ showCloseIcon = true, onClose }) {
           </TimeDiv>
           <BtnBox>
             <ConfirmBtnStyle
-              type="button
+              type="submit
           "
               name="confirm"
-              onClick={closeClick}
             >
               Додати
             </ConfirmBtnStyle>
-            <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
-              Відмінити
+            <CancelBtnStyle type="button" name="cancel" onClick={handleReset}>
+              Видалити
             </CancelBtnStyle>
           </BtnBox>
         </form>
