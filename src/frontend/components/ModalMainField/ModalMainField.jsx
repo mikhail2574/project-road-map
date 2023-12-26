@@ -372,7 +372,7 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
                         );
                         setValue('carName', selectedOption.value.carName);
                       }}
-                      value={selectedDriver}
+                      value={selectedSign}
                       placeholder="Введіть текст"
                       styles={customStyles}
                     />
