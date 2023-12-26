@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import uk from 'date-fns/locale/uk';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPersonnel } from 'redux/infos/selectors';
+import { selectCars, selectPersonnel } from 'redux/infos/selectors';
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -119,16 +119,25 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
   setDefaultLocale('uk');
   // ----------------
   const personnel = useSelector(selectPersonnel);
-
+  const cars = useSelector(selectCars);
   const [selectedDriver, setSelectedDriver] = useState(null);
+  const [selectedSign, setSelectedSign] = useState(null);
   console.log(selectedDriver);
-  const driverArr = personnel.filter(
-    el => el.position.toLowerCase() === 'водій'
+
+  const carsOption = cars.map(
+    ({ carName, sign, driver, senior, unit, exploitationGroup }) => ({
+      value: { carName, sign, driver, senior, unit, exploitationGroup },
+      label: sign,
+    })
   );
-  const driverOptions = driverArr.map(({ name, rank }) => ({
-    value: { name, rank },
-    label: name,
-  }));
+
+  // const driverArr = personnel.filter(
+  //   el => el.position.toLowerCase() === 'водій'
+  // );
+  // const driverOptions = driverArr.map(({ name, rank }) => ({
+  //   value: { name, rank },
+  //   label: name,
+  // }));
   // --
   const [selectedSeniorCar, setSelectedSeniorCar] = useState(null);
   console.log(selectedSeniorCar);
@@ -335,33 +344,9 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
               </Label>
 
               <Label>
-                <Span>Військова частина</Span>
+                <Span>Номерний знак</Span>
                 <Controller
-                  name="militaryBase"
-                  control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
-                    <>
-                      <MidInputStyle
-                        type="text"
-                        placeholder="0"
-                        {...field}
-                        onChange={e => setValue('militaryBase', e.target.value)}
-                      />
-                      {errors.militaryBase && (
-                        <span style={{ color: 'red' }}>
-                          {errors.militaryBase.message}
-                        </span>
-                      )}
-                    </>
-                  )}
-                />
-              </Label>
-
-              <Label>
-                <Span>Водій</Span>
-                <Controller
-                  name="driver"
+                  name="sign"
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
@@ -374,13 +359,20 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={driverOptions}
+                      options={carsOption}
                       onChange={selectedOption => {
-                        setValue('driver', selectedOption);
-                        setSelectedDriver(selectedOption);
-                        setValue('driverRank', selectedOption.value.rank);
+                        setValue('sign', selectedOption);
+                        setSelectedSign(selectedOption);
+                        setValue('driver', selectedOption.value.driver);
+                        setValue('senior', selectedOption.value.senior);
+                        setValue('unit', selectedOption.value.unit);
+                        setValue(
+                          'exploitationGroup',
+                          selectedOption.value.exploitationGroup
+                        );
+                        setValue('carName', selectedOption.value.carName);
                       }}
-                      value={selectedDriver}
+                      value={selectedSign}
                       placeholder="Введіть текст"
                       styles={customStyles}
                     />
@@ -390,12 +382,35 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
                   <span style={{ color: 'red' }}>{errors.driver.message}</span>
                 )}
               </Label>
+              <Label>
+                <Span>Військова частина</Span>
+                <Controller
+                  name="unit"
+                  control={control}
+                  rules={{ required: "Обов'язкове поле" }}
+                  render={({ field }) => (
+                    <>
+                      <MidInputStyle
+                        type="text"
+                        placeholder="0"
+                        {...field}
+                        onChange={e => setValue('unit', e.target.value)}
+                      />
+                      {errors.unit && (
+                        <span style={{ color: 'red' }}>
+                          {errors.unit.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Label>
             </InputRowDiv>
             <InputRowDiv>
               <Label>
                 <Span>Старший машини</Span>
                 <Controller
-                  name="seniorCar"
+                  name="senior"
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
@@ -411,7 +426,7 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
                         {...field}
                         options={seniorCarOptions}
                         onChange={selectedOption => {
-                          setValue('seniorCar', selectedOption);
+                          setValue('senior', selectedOption);
                           setSelectedSeniorCar(selectedOption);
                           setValue('seniorCarRank', selectedOption.value.rank);
                         }}
@@ -422,10 +437,8 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
                     </>
                   )}
                 />
-                {errors.seniorCar && (
-                  <span style={{ color: 'red' }}>
-                    {errors.seniorCar.message}
-                  </span>
+                {errors.senior && (
+                  <span style={{ color: 'red' }}>{errors.senior.message}</span>
                 )}
               </Label>
               <Label>
@@ -624,28 +637,28 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
                 />
               </Label>
               <Label>
-                <Span>Номерний знак</Span>
+                <Span>Водій</Span>
                 <Controller
-                  name="sign"
+                  name="driver"
                   control={control}
-                  rules={{
-                    required: "Обов'язкове поле",
-                    pattern: {
-                      value: /^[a-zA-Zа-яА-Я0-9]{2}\d{4}[a-zA-Zа-яА-Я0-9]{2}$/,
-                      message:
-                        'Невірний формат (приклад правильного формату: АА1234ББ)',
-                    },
-                    validate: value => {
-                      const forbiddenLetters = ['І', 'О', 'Є', 'Ї', 'Й'];
-                      const forbiddenLetterFound = forbiddenLetters.some(
-                        letter => value.includes(letter)
-                      );
-                      return (
-                        !forbiddenLetterFound ||
-                        'Заборонені літери: І, О, Є, Ї, Й'
-                      );
-                    },
-                  }}
+                  // rules={{
+                  //   required: "Обов'язкове поле",
+                  //   pattern: {
+                  //     value: /^[a-zA-Zа-яА-Я0-9]{2}\d{4}[a-zA-Zа-яА-Я0-9]{2}$/,
+                  //     message:
+                  //       'Невірний формат (приклад правильного формату: АА1234ББ)',
+                  //   },
+                  //   validate: value => {
+                  //     const forbiddenLetters = ['І', 'О', 'Є', 'Ї', 'Й'];
+                  //     const forbiddenLetterFound = forbiddenLetters.some(
+                  //       letter => value.includes(letter)
+                  //     );
+                  //     return (
+                  //       !forbiddenLetterFound ||
+                  //       'Заборонені літери: І, О, Є, Ї, Й'
+                  //     );
+                  //   },
+                  // }}
                   render={({ field }) => (
                     <>
                       <LongInput

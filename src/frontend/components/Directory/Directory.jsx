@@ -66,9 +66,9 @@ const Directory = () => {
     setDeleteModalVisible(false);
   };
 
-  useEffect(() => {
-    dispatch(fetchInfosThunk());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchInfosThunk());
+  // }, [dispatch]);
 
   const handleDeleteCar = sign => {
     dispatch(deleteCarsThunk(sign));
