@@ -2,7 +2,7 @@ const path = require('path');
 const { fillTable } = require('../../model/fillTable');
 
 const generateMainList = async (req, res) => {
-  await fillTable(1, req.body);
+  await fillTable(req.body);
 
   res.download(
     path.resolve(__dirname, '../../fileStorage/excel/roadXS.xlsx'),
