@@ -38,6 +38,18 @@ const GlobalStyles = createGlobalStyle`
     input[type=number] {
       -moz-appearance: textfield;
     }
+
+  ::-webkit-scrollbar {
+  width: 6px;
+}
+ 
+::-webkit-scrollbar-track {
+}
+ 
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #F0F0F0;
+}
   }
   
   p,
