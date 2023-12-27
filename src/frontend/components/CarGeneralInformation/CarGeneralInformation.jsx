@@ -35,6 +35,9 @@ import {
   StyledTable2,
   TableSection2,
   StyledTHead2,
+  TableSection3,
+  StyledTable3,
+  StyledTHead3,
 } from './CarGeneralInformation.styled';
 import downloadMainList from '../../../redux/download/operations';
 
@@ -398,10 +401,86 @@ const CarGeneralInformation = () => {
               </StyledTBody>
             </StyledTable2>
           </TableSection2>
+          <TableSection3>
+            <Paragraph className="text-center mb-4">
+              Витрата пально-мастильних матеріалів (у літрах)
+            </Paragraph>
+            <StyledTable3>
+              <StyledTHead3>
+                <THeadRow>
+                  <th scope="colgroup">Найменування ПММ</th>
+                  <th scope="colgroup">Код номенклатури</th>
+                  <th scope="colgroup">Наявність перед виїздом</th>
+                  <th scope="colgroup" colSpan={2}>
+                    Отримано
+                  </th>
+                  <th scope="colgroup">
+                    Наявність під час постановки на стоянку
+                  </th>
+                  <th scope="colgroup">Витрачено</th>
+                  <th scope="colgroup">Належить за нормою </th>
+                  <th scope="colgroup">Економія </th>
+                  <th scope="colgroup">Перевитрата</th>
+                </THeadRow>
+              </StyledTHead3>
+              <StyledTBody>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </StyledTBody>
+              <StyledTBody>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </StyledTBody>
+              <StyledTBody>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </StyledTBody>
+              <StyledTBody>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </StyledTBody>
+            </StyledTable3>
+          </TableSection3>
         </PaperSection>
       </PaperWrapper>
-      {isModalOpen && <ModalMainField onClose={closeModal} modalSubmit={setModalData}  />}
-      {isFuelExpensesModalOpen && <ModalFuel onCloseFuel={closeFuelExpensesModal} />}
+      {isModalOpen && (
+        <ModalMainField onClose={closeModal} modalSubmit={setModalData} />
+      )}
+      {isFuelExpensesModalOpen && (
+        <ModalFuel onCloseFuel={closeFuelExpensesModal} />
+      )}
     </MainContainer>
   );
 };

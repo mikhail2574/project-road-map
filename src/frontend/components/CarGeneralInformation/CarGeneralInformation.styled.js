@@ -4,12 +4,11 @@ export const PaperSection = styled.section`
   border: 1px solid #e2e2e2;
   border-radius: 15px;
   position: relative;
-  width: 1368px;
+  width: 1400px;
   height: 1022px;
+  overflow-y: scroll;
 `;
 export const PaperWrapper = styled.div`
-  width: 1408px;
-  height: 1062px;
   background-color: #fbfcfc;
   border-radius: 15px;
   padding: 20px;
@@ -27,11 +26,7 @@ export const VerticalContainer = styled.div`
   border-bottom: 1px solid #e2e2e2;
 `;
 
-export const HorizontalContainer = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-`;
+export const HorizontalContainer = styled.div``;
 
 export const MainInformationContainer = styled.div``;
 
@@ -60,21 +55,24 @@ export const Space = styled.span`
 `;
 
 export const TableSection = styled.div`
-  position: absolute;
-  top: 286px;
-  left: 213px;
+  margin-left: 213px;
+  margin-top: 286px;
   width: 1161px;
 `;
 export const TableSection2 = styled.div`
-  position: absolute;
-  top: 666px;
-  left: 213px;
+  width: 1161px;
+  margin-left: 213px;
+  margin-top: 20px;
+`;
+
+export const TableSection3 = styled.div`
+  margin-top: 16px;
+  margin-left: 213px;
   width: 1161px;
 `;
 
 export const StyledTable = styled.table`
   width: 1161px;
-  height: 320px;
   display: block;
   border-collapse: separate;
   border-spacing: 0;
@@ -88,6 +86,20 @@ export const StyledTable = styled.table`
 `;
 
 export const StyledTable2 = styled.table`
+  width: 1161px;
+  display: block;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  td,
+  th {
+    text-align: center;
+    border: 1px solid #e2e2e2;
+    width: 90px;
+  }
+`;
+
+export const StyledTable3 = styled.table`
   width: 1161px;
   height: 320px;
   display: block;
@@ -130,4 +142,15 @@ export const StyledTHead2 = styled.thead`
   }
 `;
 
+export const StyledTHead3 = styled.thead`
+  height: 72px;
+  color: var(--gray);
+  font-size: 12px;
+  line-height: 1.3;
 
+  th {
+    font-weight: 500;
+    padding: 14px 0;
+    vertical-align: top;
+  }
+`;
