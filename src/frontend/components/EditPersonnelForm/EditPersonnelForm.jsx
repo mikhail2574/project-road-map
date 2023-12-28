@@ -110,7 +110,7 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
               rules={{
                 required: "Обов'язкове поле",
                 pattern: {
-                  value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
+                  value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 -]*$/,
                   message: 'Може містити літери та цифри',
                 },
               }}
@@ -139,8 +139,10 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
               rules={{
                 required: "Обов'язкове поле",
                 pattern: {
-                  value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
-                  message: 'Невірний формат (приклад: Бандера С.А.)',
+                  value:
+                    /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
+                  message:
+                    'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
                 },
               }}
               render={({ field }) => (
@@ -167,7 +169,8 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
             rules={{
               required: "Обов'язкове поле",
               pattern: {
-                value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
+                value:
+                  /^Старший \(технік\) підрозділу$|^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 -]*$/,
                 message: 'Може містити літери та цифри',
               },
             }}
