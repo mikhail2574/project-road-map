@@ -1,5 +1,4 @@
 const { requestError } = require('../services');
-const { log } = require('console');
 const ExcelJS = require('exceljs');
 const path = require('path');
 const { nanoid } = require('nanoid');

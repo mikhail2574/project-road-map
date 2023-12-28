@@ -54,22 +54,29 @@ const CarGeneralInformation = () => {
       rank: 'капітан',
       position: 'Начальник автомобільної служби',
     },
-    driver: {
-      name: 'Петренко В.В.',
+    engineer: {
+      name: 'Дизель В.М.',
       rank: 'солдат',
-      position: 'Водій',
+      position: 'Начальник КТП',
     },
     route: 'Київ - Вінниця',
     documentDate: '15.10.2023',
     documentNumber: '123456',
     dutyNumber: '25',
     militaryUnit: 'А1234',
-    engineer: {
-      name: 'Дизель В.М.',
-      rank: 'солдат',
-      position: 'Начальник КТП',
+
+    car: {
+      carSign: 'AA1234FF',
+      carName: 'ЗІЛ-131',
+      fuelConsumption: 11.5,
+      fuelType: 'ДТ',
+      exploitationGroup: 'Транспорт',
+      driver: {
+        name: 'Петренко В.В.',
+        rank: 'солдат',
+        position: 'Водій',
+      },
     },
-    car: { carSign: 'AA1234FF', carName: 'ЗІЛ-131' },
     formal: {
       departureTime: '7:30 29.09.2023',
       arrivalTime: '18:10 29.09.2023',
@@ -110,13 +117,32 @@ const CarGeneralInformation = () => {
         arrival: { time: '18:10 03.10.2023', odometer: 12353 },
       },
     ],
+    routes: [
+      {
+        from: 'Київ',
+        to: 'Вінниця',
+        return: 'ні',
+        depTime: '7:30, 29.00.23',
+        arrTime: '18:10, 29.00.23',
+        mileage: {
+          withCargo: 10,
+          withoutCargo: 10,
+          total: 20,
+          withTrailer: '',
+          withTug: '',
+        },
+        motorHours: { onStay: 10, onMove: 50, sum: 60 },
+        work: { nameCargo: 'Пісок', weight: 15 },
+        odometer: 12354,
+      },
+    ],
+    totalMileage: 1557,
   };
 
   const handleClick = () => {
     dispatch(downloadMainList(mockData))
       .unwrap()
       .then(blob => {
-        console.log(blob);
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
