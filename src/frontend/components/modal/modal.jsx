@@ -43,7 +43,12 @@ export default function Modal({ children, showCloseIcon = true, close }) {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    dispatch(addCarsThunk(data));
+    const newData = {
+      ...data,
+      driver: data.driver.value.name,
+      senior: data.senior.value.name,
+    };
+    dispatch(addCarsThunk(newData));
 
     close();
   };
@@ -258,7 +263,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
                     <ShortInput
-                      type="text"
+                      type="number"
                       placeholder="0"
                       {...field}
                       onChange={e =>
@@ -300,7 +305,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
                     <ShortInput
-                      type="text"
+                      type="number"
                       placeholder="0"
                       {...field}
                       onChange={e => setValue('oilConsumption', e.target.value)}
