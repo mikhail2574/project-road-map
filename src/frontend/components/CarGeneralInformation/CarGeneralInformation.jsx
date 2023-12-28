@@ -148,8 +148,23 @@ const CarGeneralInformation = () => {
   const closeFuelExpensesModal = () => {
     setIsFuelExpensesModalOpen(false);
   };
+
+  // +++
+
+  const [modalDataMain, setModalDataMain] = useState([]);
+  console.log(modalDataMain);
+  const handleFMainData = data => {
+    // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
+    setModalDataMain(data);
+  };
+
+  // +++
   const [modalData, setModalData] = useState([]);
   console.log(modalData);
+  const handleFuelData = data => {
+    // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
+    setModalData(data);
+  };
   return (
     <MainContainer>
       <BtnSection>
@@ -476,13 +491,19 @@ const CarGeneralInformation = () => {
         </PaperSection>
       </PaperWrapper>
       {isModalOpen && (
-        <ModalMainField onClose={closeModal} modalSubmit={setModalData} />
+        <ModalMainField
+          onClose={closeModal}
+          onSubmitCallbackMain={handleFMainData}
+        />
       )}
       {isFuelExpensesModalOpen && (
-        <ModalFuel onCloseFuel={closeFuelExpensesModal} />
+        <ModalFuel
+          onCloseFuel={closeFuelExpensesModal}
+          onSubmitCallback={handleFuelData}
+        />
       )}
     </MainContainer>
   );
 };
-
+// modalSubmit={setModalData}
 export default CarGeneralInformation;
