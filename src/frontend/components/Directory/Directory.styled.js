@@ -194,10 +194,10 @@ export const StyledActiveButton = styled.button`
   position: relative;
 
   font-family: Manrope;
-  font-size: 14.039px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  line-height: 20.056px;
+  line-height: 1.43;
   cursor: pointer;
 
   color: var(--black);

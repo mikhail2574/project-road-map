@@ -27,6 +27,7 @@ import ModalDelete from '../ModalDelete/ModalDelete';
 import {
   StyledEmptyTableTh,
   StyledPersonnelTableButtonWrapper,
+  StyledTableHeadPersonnel,
 } from './Personnel.styled';
 
 const Personnel = () => {
@@ -74,7 +75,7 @@ const Personnel = () => {
       <StyledWhiteWrapper>
         <StyledTableScrollWrapper>
           <StyledTableWrapper>
-            <StyledTableHead>
+            <StyledTableHeadPersonnel>
               <StyledTableHeaderTr>
                 <StyledTableHeaderTh>Посада</StyledTableHeaderTh>
                 <StyledTableHeaderTh>Звання</StyledTableHeaderTh>
@@ -82,7 +83,7 @@ const Personnel = () => {
                 <StyledTableHeaderTh>ПІБ</StyledTableHeaderTh>
                 <StyledEmptyTableTh></StyledEmptyTableTh>
               </StyledTableHeaderTr>
-            </StyledTableHead>
+            </StyledTableHeadPersonnel>
             <StyledTableBody>
               {personnel?.map((person, idx) => (
                 <StyledTableBodyTr key={person.name}>
