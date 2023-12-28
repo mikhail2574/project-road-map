@@ -6,7 +6,6 @@ import {
   StyledTableBodyTr,
   StyledTableDeleteButton,
   StyledTableEditButton,
-  StyledTableHead,
   StyledTableHeaderTh,
   StyledTableHeaderTr,
   StyledTableScrollWrapper,
@@ -79,7 +78,7 @@ const Personnel = () => {
               <StyledTableHeaderTr>
                 <StyledTableHeaderTh>Посада</StyledTableHeaderTh>
                 <StyledTableHeaderTh>Звання</StyledTableHeaderTh>
-                <StyledTableHeaderTh>Звання скороченно</StyledTableHeaderTh>
+                <StyledTableHeaderTh>Звання скорочено</StyledTableHeaderTh>
                 <StyledTableHeaderTh>ПІБ</StyledTableHeaderTh>
                 <StyledEmptyTableTh></StyledEmptyTableTh>
               </StyledTableHeaderTr>

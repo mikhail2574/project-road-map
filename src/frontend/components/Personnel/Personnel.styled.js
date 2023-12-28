@@ -15,5 +15,5 @@ export const StyledPersonnelTableButtonWrapper = styled.div`
 `;
 
 export const StyledTableHeadPersonnel = styled(StyledTableHead)`
-  height: 50px;
+  height: 40px;
 `;

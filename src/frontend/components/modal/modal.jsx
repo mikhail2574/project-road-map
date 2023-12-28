@@ -32,9 +32,8 @@ export default function Modal({ children, showCloseIcon = true, close }) {
   const personnel = useSelector(selectPersonnel);
 
   const [selectedDriver, setSelectedDriver] = useState(null);
-  console.log(selectedDriver);
-  const driverArr = personnel.filter(
-    el => el.position.toLowerCase() === 'водій'
+  const driverArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('водій')
   );
   const driverOptions = driverArr.map(({ name, rank }) => ({
     value: { name, rank },
