@@ -19,7 +19,7 @@ export const StyledModalInputWrapper = styled.div`
 
 export const StyledModalInput = styled.input`
   display: inline-flex;
-  padding: 14px 81px 14px 16px;
+  padding: 14px 16px 14px 16px;
   align-items: center;
   width: 220px;
   gap: 10px;
