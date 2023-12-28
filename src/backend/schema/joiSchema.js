@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
-const nameRegexp = /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/;
+const nameRegexp =
+  /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/;
 
 const schemaPerson = Joi.object({
   name: Joi.string().required().pattern(nameRegexp),
