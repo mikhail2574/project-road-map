@@ -39,7 +39,7 @@ import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 export default function Modal({
   showCloseIcon = true,
   onClose,
-  onSubmitCallbackMain,
+  setModalDataMain,
 }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
@@ -94,8 +94,7 @@ export default function Modal({
 
   const onSubmit = data => {
     console.log(data);
-
-    onSubmitCallbackMain(data);
+    setModalDataMain(data);
     onClose();
   };
 

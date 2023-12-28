@@ -178,19 +178,14 @@ const CarGeneralInformation = () => {
   // +++
 
   const [modalDataMain, setModalDataMain] = useState([]);
-  console.log(modalDataMain);
-  const handleFMainData = data => {
-    // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
-    setModalDataMain(data);
-  };
-
   // +++
   const [modalData, setModalData] = useState([]);
-  console.log(modalData);
+  // console.log(modalData);
   const handleFuelData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     setModalData(data);
   };
+  console.log(modalDataMain);
   return (
     <MainContainer>
       <BtnSection>
@@ -220,7 +215,9 @@ const CarGeneralInformation = () => {
           <VerticalContainer>
             <Title className="text-center pt-4">
               Корінець дорожнього листа №
-              <Space className="w-[109px] ml-4"></Space>
+              <Space className="w-[109px] ml-4">
+                {modalDataMain.numberDocument}
+              </Space>
             </Title>
             <ParagraphContainer className="flex items-end gap-10">
               <Paragraph className="ml-[65px] whitespace-nowrap pt-4">
@@ -519,7 +516,7 @@ const CarGeneralInformation = () => {
       {isModalOpen && (
         <ModalMainField
           onClose={closeModal}
-          onSubmitCallbackMain={handleFMainData}
+          setModalDataMain={setModalDataMain}
         />
       )}
       {isFuelExpensesModalOpen && (
