@@ -41,7 +41,7 @@ import {
 } from './CarGeneralInformation.styled';
 import downloadMainList from '../../../redux/download/operations';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalMainField from '../ModalMainField/ModalMainField';
 import ModalFuel from '../ModalFuel/ModalFuel';
 
@@ -175,17 +175,37 @@ const CarGeneralInformation = () => {
     setIsFuelExpensesModalOpen(false);
   };
 
-  // +++
-
   const [modalDataMain, setModalDataMain] = useState([]);
-  // +++
   const [modalData, setModalData] = useState([]);
   // console.log(modalData);
+  let firstTableMarkup = [];
   const handleFuelData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     setModalData(data);
   };
-  console.log(modalDataMain);
+  console.log(modalData);
+  if (modalDataMain.carName) {
+    for (let i = 0; i < modalDataMain.departureDate.length; i++) {
+      firstTableMarkup.push(
+        <StyledTBody key={i}>
+          <td>{modalDataMain.seniorTechUnitRank}</td>
+          <td>{modalDataMain.seniorTechUnit.label}</td>
+          <td>{modalDataMain.departureDate[i].toLocaleDateString()}</td>
+          <td>{modalDataMain.seniorCarRank}</td>
+          <td>{modalDataMain.senior.label}</td>
+          <td>{modalDataMain.departureDate[i].toLocaleDateString()}</td>
+          <td>
+            {modalDataMain.departureTime[i] +
+              ' ' +
+              modalDataMain.departureDate[i].toLocaleDateString()}
+          </td>
+          <td>{modalDataMain.speedOmeter[i]}</td>
+          <td></td>
+          <td></td>
+        </StyledTBody>
+      );
+    }
+  }
   return (
     <MainContainer>
       <BtnSection>
@@ -222,10 +242,15 @@ const CarGeneralInformation = () => {
             <ParagraphContainer className="flex items-end gap-10">
               <Paragraph className="ml-[65px] whitespace-nowrap pt-4">
                 Марка машини
-                <Space className="ml-2 w-[140px]"></Space>
+                <Space className="ml-2 w-[140px]">
+                  {modalDataMain.carName}
+                </Space>
               </Paragraph>
               <Paragraph>
-                Номерний знак машини <Space className="ml-2 w-[140px]"></Space>
+                Номерний знак машини{' '}
+                <Space className="ml-2 w-[140px]">
+                  {/* {modalDataMain.sign.label} */}
+                </Space>
               </Paragraph>
               <Paragraph>
                 Марка причепа <Space className="ml-2 w-[140px]"></Space>
@@ -238,7 +263,9 @@ const CarGeneralInformation = () => {
               </Paragraph>
               <Paragraph>
                 Група експлуатації
-                <Space className="ml-2 w-[140px]"></Space>
+                <Space className="ml-2 w-[140px]">
+                  {modalDataMain.exploitationGroup}
+                </Space>
               </Paragraph>
             </ParagraphContainer>
             <ParagraphContainer className="flex items-end gap-10">
@@ -246,16 +273,32 @@ const CarGeneralInformation = () => {
                 У розпорядження <Space className="ml-2 w-[185px]"></Space>
               </Paragraph>
               <Paragraph>
-                Маршрут руху <Space className="ml-2 w-[320px]"></Space>
+                Маршрут руху{' '}
+                <Space className="ml-2 w-[320px]">
+                  {modalDataMain.trafficRoute}
+                </Space>
               </Paragraph>
             </ParagraphContainer>
             <ParagraphContainer className="flex items-end gap-6">
               <Paragraph className="ml-[65px] pt-4">
-                Дорожній лист отримав <Space className="ml-2 w-[522px]"></Space>
+                Дорожній лист отримав
+                <Space className="ml-2 w-[522px]"></Space>
               </Paragraph>
               <Paragraph>
-                "<Space className="w-9"></Space>"
-                <Space className="ml-2 w-[53px] mr-2"></Space>
+                "
+                <Space className="w-9 text-center">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.getDay()
+                    : ''}
+                </Space>
+                "
+                <Space className="ml-2 w-[53px] mr-2 text-xs">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.toLocaleString('uk-ua', {
+                        month: 'long',
+                      })
+                    : ''}
+                </Space>
                 2024 року
               </Paragraph>
             </ParagraphContainer>
@@ -266,22 +309,44 @@ const CarGeneralInformation = () => {
           <HorizontalContainer>
             <MainInformationContainer className="w-[1169px] float-right">
               <Paragraph className=" text-center pt-5">
-                Дійсний до "<Space className="w-[32px]"></Space>"
-                <Space className="w-[53px] mr-1.5 ml-4"></Space> 2023 року
+                Дійсний до "
+                <Space className="w-[32px]">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.getDay()
+                    : ''}
+                </Space>
+                "
+                <Space className="w-[53px] mr-1.5 ml-4 text-xs">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.toLocaleString('uk-ua', {
+                        month: 'long',
+                      })
+                    : ''}
+                </Space>{' '}
+                2024 року
               </Paragraph>
               <Title className=" text-center pt-3">
-                Дорожній лист №<Space className="w-[109px] ml-4"></Space>
+                Дорожній лист №
+                <Space className="w-[109px] ml-4">
+                  {modalDataMain.numberDocument}
+                </Space>
               </Title>
               <Paragraph className=" pl-32 pb-4 pt-5">
                 Військова частина (підрозділ)
-                <Space className="w-[216px] ml-2"></Space>
+                <Space className="w-[216px] ml-2">{modalDataMain.unit}</Space>
               </Paragraph>
               <ParagraphContainer className=" pl-32 flex gap-10 pt-5">
                 <Paragraph>
-                  Водій<Space className="w-[385px] ml-2"></Space>
+                  Водій
+                  <Space className="w-[385px] ml-2">
+                    {modalDataMain.driver}
+                  </Space>
                 </Paragraph>
                 <Paragraph>
-                  Старший машини<Space className="w-[385px] ml-2"></Space>
+                  Старший машини
+                  <Space className="w-[385px] ml-2">
+                    {modalDataMain.senior ? modalDataMain.senior.label : ''}
+                  </Space>
                 </Paragraph>
               </ParagraphContainer>
               <ParagraphContainer className="flex gap-[369px]">
@@ -291,7 +356,10 @@ const CarGeneralInformation = () => {
                 <Riddle>(військове звання, прізвище,ініціали)</Riddle>
               </ParagraphContainer>
               <Paragraph className="pl-32 pt-5">
-                Маршрут руху<Space className="ml-2 w-[803px]"></Space>
+                Маршрут руху
+                <Space className="ml-2 w-[803px]">
+                  {modalDataMain.trafficRoute}
+                </Space>
               </Paragraph>
               <Space className="pt-6 ml-32 w-[908px]"></Space>
               <ParagraphContainer className="flex gap-[335px]">
@@ -335,78 +403,22 @@ const CarGeneralInformation = () => {
                   </th>
                 </SubRow>
               </StyledTHead>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
+              {firstTableMarkup.length ? (
+                firstTableMarkup
+              ) : (
+                <StyledTBody>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </StyledTBody>
+              )}
             </StyledTable>
           </TableSection>
           <TableSection2>
@@ -426,14 +438,18 @@ const CarGeneralInformation = () => {
                 </THeadRow>
               </StyledTHead2>
               <StyledTBody>
+                <td>{modalDataMain.numberDocument}</td>
+                <td>
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.toLocaleDateString()
+                    : ''}
+                </td>
+                <td>{modalDataMain.purposeStatement}</td>
+                <td>{modalDataMain.carName}</td>
+                <td>{modalDataMain.sign ? modalDataMain.sign.label : ''}</td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{modalDataMain.exploitationGroup}</td>
                 <td></td>
                 <td></td>
               </StyledTBody>
