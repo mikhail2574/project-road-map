@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
@@ -26,7 +26,11 @@ import {
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
 
-export default function Modal({ showCloseIcon = true, onCloseFuel }) {
+export default function Modal({
+  showCloseIcon = true,
+  onCloseFuel,
+  onSubmitCallback,
+}) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
 
   const {
@@ -39,6 +43,8 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
 
   const onSubmit = data => {
     console.log(data);
+    onSubmitCallback(data); // Передача данных родительскому компоненту
+    onCloseFuel(); // Закрытие модального окна
   };
 
   const handleBtnPlusClick = () => {
@@ -91,9 +97,13 @@ export default function Modal({ showCloseIcon = true, onCloseFuel }) {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onCloseFuel]);
-  
+
   return (
-    <OverlayStyle onClick={e => handleBackdropClick(e)}onKeyDown={handleKeyDown} tabIndex="0">
+    <OverlayStyle
+      onClick={e => handleBackdropClick(e)}
+      onKeyDown={handleKeyDown}
+      tabIndex="0"
+    >
       <Icons />
       <ModalWindowStyle>
         {showCloseIcon && (

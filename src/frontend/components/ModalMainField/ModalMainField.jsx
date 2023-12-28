@@ -36,7 +36,11 @@ import { Icon } from '../Icon';
 import { Icons } from '../Icons';
 import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 
-export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
+export default function Modal({
+  showCloseIcon = true,
+  onClose,
+  onSubmitCallbackMain,
+}) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
   // console.log(personnel);
@@ -89,7 +93,9 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
   };
 
   const onSubmit = data => {
-    modalSubmit(data);
+    console.log(data);
+
+    onSubmitCallbackMain(data);
     onClose();
   };
 
@@ -131,13 +137,6 @@ export default function Modal({ showCloseIcon = true, onClose, modalSubmit }) {
     })
   );
 
-  // const driverArr = personnel.filter(
-  //   el => el.position.toLowerCase() === 'водій'
-  // );
-  // const driverOptions = driverArr.map(({ name, rank }) => ({
-  //   value: { name, rank },
-  //   label: name,
-  // }));
   // --
   const [selectedSeniorCar, setSelectedSeniorCar] = useState(null);
   console.log(selectedSeniorCar);
