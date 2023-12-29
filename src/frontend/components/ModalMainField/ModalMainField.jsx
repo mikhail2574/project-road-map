@@ -327,9 +327,10 @@ export default function Modal({
                         type="text"
                         placeholder="0"
                         {...field}
-                        onChange={e =>
-                          setValue('numberDocument', e.target.value)
-                        }
+                        onChange={e => {
+                          const inputText = e.target.value.replace(/\D/g, '');
+                          setValue('numberDocument', inputText);
+                        }}
                       />
                       {errors.numberDocument && (
                         <span style={{ color: 'red' }}>
@@ -588,7 +589,7 @@ export default function Modal({
                     <>
                       <LongInput
                         type="text"
-                        placeholder="0"
+                        placeholder="Наряд №"
                         {...field}
                         onChange={e =>
                           setValue('purposeStatement', e.target.value)
@@ -764,13 +765,20 @@ export default function Modal({
                       <>
                         <Select
                           {...field}
-                          options={Array.from({ length: 24 }, (v, i) => {
-                            const hour = i.toString().padStart(2, '0');
-                            return [
-                              { value: `${hour}:00`, label: `${hour}:00` },
-                              { value: `${hour}:30`, label: `${hour}:30` },
-                            ];
-                          }).flat()}
+                          options={Array.from(
+                            { length: (24 * 60) / 5 },
+                            (v, i) => {
+                              const totalMinutes = i * 5;
+                              const hours = Math.floor(totalMinutes / 60)
+                                .toString()
+                                .padStart(2, '0');
+                              const minutes = (totalMinutes % 60)
+                                .toString()
+                                .padStart(2, '0');
+                              const time = `${hours}:${minutes}`;
+                              return { value: time, label: time };
+                            }
+                          )}
                           onChange={selectedOption =>
                             setValue(
                               `departureTime[${index}]`,
@@ -846,6 +854,197 @@ export default function Modal({
 
                 <Label>
                   <Span>Показники спідометра по вибуттю</Span>
+                  <Controller
+                    name={`speedOmeter[${index}]`}
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                      pattern: {
+                        value: /^\d+$/,
+                        message: 'Можна вводити тільки числа',
+                      },
+                    }}
+                    render={({ field }) => (
+                      <>
+                        <ToLongInput
+                          type="text"
+                          placeholder="Введіть текст"
+                          {...field}
+                          onChange={e =>
+                            setValue(`speedOmeter[${index}]`, e.target.value)
+                          }
+                        />
+                        {errors.speedOmeter && (
+                          <span style={{ color: 'red' }}>
+                            {errors.speedOmeter.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Label>
+
+                <Label>
+                  <Span>&nbsp;</Span>
+                  <BtnTrash
+                    type="button
+          "
+                    onClick={() => handleBtnTrashClick(index)}
+                  >
+                    {' '}
+                    <Icon size={16} name="trash" />
+                  </BtnTrash>
+                </Label>
+              </InputTimeDiv>
+            ))}
+          </TimeDiv>
+          <TimeDiv>
+            {[...Array(duplicateInputs)].map((_, index) => (
+              <InputTimeDiv key={index}>
+                <Label>
+                  <Span>Дата прибуття</Span>
+                  <Controller
+                    name={`departureDate[${index}]`}
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                      pattern: {
+                        value:
+                          /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                        message:
+                          'Невірний формат (приклад правильного формату: 01.01.2023)',
+                      },
+                    }}
+                    render={({ field }) => (
+                      <>
+                        <PickerContainer>
+                          <DatePickerTwo
+                            selected={field.value}
+                            onChange={date =>
+                              setValue(`departureDate[${index}]`, date)
+                            }
+                            dateFormat="dd.MM.yyyy"
+                            placeholderText="00.00.0000"
+                            showIcon
+                            icon={
+                              <IconStyle
+                                size={16}
+                                height={18}
+                                name="calendar"
+                              />
+                            }
+                          />
+                          {errors.departureDate && (
+                            <span style={{ color: 'red' }}>
+                              {errors.departureDate.message}
+                            </span>
+                          )}
+                        </PickerContainer>
+                      </>
+                    )}
+                  />
+                </Label>
+                <Label>
+                  <Span>Час прибуття</Span>
+                  <Controller
+                    name={`departureTime[${index}]`}
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
+                    render={({ field }) => (
+                      <>
+                        <Select
+                          {...field}
+                          options={Array.from(
+                            { length: (24 * 60) / 5 },
+                            (v, i) => {
+                              const totalMinutes = i * 5;
+                              const hours = Math.floor(totalMinutes / 60)
+                                .toString()
+                                .padStart(2, '0');
+                              const minutes = (totalMinutes % 60)
+                                .toString()
+                                .padStart(2, '0');
+                              const time = `${hours}:${minutes}`;
+                              return { value: time, label: time };
+                            }
+                          )}
+                          onChange={selectedOption =>
+                            setValue(
+                              `departureTime[${index}]`,
+                              selectedOption.value
+                            )
+                          }
+                          placeholder="00:00"
+                          value={
+                            field.value
+                              ? { value: field.value, label: field.value }
+                              : null
+                          }
+                          styles={{
+                            control: provided => ({
+                              ...provided,
+                              width: '182px',
+                              height: '46px',
+                              borderRadius: '12px',
+                              background: '#282828',
+                              border: 'none',
+                              color: '#fbfcfc',
+                              textIndent: '10px',
+                              cursor: 'pointer',
+                            }),
+                            singleValue: provided => ({
+                              ...provided,
+                              color: '#fbfcfc',
+                            }),
+                            dropdownIndicator: provided => ({
+                              ...provided,
+                              color: '#fbfcfc',
+                            }),
+                            menu: provided => ({
+                              ...provided,
+                              background: '#282828',
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? '#505050'
+                                : '#282828',
+                              color: '#fbfcfc',
+                              cursor: 'pointer',
+                              ':hover': {
+                                backgroundColor: '#505050',
+                              },
+                            }),
+                            // Стили для полосы прокрутки
+                            menuList: base => ({
+                              ...base,
+                              '::-webkit-scrollbar': {
+                                width: '8px',
+                              },
+                              '::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#505050',
+                                borderRadius: '4px',
+                              },
+                              '::-webkit-scrollbar-track': {
+                                backgroundColor: '#282828',
+                              },
+                            }),
+                          }}
+                        />
+                        {errors[`departureTime[${index}]`] && (
+                          <span style={{ color: 'red' }}>
+                            {errors[`departureTime[${index}]`].message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Label>
+
+                <Label>
+                  <Span>Показники спідометра по прибуттю</Span>
                   <Controller
                     name={`speedOmeter[${index}]`}
                     control={control}
