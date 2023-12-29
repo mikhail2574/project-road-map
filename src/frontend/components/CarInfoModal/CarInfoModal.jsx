@@ -202,6 +202,7 @@ export default function CarInfoModal({
                           icon={
                             <IconStyle size={16} height={18} name="calendar" />
                           }
+                          locale="uk"
                         />
                         {errors.departureDate && (
                           <span style={{ color: 'red' }}>
@@ -272,6 +273,7 @@ export default function CarInfoModal({
                           icon={
                             <IconStyle size={16} height={18} name="calendar" />
                           }
+                          locale="uk"
                         />
                         {errors.departureDate && (
                           <span style={{ color: 'red' }}>

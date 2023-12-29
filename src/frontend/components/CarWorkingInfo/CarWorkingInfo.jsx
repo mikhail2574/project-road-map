@@ -400,6 +400,7 @@ const CarWorkingInfo = () => {
                             name="dark-calendar"
                           />
                         }
+                        locale="uk"
                       />
                       {errors.documentDate && (
                         <span style={{ color: 'red' }}>
