@@ -52,7 +52,7 @@ import {
 const CarWorkingInfo = () => {
   const [modalData, setModalData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dataToSend, setDataToSend] = useState({});
+  // const [dataToSend, setDataToSend] = useState({});
 
   const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
@@ -353,7 +353,6 @@ const CarWorkingInfo = () => {
                 placeholder="Військове звання"
                 classNamePrefix="Select"
               />
-              <p></p>
               <input type={'text'} placeholder={'Прізвище, ініціали'} />
             </InputWrapper>
           </PersonnelDiv>
