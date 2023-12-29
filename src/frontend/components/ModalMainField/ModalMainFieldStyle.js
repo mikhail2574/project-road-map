@@ -304,7 +304,7 @@ export const LongInput = styled.input`
 
 export const ToLongInput = styled.input`
   text-indent: 10px;
-  width: 228px;
+  width: 220px;
   height: 46px;
   border-radius: 12px;
   background: #282828;
