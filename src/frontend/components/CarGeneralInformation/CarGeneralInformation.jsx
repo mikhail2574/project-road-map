@@ -158,6 +158,7 @@ const CarGeneralInformation = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
+  const [duplicated, setDuplicated] = useState(0);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -177,13 +178,13 @@ const CarGeneralInformation = () => {
 
   const [modalDataMain, setModalDataMain] = useState([]);
   const [modalData, setModalData] = useState([]);
-  // console.log(modalData);
+  const pmmMarkup = [];
   let firstTableMarkup = [];
   const handleFuelData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     setModalData(data);
   };
-  console.log(modalData);
+
   if (modalDataMain.carName) {
     for (let i = 0; i < modalDataMain.departureDate.length; i++) {
       firstTableMarkup.push(
@@ -202,6 +203,24 @@ const CarGeneralInformation = () => {
           <td>{modalDataMain.speedOmeter[i]}</td>
           <td></td>
           <td></td>
+        </StyledTBody>
+      );
+    }
+  }
+  if (modalData.availability_0) {
+    for (let i = 0; i < duplicated; i++) {
+      pmmMarkup.push(
+        <StyledTBody key={i}>
+          <td>{modalData[`itemName_${i}`]}</td>
+          <td>{modalData[`itemCode_${i}`]}</td>
+          <td>{modalData[`availabilityBeforeDeparture_${i}`]}</td>
+          <td>{modalData[`receivedDate_${i}`].toLocaleDateString()}</td>
+          <td>{modalData[`availability_${i}`]}</td>
+          <td>{modalData[`received_${i}`]}</td>
+          <td>{modalData[`spent_${i}`]}</td>
+          <td>{modalData[`norm_${i}`]}</td>
+          <td>{modalData[`saving_${i}`]}</td>
+          <td>{modalData[`overuse_${i}`]}</td>
         </StyledTBody>
       );
     }
@@ -477,54 +496,22 @@ const CarGeneralInformation = () => {
                   <th scope="colgroup">Перевитрата</th>
                 </THeadRow>
               </StyledTHead3>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
+              {pmmMarkup.length ? (
+                pmmMarkup
+              ) : (
+                <StyledTBody>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </StyledTBody>
+              )}
             </StyledTable3>
           </TableSection3>
         </PaperSection>
@@ -539,6 +526,7 @@ const CarGeneralInformation = () => {
         <ModalFuel
           onCloseFuel={closeFuelExpensesModal}
           onSubmitCallback={handleFuelData}
+          setDuplicated={setDuplicated}
         />
       )}
     </MainContainer>
