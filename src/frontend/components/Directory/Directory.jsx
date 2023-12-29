@@ -150,7 +150,7 @@ const Directory = () => {
                   </StyledTableHeaderTh>
                   <StyledTableHeaderTh>Водій</StyledTableHeaderTh>
                   <StyledTableHeaderTh>Звання водія</StyledTableHeaderTh>
-                  <StyledTableHeaderTh>Підозріл</StyledTableHeaderTh>
+                  <StyledTableHeaderTh>Підрозділ</StyledTableHeaderTh>
                   <StyledTableHeaderTh>Старший</StyledTableHeaderTh>
                   <StyledTableHeaderTh>Звання старшого</StyledTableHeaderTh>
                   <StyledTableHeaderTh></StyledTableHeaderTh>

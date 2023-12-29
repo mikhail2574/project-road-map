@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { StyledTableHead } from '../Directory/Directory.styled';
 
 export const StyledEmptyTableTh = styled.th`
   background-color: #f0f0f0;
@@ -11,4 +12,8 @@ export const StyledPersonnelTableButtonWrapper = styled.div`
   display: flex;
   gap: 8px;
   justify-content: end;
+`;
+
+export const StyledTableHeadPersonnel = styled(StyledTableHead)`
+  height: 40px;
 `;

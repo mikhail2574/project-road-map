@@ -32,9 +32,8 @@ export default function Modal({ children, showCloseIcon = true, close }) {
   const personnel = useSelector(selectPersonnel);
 
   const [selectedDriver, setSelectedDriver] = useState(null);
-  console.log(selectedDriver);
-  const driverArr = personnel.filter(
-    el => el.position.toLowerCase() === 'водій'
+  const driverArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('водій')
   );
   const driverOptions = driverArr.map(({ name, rank }) => ({
     value: { name, rank },
@@ -44,7 +43,12 @@ export default function Modal({ children, showCloseIcon = true, close }) {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    dispatch(addCarsThunk(data));
+    const newData = {
+      ...data,
+      driver: data.driver.value.name,
+      senior: data.senior.value.name,
+    };
+    dispatch(addCarsThunk(newData));
 
     close();
   };
@@ -113,25 +117,25 @@ export default function Modal({ children, showCloseIcon = true, close }) {
       textIndent: '10px',
       cursor: 'pointer',
     }),
-    singleValue: (provided) => ({
+    singleValue: provided => ({
       ...provided,
-      color: '#fbfcfc', 
+      color: '#fbfcfc',
     }),
     dropdownIndicator: provided => ({
       ...provided,
-      color: '#fbfcfc', 
+      color: '#fbfcfc',
     }),
     menu: provided => ({
       ...provided,
-      background: '#282828', 
+      background: '#282828',
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected ? '#505050' : '#282828', 
-      color: '#fbfcfc', 
+      backgroundColor: state.isSelected ? '#505050' : '#282828',
+      color: '#fbfcfc',
       cursor: 'pointer',
       ':hover': {
-        backgroundColor: '#505050', 
+        backgroundColor: '#505050',
       },
     }),
   };
@@ -166,7 +170,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   rules={{
                     required: "Обов'язкове поле",
                     pattern: {
-                      value: /^[a-zA-Zа-яА-Я0-9]*$/,
+                      value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
                       message: 'Може містити літери та цифри',
                     },
                   }}
