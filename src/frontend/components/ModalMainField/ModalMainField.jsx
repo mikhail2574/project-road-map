@@ -93,7 +93,7 @@ export default function Modal({
   };
 
   const onSubmit = data => {
-    console.log(data);
+   
     setModalDataMain(data);
     onClose();
   };
@@ -138,7 +138,7 @@ export default function Modal({
 
   // --
   const [selectedSeniorCar, setSelectedSeniorCar] = useState(null);
-  console.log(selectedSeniorCar);
+
   const seniorCarArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший машини'
   );
@@ -151,7 +151,7 @@ export default function Modal({
 
   const [selectedHeadOfCarService, setSelectedHeadOfCarService] =
     useState(null);
-  console.log(selectedHeadOfCarService);
+
   const headOfCarServiceArr = personnel.filter(
     el => el.position.toLowerCase() === 'начальник автомобільної служби'
   );
@@ -162,7 +162,7 @@ export default function Modal({
 
   // --
   const [selectedSeniorTechUnit, setSelectedSeniorTechUnit] = useState(null);
-  console.log(selectedSeniorTechUnit);
+  
   const seniorTechUnitArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший (технік) підрозділу'
   );
@@ -172,14 +172,15 @@ export default function Modal({
   }));
   // --
   const [selectedSeniorKtp, setSelectedSeniorKtp] = useState(null);
-  console.log(selectedSeniorKtp);
-  const seniorKtpArr = personnel.filter(
-    el => el.position.toLowerCase() === 'начальник ктп'
+
+  const seniorKtp = personnel.filter(
+    el => el.position.toLowerCase().includes('ктп')
   );
-  const seniorKtpOptions = seniorKtpArr.map(({ name, rank }) => ({
+  const seniorKtpOptions = seniorKtp.map(({ name, rank }) => ({
     value: { name, rank },
     label: name,
   }));
+  
   // --
   const customStyles = {
     control: provided => ({
@@ -873,6 +874,12 @@ export default function Modal({
                           onChange={e =>
                             setValue(`speedOmeter[${index}]`, e.target.value)
                           }
+                          onKeyPress={e => {
+                            const isValidInput = /^\d*$/.test(e.key);
+                            if (!isValidInput) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                         {errors.speedOmeter && (
                           <span style={{ color: 'red' }}>
@@ -904,7 +911,7 @@ export default function Modal({
                 <Label>
                   <Span>Дата прибуття</Span>
                   <Controller
-                    name={`departureDate[${index}]`}
+                    name={`arrivalDate[${index}]`}
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
@@ -921,7 +928,7 @@ export default function Modal({
                           <DatePickerTwo
                             selected={field.value}
                             onChange={date =>
-                              setValue(`departureDate[${index}]`, date)
+                              setValue(`arrivalDate[${index}]`, date)
                             }
                             dateFormat="dd.MM.yyyy"
                             placeholderText="00.00.0000"
@@ -934,9 +941,9 @@ export default function Modal({
                               />
                             }
                           />
-                          {errors.departureDate && (
+                          {errors.arrivalDate && (
                             <span style={{ color: 'red' }}>
-                              {errors.departureDate.message}
+                              {errors.arrivalDate.message}
                             </span>
                           )}
                         </PickerContainer>
@@ -947,7 +954,7 @@ export default function Modal({
                 <Label>
                   <Span>Час прибуття</Span>
                   <Controller
-                    name={`departureTime[${index}]`}
+                    name={`arrivalTime[${index}]`}
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
@@ -972,7 +979,7 @@ export default function Modal({
                           )}
                           onChange={selectedOption =>
                             setValue(
-                              `departureTime[${index}]`,
+                              `arrivalTime[${index}]`,
                               selectedOption.value
                             )
                           }
@@ -1033,9 +1040,9 @@ export default function Modal({
                             }),
                           }}
                         />
-                        {errors[`departureTime[${index}]`] && (
+                        {errors[`arrivalTime[${index}]`] && (
                           <span style={{ color: 'red' }}>
-                            {errors[`departureTime[${index}]`].message}
+                            {errors[`arrivalTime[${index}]`].message}
                           </span>
                         )}
                       </>
@@ -1046,12 +1053,12 @@ export default function Modal({
                 <Label>
                   <Span>Показники спідометра по прибуттю</Span>
                   <Controller
-                    name={`speedOmeter[${index}]`}
+                    name={`speedOmeterArrival[${index}]`}
                     control={control}
                     rules={{
                       required: "Обов'язкове поле",
                       pattern: {
-                        value: /^\d+$/,
+                        value: /^\d*$/, // Разрешить только цифры
                         message: 'Можна вводити тільки числа',
                       },
                     }}
@@ -1062,12 +1069,22 @@ export default function Modal({
                           placeholder="Введіть текст"
                           {...field}
                           onChange={e =>
-                            setValue(`speedOmeter[${index}]`, e.target.value)
+                            setValue(
+                              `speedOmeterArrival[${index}]`,
+                              e.target.value
+                            )
                           }
+                          onKeyPress={e => {
+                            // Разрешить только цифры или пустой ввод
+                            const isValidInput = /^\d*$/.test(e.key);
+                            if (!isValidInput) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
-                        {errors.speedOmeter && (
+                        {errors.speedOmeterArrival && (
                           <span style={{ color: 'red' }}>
-                            {errors.speedOmeter.message}
+                            {errors.speedOmeterArrival.message}
                           </span>
                         )}
                       </>
