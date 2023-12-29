@@ -76,48 +76,6 @@ const Icons = () => {
             ></path>
           </symbol>
 
-          <symbol id="dark-calendar" viewBox="0 0 28 32">
-            <path
-              fill="none"
-              stroke="#47523F"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              stroke-miterlimit="4"
-              stroke-width="2.6667"
-              d="M23.556 5.333h-18.667c-1.473 0-2.667 1.194-2.667 2.667v18.667c0 1.473 1.194 2.667 2.667 2.667h18.667c1.473 0 2.667-1.194 2.667-2.667v-18.667c0-1.473-1.194-2.667-2.667-2.667z"
-            ></path>
-            <path
-              fill="none"
-              stroke="#47523F"
-              // style="stroke: var(--color1, #47523F)"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              stroke-miterlimit="4"
-              stroke-width="2.6667"
-              d="M19.556 2.667v5.333"
-            ></path>
-            <path
-              fill="none"
-              stroke="#47523F"
-              // style="stroke: var(--color1, #47523F)"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              stroke-miterlimit="4"
-              stroke-width="2.6667"
-              d="M8.889 2.667v5.333"
-            ></path>
-            <path
-              fill="none"
-              stroke="#47523F"
-              // style="stroke: var(--color1, #47523F)"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              stroke-miterlimit="4"
-              stroke-width="2.6667"
-              d="M2.222 13.333h24"
-            ></path>
-          </symbol>
-
           <symbol id="plus" viewBox="0 0 32 32">
             <path
               fill="none"
