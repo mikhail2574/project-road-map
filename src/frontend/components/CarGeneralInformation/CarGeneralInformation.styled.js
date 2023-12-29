@@ -51,7 +51,6 @@ export const Riddle = styled.p`
 export const Space = styled.span`
   border-bottom: 2px solid #191413;
   display: inline-block;
-  height: 4px;
 `;
 
 export const TableSection = styled.div`
