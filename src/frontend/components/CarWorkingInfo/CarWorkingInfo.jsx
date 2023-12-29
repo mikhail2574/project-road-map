@@ -411,36 +411,6 @@ const CarWorkingInfo = () => {
                   </>
                 )}
               />
-              {/* <Controller
-                name="documentDate"
-                control={control}
-                rules={{
-                  required: "Обов'язкове поле",
-                  pattern: {
-                    value:
-                      /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
-                    message:
-                      'Невірний формат (приклад правильного формату: 01.01.2023)',
-                  },
-                }}
-                render={({ field }) => (
-                  <>
-                    <DatePickerTwo
-                      selected={field.value}
-                      onChange={date => setValue('documentDate', date)}
-                      dateFormat="dd.MM.yyyy"
-                      placeholderText="00.00.0000"
-                      showIcon
-                      icon={<IconStyleCalendar size={16} height={18} name="calendar" />}
-                    />
-                    {errors.documentDate && (
-                      <span style={{ color: 'red' }}>
-                        {errors.documentDate.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              /> */}
             </AuxWrapper>
           </PersonnelDiv>
         </form>
