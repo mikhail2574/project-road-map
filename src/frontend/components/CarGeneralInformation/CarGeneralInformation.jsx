@@ -184,6 +184,7 @@ const CarGeneralInformation = () => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     setModalData(data);
   };
+  console.log(modalData);
 
   if (modalDataMain.carName) {
     for (let i = 0; i < modalDataMain.departureDate.length; i++) {
@@ -201,8 +202,12 @@ const CarGeneralInformation = () => {
               modalDataMain.departureDate[i].toLocaleDateString()}
           </td>
           <td>{modalDataMain.speedOmeter[i]}</td>
-          <td></td>
-          <td></td>
+          <td>
+            {modalDataMain.departureTime[i] +
+              ' ' +
+              modalDataMain.departureDate[i].toLocaleDateString()}
+          </td>
+          <td>{modalDataMain.speedOmeterArrival[i]}</td>
         </StyledTBody>
       );
     }
