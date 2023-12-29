@@ -42,13 +42,17 @@ import {
   THeadRow,
   StyledSelect,
 } from './CarWorkingInfo.styled';
-import { DatePickerOne } from '../ModalMainField/ModalMainFieldStyle';
-import { IconStyle } from '../ModalFuel/ModalFuelStyle';
+import { IconStyleCalendar } from '../CarInfoModal/CarInfoModal.styled';
 import CarInfoModal from '../CarInfoModal/CarInfoModal';
+import {
+  DatePickerOne,
+  PickerContainer,
+} from '../CarInfoModal/CarInfoModal.styled';
 
 const CarWorkingInfo = () => {
   const [modalData, setModalData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataToSend, setDataToSend] = useState({});
 
   const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
@@ -76,7 +80,6 @@ const CarWorkingInfo = () => {
 
   console.log('modalData :>> ', modalData);
   console.log('routes :>> ', routes);
-  console.log('personnel :>> ', personnel);
 
   const DropdownIndicator = props => {
     return (
@@ -87,7 +90,6 @@ const CarWorkingInfo = () => {
   };
 
   const driverArr = personnel.filter(el => el.position === 'водій');
-  console.log('driverArr :>> ', driverArr);
   const checkedArr = [
     'Солдат',
     'Старший солдат',
@@ -98,7 +100,6 @@ const CarWorkingInfo = () => {
     value: name,
     label: name,
   }));
-  console.log('driverOptions :>> ', driverOptions);
   const checkedOptions = checkedArr.map(rank => ({
     value: rank,
     label: rank,
@@ -213,11 +214,9 @@ const CarWorkingInfo = () => {
     console.log(data);
   };
 
-  const addGenInfo = () => {}; // ????
+  const editInfo = () => {}; // ????
 
   const saveExcel = () => {};
-
-  const printPDF = () => {};
 
   const totalMil = modalData.reduce((acc, item) => {
     return (acc += Number(item.total));
@@ -232,10 +231,9 @@ const CarWorkingInfo = () => {
         <SectionHead>
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
-            <InfoBtn onClick={addGenInfo}>Додати загальну інформацію</InfoBtn>
-            <InfoBtn onClick={openModal}>Редагувати</InfoBtn>
+            <InfoBtn onClick={openModal}>Додати загальну інформацію</InfoBtn>
+            <InfoBtn onClick={editInfo}>Редагувати</InfoBtn>
             <SaveBtn onClick={saveExcel}>Зберегти в Excel</SaveBtn>
-            <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
         <StyledNav>
@@ -349,7 +347,7 @@ const CarWorkingInfo = () => {
               <StyledSelect
                 options={driverOptions}
                 {...register('driver')}
-                // onChange={}
+                onChange={value => console.log(value)}
                 components={{ DropdownIndicator }}
                 ariaLabel={'Військове звання'}
                 placeholder="Військове звання"
@@ -366,7 +364,7 @@ const CarWorkingInfo = () => {
                 <StyledSelect
                   options={checkedOptions}
                   {...register('checkMan')}
-                  // onChange={}
+                  onChange={value => console.log(value)}
                   components={{ DropdownIndicator }}
                   ariaLabel={'Військове звання'}
                   placeholder="Військове звання"
@@ -389,13 +387,51 @@ const CarWorkingInfo = () => {
                 }}
                 render={({ field }) => (
                   <>
-                    <DatePickerOne
+                    <PickerContainer>
+                      <DatePickerOne
+                        selected={field.value}
+                        onChange={date => setValue(`documentDate`, date)}
+                        dateFormat="dd.MM.yyyy"
+                        placeholderText="00.00.0000"
+                        showIcon
+                        icon={
+                          <IconStyleCalendar
+                            size={16}
+                            height={18}
+                            name="dark-calendar"
+                          />
+                        }
+                      />
+                      {errors.documentDate && (
+                        <span style={{ color: 'red' }}>
+                          {errors.documentDate.message}
+                        </span>
+                      )}
+                    </PickerContainer>
+                  </>
+                )}
+              />
+              {/* <Controller
+                name="documentDate"
+                control={control}
+                rules={{
+                  required: "Обов'язкове поле",
+                  pattern: {
+                    value:
+                      /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                    message:
+                      'Невірний формат (приклад правильного формату: 01.01.2023)',
+                  },
+                }}
+                render={({ field }) => (
+                  <>
+                    <DatePickerTwo
                       selected={field.value}
                       onChange={date => setValue('documentDate', date)}
                       dateFormat="dd.MM.yyyy"
                       placeholderText="00.00.0000"
                       showIcon
-                      icon={<IconStyle size={16} height={18} name="calendar" />}
+                      icon={<IconStyleCalendar size={16} height={18} name="calendar" />}
                     />
                     {errors.documentDate && (
                       <span style={{ color: 'red' }}>
@@ -404,7 +440,7 @@ const CarWorkingInfo = () => {
                     )}
                   </>
                 )}
-              />
+              /> */}
             </AuxWrapper>
           </PersonnelDiv>
         </form>
