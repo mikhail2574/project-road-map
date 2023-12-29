@@ -159,7 +159,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
           <MainDiv>
             <InputDiv>
               <Label>
-                <Span>Назва автомобіля</Span>
+                <Span>Марка автомобіля</Span>
                 <Controller
                   name="carName"
                   control={control}
@@ -258,21 +258,27 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
-                    <ShortInput
-                      type="text"
-                      placeholder="0"
-                      {...field}
-                      onChange={e =>
-                        setValue('fuelConsumption', e.target.value)
-                      }
-                    />
+                    <>
+                      <ShortInput
+                        type="text"
+                        placeholder="0"
+                        {...field}
+                        onChange={e => {
+                          const inputText = e.target.value.replace(
+                            /[^0-9.]/g,
+                            ''
+                          );
+                          setValue('fuelConsumption', inputText);
+                        }}
+                      />
+                      {errors.fuelConsumption && (
+                        <span style={{ color: 'red' }}>
+                          {errors.fuelConsumption.message}
+                        </span>
+                      )}
+                    </>
                   )}
                 />
-                {errors.fuelConsumption && (
-                  <span style={{ color: 'red' }}>
-                    {errors.fuelConsumption.message}
-                  </span>
-                )}
               </Label>
               <Label>
                 <Span>Тип мастила</Span>
@@ -300,19 +306,27 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
-                    <ShortInput
-                      type="text"
-                      placeholder="0"
-                      {...field}
-                      onChange={e => setValue('oilConsumption', e.target.value)}
-                    />
+                    <>
+                      <ShortInput
+                        type="text"
+                        placeholder="0"
+                        {...field}
+                        onChange={e => {
+                          const inputText = e.target.value.replace(
+                            /[^0-9.,]/g,
+                            ''
+                          ); // Оставляем только цифры, точки и запятые
+                          setValue('oilConsumption', inputText);
+                        }}
+                      />
+                      {errors.oilConsumption && (
+                        <span style={{ color: 'red' }}>
+                          {errors.oilConsumption.message}
+                        </span>
+                      )}
+                    </>
                   )}
                 />
-                {errors.oilConsumption && (
-                  <span style={{ color: 'red' }}>
-                    {errors.oilConsumption.message}
-                  </span>
-                )}
               </Label>
             </InputDiv>
 
