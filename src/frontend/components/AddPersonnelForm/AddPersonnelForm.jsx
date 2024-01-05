@@ -184,7 +184,7 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
               Додати
             </AddBtnStyle>
             <CancelBtnStyle type="button" onClick={handleReset}>
-              Видалити
+              Очистити
             </CancelBtnStyle>
           </BtnActive>
         </form>

@@ -84,11 +84,10 @@ export const ButtonCloseStyle = styled.button`
 // ---------------------------
 
 export const RequestDel = styled.h3`
-top:70px;
+  top: 70px;
   position: absolute;
   color: #fbfcfc;
   text-align: center;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -111,7 +110,6 @@ export const ConfirmBtnStyle = styled.button`
   border: none;
   border-radius: 12px;
   background: #47523f;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -140,7 +138,6 @@ export const CancelBtnStyle = styled.button`
   border-radius: 12px;
   border: none;
   line-height: 20px;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;

@@ -8,7 +8,6 @@ export const ModalTitle = styled.h3`
   white-space: nowrap;
   /* padding-right: 440px; */
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -111,7 +110,6 @@ export const InputRowDiv = styled.div`
 
 export const Label = styled.label`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -136,7 +134,6 @@ export const DatePickerStyle = styled(DatePicker)`
   background: #282828;
   border: none;
   color: rgba(251, 252, 252, 0.3);
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -157,14 +154,14 @@ export const PickerContainer = styled.div`
     padding: 0 !important;
   }
   .react-datepicker {
-    background: #47523F;
+    background: #47523f;
     border: none;
   }
   .react-datepicker__header {
     border-radius: 8px;
     border: none;
     background: var(--black);
-   
+
     font-weight: normal;
   }
   .react-datepicker__month-container {
@@ -191,7 +188,6 @@ export const PickerContainer = styled.div`
 
   .react-datepicker__current-month,
   .react-datepicker__navigation {
-   
     /* width: 0px; */
   }
 
@@ -247,7 +243,6 @@ export const MidInputStyle = styled.input`
   background: #282828;
   border: none;
   color: rgba(251, 252, 252, 0.3);
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -263,7 +258,6 @@ export const ShortInput = styled.input`
   background: #282828;
   border: none;
   color: rgba(251, 252, 252, 0.3);
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

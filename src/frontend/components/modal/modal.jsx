@@ -103,8 +103,6 @@ export default function Modal({ children, showCloseIcon = true, close }) {
     value: { name, rank },
     label: name,
   }));
-
-  const [selectedSeniorRank, setSelectedSeniorRank] = useState(null);
   const customStyles = {
     control: provided => ({
       ...provided,
@@ -256,7 +254,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                 )}
               </Label>
               <Label>
-                <Span>Розхід палива л/100 км</Span>
+                <Span>Розхід палива на...</Span>
                 <Controller
                   name="fuelConsumption"
                   control={control}
@@ -264,7 +262,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   render={({ field }) => (
                     <>
                       <ShortInput
-                        type="text"
+                        type="number"
                         placeholder="0"
                         {...field}
                         onChange={e => {
@@ -388,6 +386,12 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
+                    pattern: {
+                      value:
+                        /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
+                      message:
+                        'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
+                    },
                   }}
                   render={({ field }) => (
                     <Select
@@ -399,8 +403,9 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                         setValue('driverRank', selectedOption.value.rank);
                       }}
                       value={selectedDriver}
-                      placeholder="Введіть текст"
+                      placeholder="Виберіть водія"
                       styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -458,6 +463,12 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
+                    pattern: {
+                      value:
+                        /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
+                      message:
+                        'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
+                    },
                   }}
                   render={({ field }) => (
                     <Select
@@ -469,8 +480,9 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                         setValue('seniorRank', selectedOption.value.rank);
                       }}
                       value={selectedSenior}
-                      placeholder="Введіть текст"
+                      placeholder="Виберіть старшого"
                       styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -509,7 +521,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
               Додати
             </AddBtnStyle>
             <CancelBtnStyle type="button" onClick={handleReset}>
-              Видалити
+              Очистити
             </CancelBtnStyle>
           </BtnActive>
         </form>

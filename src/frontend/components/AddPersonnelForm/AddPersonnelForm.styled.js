@@ -24,12 +24,10 @@ export const StyledModalInput = styled.input`
   width: 220px;
   gap: 10px;
 
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 18px;
-  /* color: rgba(251, 252, 252, 0.3); */
   color: #fbfcfc;
   border: none;
 

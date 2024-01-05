@@ -6,7 +6,6 @@ import {
   AddBtnStyle,
   BtnActive,
   ButtonCloseStyle,
-  CancelBtnStyle,
   InputDiv,
   Label,
   LongInput,
@@ -16,17 +15,20 @@ import {
   OverlayStyle,
   ShortInput,
   Span,
+  StyledSelect,
 } from './ModalEditingStyle';
 import { useEffect } from 'react';
-import { selectCars } from 'redux/infos/selectors';
+import { selectCars, selectPersonnel } from 'redux/infos/selectors';
 
 export default function Modal({ showCloseIcon = true, close, id }) {
+  const personnel = useSelector(selectPersonnel);
   const car = useSelector(selectCars).find(car => car.sign === id);
 
   const {
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -38,19 +40,27 @@ export default function Modal({ showCloseIcon = true, close, id }) {
       oilConsumption: car.oilConsumption,
       exploitationGroup: car.exploitationGroup,
       exploitationGroupShort: car.exploitationGroupShort,
-      driver: car.driver,
+      driver: { value: car.driver, label: car.driver },
       driverRank: car.driverRank,
       unit: car.unit,
-      senior: car.senior,
+      senior: { value: car.senior, label: car.senior },
       seniorRank: car.seniorRank,
     },
   });
 
+  const watchDriver = watch('driver');
+  const watchSenior = watch('senior');
+
   const dispatch = useDispatch();
 
   const onSubmit = data => {
+    const newData = {
+      ...data,
+      driver: data.driver.value.name,
+      senior: data.senior.value.name,
+    };
     try {
-      dispatch(updateCarsThunk(data));
+      dispatch(updateCarsThunk(newData));
       close();
     } catch (error) {
       return error.message;
@@ -82,21 +92,56 @@ export default function Modal({ showCloseIcon = true, close, id }) {
     }
   };
 
-  const handleReset = () => {
-    setValue('carName', '');
-    setValue('sign', '');
-    setValue('fuelType', '');
-    setValue('fuelConsumption', '');
-    setValue('oilType', '');
-    setValue('oilConsumption', '');
-    setValue('exploitationGroup', '');
-    setValue('exploitationGroupShort', '');
-    setValue('driver', '');
-    setValue('driverRank', '');
-    setValue('unit', '');
-    setValue('senior', '');
-    setValue('seniorRank', '');
+  const customStyles = {
+    control: provided => ({
+      ...provided,
+      width: '315px',
+      height: '46px',
+      borderRadius: '12px',
+      background: '#282828',
+      border: 'none',
+      color: '#fbfcfc',
+      textIndent: '10px',
+      cursor: 'pointer',
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: '#fbfcfc',
+    }),
+    dropdownIndicator: provided => ({
+      ...provided,
+      color: '#fbfcfc',
+    }),
+    menu: provided => ({
+      ...provided,
+      background: '#282828',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#505050' : '#282828',
+      color: '#fbfcfc',
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#505050',
+      },
+    }),
   };
+
+  const driverArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('водій')
+  );
+  const driverOptions = driverArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
+
+  const seniorArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('старший')
+  );
+  const seniorOptions = seniorArr.map(({ name, rank }) => ({
+    value: { name, rank },
+    label: name,
+  }));
 
   return (
     <OverlayStyle onClick={e => handleBackdropClick(e)}>
@@ -128,7 +173,7 @@ export default function Modal({ showCloseIcon = true, close, id }) {
                   rules={{
                     required: "Обов'язкове поле",
                     pattern: {
-                      value: /^[a-zA-Zа-яА-Я0-9]*$/,
+                      value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
                       message: 'Може містити літери та цифри',
                     },
                   }}
@@ -214,7 +259,7 @@ export default function Modal({ showCloseIcon = true, close, id }) {
                 )}
               </Label>
               <Label>
-                <Span>Розхід палива л/100 км</Span>
+                <Span>Розхід палива на...</Span>
                 <Controller
                   name="fuelConsumption"
                   control={control}
@@ -348,17 +393,24 @@ export default function Modal({ showCloseIcon = true, close, id }) {
                   rules={{
                     required: "Обов'язкове поле",
                     pattern: {
-                      value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
+                      value:
+                        /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
                       message:
-                        'Невірний формат (приклад правильного формату : Бандера С.А.)',
+                        'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
                     },
                   }}
                   render={({ field }) => (
-                    <LongInput
-                      type="text"
-                      placeholder="Введіть текст"
+                    <StyledSelect
                       {...field}
-                      onChange={e => setValue('driver', e.target.value)}
+                      options={driverOptions}
+                      onChange={selectedOption => {
+                        setValue('driver', selectedOption);
+                        setValue('driverRank', selectedOption.value.rank);
+                      }}
+                      value={watchDriver}
+                      placeholder="Виберіть водія"
+                      styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -420,17 +472,25 @@ export default function Modal({ showCloseIcon = true, close, id }) {
                   rules={{
                     required: "Обов'язкове поле",
                     pattern: {
-                      value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
+                      value:
+                        /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
                       message:
-                        'Невірний формат (приклад правильного формату : Бандера С.А.)',
+                        'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
                     },
                   }}
                   render={({ field }) => (
-                    <LongInput
-                      type="text"
-                      placeholder="Введіть текст"
+                    <StyledSelect
                       {...field}
-                      onChange={e => setValue('senior', e.target.value)}
+                      options={seniorOptions}
+                      onChange={selectedOption => {
+                        setValue('senior', selectedOption);
+                        // setSelectedSeniorRank(selectedOption);
+                        setValue('seniorRank', selectedOption.value.rank);
+                      }}
+                      value={watchSenior}
+                      placeholder="Виберіть старшого"
+                      styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -464,11 +524,8 @@ export default function Modal({ showCloseIcon = true, close, id }) {
 
           <BtnActive>
             <AddBtnStyle type="submit" name="add">
-              Додати
+              Зберегти
             </AddBtnStyle>
-            <CancelBtnStyle type="button" onClick={handleReset}>
-              Видалити
-            </CancelBtnStyle>
           </BtnActive>
         </form>
       </ModalWindowStyle>
