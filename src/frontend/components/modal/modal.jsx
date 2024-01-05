@@ -96,8 +96,8 @@ export default function Modal({ children, showCloseIcon = true, close }) {
 
   const [selectedSenior, setSelectedSenior] = useState(null);
 
-  const seniorArr = personnel.filter(
-    el => el.position.toLowerCase() === 'старший'
+  const seniorArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('старший')
   );
   const seniorOptions = seniorArr.map(({ name, rank }) => ({
     value: { name, rank },
