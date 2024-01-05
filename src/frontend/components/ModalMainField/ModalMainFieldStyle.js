@@ -82,7 +82,7 @@ export const ButtonCloseStyle = styled.button`
 
 export const InformTitle = styled.h3`
   color: #fbfcfc;
-  font-family: Manrope;
+
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -114,7 +114,6 @@ export const InputRowDiv = styled.div`
 // First Row
 export const Label = styled.label`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -128,7 +127,6 @@ export const Span = styled.span`
 export const DocumentNumber = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -140,7 +138,6 @@ export const DocumentNumber = styled.p`
 export const MilitaryBase = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -152,7 +149,6 @@ export const MilitaryBase = styled.p`
 export const Driver = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -165,7 +161,6 @@ export const Driver = styled.p`
 
 export const OdometerTitle = styled.h3`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -329,7 +324,6 @@ export const ConfirmBtnStyle = styled.button`
   border: none;
   border-radius: 12px;
   background: #47523f;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -358,7 +352,6 @@ export const CancelBtnStyle = styled.button`
   border-radius: 12px;
   border: none;
   line-height: 20px;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;

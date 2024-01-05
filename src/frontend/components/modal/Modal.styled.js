@@ -27,7 +27,6 @@ export const ModalTitle = styled.h3`
   white-space: nowrap;
   padding-right: 440px;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -50,7 +49,9 @@ export const OverlayStyle = styled.div`
   transition: opacity 500ms ease-in-out, visibility 500ms ease-in-out;
   opacity: 1;
   visibility: visible;
-  .css-1u9des2-indicatorSeparator{display:none}
+  .css-1u9des2-indicatorSeparator {
+    display: none;
+  }
 
   @media screen and (min-width: 768px) {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 60px 0px;
@@ -128,7 +129,7 @@ export const InputDiv = styled.div`
 
 export const Label = styled.label`
   color: #fbfcfc;
-  font-family: Manrope;
+
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -137,6 +138,7 @@ export const Label = styled.label`
 
 export const Span = styled.span`
   margin-left: 10px;
+  color: rgba(251, 252, 252, 0.4);
 `;
 
 // /////////////////
@@ -204,6 +206,4 @@ export const BtnActive = styled.div`
   margin-right: 295px;
 `;
 
-export const StyledSelect = styled.select`
-
-`;
+export const StyledSelect = styled.select``;
