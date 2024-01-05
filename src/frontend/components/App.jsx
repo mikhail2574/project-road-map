@@ -10,7 +10,8 @@ import { useDispatch } from 'react-redux';
 import { fetchInfosThunk } from 'redux/infos/operations';
 
 export const App = () => {
-  const dispatch=useDispatch()
+  alert('в exel.js там апдейт хуйово праює');
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);

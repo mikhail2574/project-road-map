@@ -266,6 +266,7 @@ const fillTable = async (body = {}) => {
       }
 
       subWorksheet.getCell('A18').value = body.car.fuelType;
+      subWorksheet.getCell('F18').value = '15%';
       subWorksheet.getCell('B18').value = body.car.fuelConsumption;
       subWorksheet.getCell('D18').value = body.totalMileage;
       subWorksheet.getCell('H18').value = Math.round(

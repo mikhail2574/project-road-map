@@ -135,6 +135,23 @@ const CarGeneralInformation = () => {
         work: { nameCargo: 'Пісок', weight: 15 },
         odometer: 12354,
       },
+      {
+        from: 'Тернопіль',
+        to: 'Львів',
+        return: 'так',
+        depTime: '7:30, 30.00.23',
+        arrTime: '18:10, 31.00.23',
+        mileage: {
+          withCargo: 10,
+          withoutCargo: 10,
+          total: 20,
+          withTrailer: '',
+          withTug: '',
+        },
+        motorHours: { onStay: 10, onMove: 50, sum: 60 },
+        work: { nameCargo: 'Пісок', weight: 15 },
+        odometer: 12454,
+      },
     ],
     totalMileage: 1557,
   };

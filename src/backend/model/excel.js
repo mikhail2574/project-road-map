@@ -292,6 +292,19 @@ const updatePersonInExcel = async (name, person) => {
   if (person.rankShort) row.getCell(21).value = person.rankShort;
   if (person.name) row.getCell(22).value = person.name;
 
+  // need to find this person in cars and update by function updateCarInExcel
+  // TODO: в х*й не дупляю, як це зробити
+  const cars = data.cars.filter(item => item.driver === name);
+  if (cars.length) {
+    for (let i = 0; i < cars.length; i++) {
+      const car = cars[i];
+      await updateCarInExcel(car.sign, {
+        driver: person.name,
+        rank: person.rank,
+      });
+    }
+  }
+
   personInExcel = { ...personInExcel, ...person, oldName: name };
   await workbook.xlsx.writeFile(pathToExcel);
   return personInExcel;

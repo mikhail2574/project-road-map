@@ -48,9 +48,16 @@ export default function Modal({ children, showCloseIcon = true, close }) {
       driver: data.driver.value.name,
       senior: data.senior.value.name,
     };
-    dispatch(addCarsThunk(newData));
-
-    close();
+    dispatch(addCarsThunk(newData))
+      .unwrap()
+      .then(() => close())
+      .catch(err => {
+        alert(
+          err.includes('409')
+            ? 'Такий номерний знак вже існує'
+            : 'Помилка валідації'
+        );
+      });
   };
 
   useEffect(() => {
@@ -401,6 +408,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                       value={selectedDriver}
                       placeholder="Введіть текст"
                       styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -471,6 +479,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                       value={selectedSenior}
                       placeholder="Введіть текст"
                       styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
