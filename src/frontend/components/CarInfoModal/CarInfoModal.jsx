@@ -30,6 +30,8 @@ import {
 import { Icons } from '../Icons';
 import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { setCarWork } from 'redux/form/slice';
 
 export default function CarInfoModal({
   showCloseIcon = true,
@@ -40,9 +42,19 @@ export default function CarInfoModal({
     handleSubmit,
     control,
     setValue,
+    getValues,
+    watch,
     formState: { errors },
-  } = useForm();
-
+  } = useForm({
+    defaultValues: {
+      onStay: '',
+      onMove: '',
+      withCargo: '',
+      withoutCargo: '',
+      withTrailer: '',
+      withTug: '',
+    },
+  });
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.key === 'Escape') {
@@ -55,6 +67,39 @@ export default function CarInfoModal({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
+  const dispatch = useDispatch();
+
+  const watchTime = watch(['onStay', 'onMove']);
+  const watchMileage = watch([
+    'withCargo',
+    'withoutCargo',
+    'withTrailer',
+    'withTug',
+  ]);
+  useEffect(() => {
+    try {
+      const { onStay, onMove, sum } = getValues();
+      setValue('sum', Number(onStay) + Number(onMove));
+      console.log(watchTime);
+      console.log('sum :>> ', sum);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [setValue, watchTime, getValues]);
+
+  useEffect(() => {
+    const { withCargo, withoutCargo, withTrailer, withTug, total } =
+      getValues();
+    setValue(
+      'total',
+      Number(withCargo) +
+        Number(withoutCargo) +
+        Number(withTrailer) +
+        Number(withTug)
+    );
+    console.log(watchMileage);
+    console.log('total :>> ', total);
+  }, [setValue, getValues, watchMileage]);
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
@@ -69,14 +114,36 @@ export default function CarInfoModal({
   };
 
   const onSubmit = data => {
-    const { arrivalDate, departureDate } = data;
+    const { arrivalDate, departureDate, oneway } = data;
     const arrDate = moment(arrivalDate).format('DD.MM.YY');
     const depDate = moment(departureDate).format('DD.MM.YY');
-    const newData = Object.assign(data, {
-      arrivalDate: arrDate,
-      departureDate: depDate,
-    });
-    modalSubmit(prev => [...prev, newData]);
+    const newWay = oneway ? 'так' : 'ні';
+    dispatch(
+      setCarWork({
+        route: {
+          from: data.routeFrom,
+          to: data.routeTo,
+          return: newWay,
+          depTime: `${data.departureTime}, ${depDate}`,
+          arrTime: `${data.arrivalTime}, ${arrDate}`,
+          mileage: {
+            withCargo: data.withCargo,
+            withoutCargo: data.withoutCargo,
+            total: data.total,
+            withTrailer: data.withTrailer,
+            withTug: data.withTug,
+          },
+          motorHours: {
+            onStay: data.onStay,
+            onMove: data.onMove,
+            sum: data.sum,
+          },
+          work: { nameCargo: data.nameCargo, weight: data.weight },
+          odometer: data.odometer,
+        },
+      })
+    );
+    // modalSubmit(prev => [...prev, newData]);
     onClose();
   };
 
@@ -324,6 +391,9 @@ export default function CarInfoModal({
                 <Controller
                   name="withCargo"
                   control={control}
+                  rules={{
+                    required: "Обов'язкове поле",
+                  }}
                   render={({ field }) => (
                     <InputDiv>
                       <ShortInputStyle
@@ -343,6 +413,9 @@ export default function CarInfoModal({
                 <Controller
                   name="withoutCargo"
                   control={control}
+                  rules={{
+                    required: "Обов'язкове поле",
+                  }}
                   render={({ field }) => (
                     <InputDiv>
                       <ShortInputStyle
@@ -362,16 +435,14 @@ export default function CarInfoModal({
                 <Controller
                   name="total"
                   control={control}
-                  rules={{
-                    required: "Обов'язкове поле",
-                  }}
                   render={({ field }) => (
                     <InputDiv>
                       <ShortInputStyle
                         type="number"
                         placeholder="Усього"
                         {...field}
-                        onChange={e => setValue('total', e.target.value)}
+                        readOnly={true}
+                        // onChange={e => setValue('total', e.target.value)}
                       />
                       {errors.total && (
                         <ErrorSpan style={{ color: 'red' }}>
@@ -390,6 +461,7 @@ export default function CarInfoModal({
                         type="number"
                         placeholder="З причепом"
                         {...field}
+                        // defaultValue=""
                         onChange={e => setValue('withTrailer', e.target.value)}
                       />
                       {errors.withTrailer && (
@@ -409,6 +481,7 @@ export default function CarInfoModal({
                         type="number"
                         placeholder="На буксир"
                         {...field}
+                        // defaultValue=""
                         onChange={e => setValue('withTug', e.target.value)}
                       />
                       {errors.withTug && (
@@ -428,6 +501,9 @@ export default function CarInfoModal({
                 <Controller
                   name="onStay"
                   control={control}
+                  rules={{
+                    required: "Обов'язкове поле",
+                  }}
                   render={({ field }) => (
                     <InputDiv>
                       <LongInput
@@ -447,6 +523,9 @@ export default function CarInfoModal({
                 <Controller
                   name="onMove"
                   control={control}
+                  rules={{
+                    required: "Обов'язкове поле",
+                  }}
                   render={({ field }) => (
                     <InputDiv>
                       <LongInput
@@ -472,7 +551,8 @@ export default function CarInfoModal({
                         type="number"
                         placeholder="Усього"
                         {...field}
-                        onChange={e => setValue('sum', e.target.value)}
+                        readOnly={true}
+                        // onChange={e => setValue('sum', e.target.value)}
                       />
                       {errors.sum && (
                         <ErrorSpan style={{ color: 'red' }}>
@@ -492,6 +572,9 @@ export default function CarInfoModal({
                   <Controller
                     name="nameCargo"
                     control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
                     render={({ field }) => (
                       <InputDiv>
                         <ShortInputStyle
@@ -511,6 +594,9 @@ export default function CarInfoModal({
                   <Controller
                     name="weight"
                     control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
                     render={({ field }) => (
                       <InputDiv>
                         <ShortInputStyle

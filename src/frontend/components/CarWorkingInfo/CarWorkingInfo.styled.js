@@ -179,7 +179,7 @@ export const TBodyRow = styled.tr`
   /* position: relative; */
 
   td:first-child {
-    width: 207px;
+    width: 260px;
     text-align: left;
     padding: 10px 24px;
   }
@@ -262,8 +262,9 @@ export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
 
-  input,
-  p {
+  input {
+    text-overflow: ellipsis;
+    font-weight: 500;
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--transparent-gray);
