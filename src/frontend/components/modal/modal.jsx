@@ -96,15 +96,13 @@ export default function Modal({ children, showCloseIcon = true, close }) {
 
   const [selectedSenior, setSelectedSenior] = useState(null);
 
-  const seniorArr = personnel.filter(
-    el => el.position.toLowerCase() === 'старший'
+  const seniorArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('старший')
   );
   const seniorOptions = seniorArr.map(({ name, rank }) => ({
     value: { name, rank },
     label: name,
   }));
-
-  const [selectedSeniorRank, setSelectedSeniorRank] = useState(null);
   const customStyles = {
     control: provided => ({
       ...provided,
@@ -163,7 +161,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
           <MainDiv>
             <InputDiv>
               <Label>
-                <Span>Назва автомобіля</Span>
+                <Span>Марка автомобіля</Span>
                 <Controller
                   name="carName"
                   control={control}
@@ -256,27 +254,33 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                 )}
               </Label>
               <Label>
-                <Span>Розхід палива л/100 км</Span>
+                <Span>Розхід палива на...</Span>
                 <Controller
                   name="fuelConsumption"
                   control={control}
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
-                    <ShortInput
-                      type="number"
-                      placeholder="0"
-                      {...field}
-                      onChange={e =>
-                        setValue('fuelConsumption', e.target.value)
-                      }
-                    />
+                    <>
+                      <ShortInput
+                        type="number"
+                        placeholder="0"
+                        {...field}
+                        onChange={e => {
+                          const inputText = e.target.value.replace(
+                            /[^0-9.]/g,
+                            ''
+                          );
+                          setValue('fuelConsumption', inputText);
+                        }}
+                      />
+                      {errors.fuelConsumption && (
+                        <span style={{ color: 'red' }}>
+                          {errors.fuelConsumption.message}
+                        </span>
+                      )}
+                    </>
                   )}
                 />
-                {errors.fuelConsumption && (
-                  <span style={{ color: 'red' }}>
-                    {errors.fuelConsumption.message}
-                  </span>
-                )}
               </Label>
               <Label>
                 <Span>Тип мастила</Span>
@@ -304,19 +308,27 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
-                    <ShortInput
-                      type="number"
-                      placeholder="0"
-                      {...field}
-                      onChange={e => setValue('oilConsumption', e.target.value)}
-                    />
+                    <>
+                      <ShortInput
+                        type="text"
+                        placeholder="0"
+                        {...field}
+                        onChange={e => {
+                          const inputText = e.target.value.replace(
+                            /[^0-9.,]/g,
+                            ''
+                          ); // Оставляем только цифры, точки и запятые
+                          setValue('oilConsumption', inputText);
+                        }}
+                      />
+                      {errors.oilConsumption && (
+                        <span style={{ color: 'red' }}>
+                          {errors.oilConsumption.message}
+                        </span>
+                      )}
+                    </>
                   )}
                 />
-                {errors.oilConsumption && (
-                  <span style={{ color: 'red' }}>
-                    {errors.oilConsumption.message}
-                  </span>
-                )}
               </Label>
             </InputDiv>
 
@@ -374,6 +386,12 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
+                    pattern: {
+                      value:
+                        /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
+                      message:
+                        'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
+                    },
                   }}
                   render={({ field }) => (
                     <Select
@@ -385,8 +403,9 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                         setValue('driverRank', selectedOption.value.rank);
                       }}
                       value={selectedDriver}
-                      placeholder="Введіть текст"
+                      placeholder="Виберіть водія"
                       styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -444,6 +463,12 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
+                    pattern: {
+                      value:
+                        /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
+                      message:
+                        'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
+                    },
                   }}
                   render={({ field }) => (
                     <Select
@@ -455,8 +480,9 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                         setValue('seniorRank', selectedOption.value.rank);
                       }}
                       value={selectedSenior}
-                      placeholder="Введіть текст"
+                      placeholder="Виберіть старшого"
                       styles={customStyles}
+                      isSearchable={false}
                     />
                   )}
                 />
@@ -495,7 +521,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
               Додати
             </AddBtnStyle>
             <CancelBtnStyle type="button" onClick={handleReset}>
-              Видалити
+              Очистити
             </CancelBtnStyle>
           </BtnActive>
         </form>

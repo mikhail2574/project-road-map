@@ -80,6 +80,7 @@ const fillTable = async (body = {}) => {
       worksheet.getCell('J33').value = body.documentDate;
       worksheet.getCell('L33').value = body.car.carName;
       worksheet.getCell('M33').value = body.car.carSign;
+      worksheet.getCell('P33').value = body.car.exploitationGroup;
       worksheet.getCell('K33').value = `Наряд № ${body.dutyNumber}`;
 
       const rowCounts = Math.ceil(body.facts.length * 2 + 12 - 2);
