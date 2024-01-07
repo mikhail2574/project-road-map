@@ -60,7 +60,9 @@ const CarGeneralInformation = () => {
       position: 'Начальник КТП',
     },
     route: 'Київ - Вінниця',
-    documentDate: '15.10.2023',
+    documentDate: '15.10.2024',
+    expireDate: '17.10.2024',
+    checkedDate: '16.10.2024',
     documentNumber: '123456',
     dutyNumber: '25',
     militaryUnit: 'А1234',
@@ -137,6 +139,12 @@ const CarGeneralInformation = () => {
       },
     ],
     totalMileage: 1557,
+    totalExpense: 50,
+    checkPerson: {
+      name: 'Петрович А.І.',
+      rank: 'сержант',
+      position: 'Караульний',
+    },
   };
 
   const handleClick = () => {

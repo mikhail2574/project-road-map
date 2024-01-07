@@ -1,18 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import {
-  selectPersonnel,
-  selectRoadType,
-  selectRoutes,
-} from 'redux/infos/selectors';
+import { selectPersonnel } from 'redux/infos/selectors';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
-import {
-  fetchInfosThunk,
-  // updateRoadTypesThunk,
-  // updateRoutesThunk,
-} from 'redux/infos/operations';
+import { fetchInfosThunk } from 'redux/infos/operations';
 import {
   AuxWrapper,
   BtnBox,
@@ -35,8 +27,6 @@ import {
   TableSection,
   StyledLink,
   StyledNav,
-  StyledText,
-  StyledSpan,
   Line,
   TFootRow,
   THeadRow,
@@ -48,16 +38,16 @@ import {
   DatePickerOne,
   PickerContainer,
 } from '../CarInfoModal/CarInfoModal.styled';
+import downloadMainList from 'redux/download/operations';
+import { selectCar, selectRoutes } from 'redux/form/selectors';
 
 const CarWorkingInfo = () => {
-  const [modalData, setModalData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dataToSend, setDataToSend] = useState({});
 
   const dispatch = useDispatch();
   const routes = useSelector(selectRoutes);
-  const roadType = useSelector(selectRoadType);
   const personnel = useSelector(selectPersonnel);
+  const selectedCar = useSelector(selectCar);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -74,12 +64,9 @@ const CarWorkingInfo = () => {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    dispatch(fetchInfosThunk());
-  }, [dispatch]);
-
-  console.log('modalData :>> ', modalData);
-  console.log('routes :>> ', routes);
+  // useEffect(() => {
+  //   dispatch(fetchInfosThunk());
+  // }, [dispatch]);
 
   const DropdownIndicator = props => {
     return (
@@ -89,28 +76,94 @@ const CarWorkingInfo = () => {
     );
   };
 
-  const driverArr = personnel.filter(el => el.position === 'водій');
-  const checkedArr = [
-    'Солдат',
-    'Старший солдат',
-    'Молодший сержант',
-    'Сержант',
-  ];
+  const driverArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('водій')
+  );
   const driverOptions = driverArr.map(({ name, rank }) => ({
-    value: name,
+    value: rank,
     label: name,
   }));
-  const checkedOptions = checkedArr.map(rank => ({
-    value: rank,
-    label: rank,
+  const checkedOptions = personnel.map(person => ({
+    value: person,
+    label: person.name,
   }));
 
   //* ========================= mock data =========================
   /* const mockData = {
+    supervisor: {
+      name: 'Кумар М.Б.',
+      rank: 'капітан',
+      position: 'Начальник автомобільної служби',
+    },
+    engineer: {
+      name: 'Дизель В.М.',
+      rank: 'солдат',
+      position: 'Начальник КТП',
+    },
+    route: 'Київ - Вінниця',
+    documentDate: '15.10.2024',
+    expireDate: '17.10.2024',
+    checkedDate: '16.10.2024',
+    documentNumber: '123456',
+    dutyNumber: '25',
+    militaryUnit: 'А1234',
+
+    car: {
+      carSign: 'AA1234FF',
+      carName: 'ЗІЛ-131',
+      fuelConsumption: 11.5,
+      fuelType: 'ДТ',
+      exploitationGroup: 'Транспорт',
+      driver: {
+        name: 'Петренко В.В.',
+        rank: 'солдат',
+        position: 'Водій',
+      },
+    },
+    formal: {
+      departureTime: '7:30 29.09.2023',
+      arrivalTime: '18:10 29.09.2023',
+    },
+    expenses: [
+      {
+        name: 'Масло',
+        amountBefore: 10,
+        amountDuring: 5,
+        expense: 5,
+        byNorm: 5,
+        economy: 0,
+        overExpense: 0,
+        code: 24,
+        got: 5,
+        date: '29.09.2023',
+      },
+    ],
+    facts: [
+      {
+        departure: { time: '1 29.09.2023', odometer: 12337 },
+        arrival: { time: '2 29.09.2023', odometer: 12338 },
+      },
+      {
+        departure: { time: '3 30.09.2023', odometer: 12339 },
+        arrival: { time: '4 30.09.2023', odometer: 12340 },
+      },
+      {
+        departure: { time: '7:30 01.10.2023', odometer: 12340 },
+        arrival: { time: '18:10 01.10.2023', odometer: 12345 },
+      },
+      {
+        departure: { time: '7:30 02.10.2023', odometer: 12345 },
+        arrival: { time: '18:10 02.10.2023', odometer: 12349 },
+      },
+      {
+        departure: { time: '7:30 03.10.2023', odometer: 12349 },
+        arrival: { time: '18:10 03.10.2023', odometer: 12353 },
+      },
+    ],
     routes: [
       {
-        from: 'Кременець',
-        to: 'Тернопіль',
+        from: 'Київ',
+        to: 'Вінниця',
         return: 'ні',
         depTime: '7:30, 29.00.23',
         arrTime: '18:10, 29.00.23',
@@ -121,66 +174,55 @@ const CarWorkingInfo = () => {
           withTrailer: '',
           withTug: '',
         },
-    motorHours: { onStay: 10, onMove: 50, sum: 60 },
-    work: { nameCargo: 'Пісок', weight: 15 },
-    odometer: 12304,
-  },
+        motorHours: { onStay: 10, onMove: 50, sum: 60 },
+        work: { nameCargo: 'Пісок', weight: 15 },
+        odometer: 12354,
+      },
     ],
-    totalMileage: 118,
-    driver: { name: 'Святий О.Я.', rank: 'солдат' },
-    senior: { name: 'Кернес А.О.', rank: 'капітан' },
-    fuelConsumption: 10,
+    totalMileage: 1557,
+    totalExpense: 50,
+    checkPerson: {
+      name: 'Петрович А.І.',
+      rank: 'сержант',
+      position: 'Караульний',
+    },
   }; */
-  // const addData = {};
 
   const renderInstruction = () => {
     const renderCollection = () => {
-      return modalData.map(
-        ({
-          routeFrom,
-          routeTo,
-          oneway,
-          departureDate,
-          departureTime,
-          arrivalDate,
-          arrivalTime,
-          withCargo,
-          withoutCargo,
-          total,
-          withTrailer,
-          withTug,
-          onStay,
-          onMove,
-          sum,
-          nameCargo,
-          weight,
+      return routes.map(route => {
+        const {
+          from,
+          to,
+          depTime,
+          arrTime,
+          mileage,
+          motorHours,
+          work,
           odometer,
-        }) => (
+        } = route;
+        return (
           <TBodyRow>
             <td>
-              {routeFrom} - {routeTo}
-              {oneway ? ` - ${routeFrom}` : null}
+              {from} - {to}
+              {route.return ? ` - ${from}` : null}
             </td>
-            <td>
-              {departureTime}, {departureDate}
-            </td>
-            <td>
-              {arrivalTime}, {arrivalDate}
-            </td>
-            <td>{withCargo}</td>
-            <td>{withoutCargo}</td>
-            <td>{total}</td>
-            <td>{withTrailer}</td>
-            <td>{withTug}</td>
-            <td>{onStay}</td>
-            <td>{onMove}</td>
-            <td>{sum}</td>
-            <td>{nameCargo}</td>
-            <td>{weight}</td>
+            <td>{depTime}</td>
+            <td>{arrTime}</td>
+            <td>{mileage.withCargo}</td>
+            <td>{mileage.withoutCargo}</td>
+            <td>{mileage.total}</td>
+            <td>{mileage.withTrailer}</td>
+            <td>{mileage.withTug}</td>
+            <td>{motorHours.onStay}</td>
+            <td>{motorHours.onMove}</td>
+            <td>{motorHours.sum}</td>
+            <td>{work.nameCargo}</td>
+            <td>{work.weight}</td>
             <td>{odometer}</td>
           </TBodyRow>
-        )
-      );
+        );
+      });
     };
     let emptyRowArr = [];
     for (let i = 0; i < 14; i++) {
@@ -189,7 +231,7 @@ const CarWorkingInfo = () => {
     const renderEmpty = () => {
       return <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>;
     };
-    switch (modalData.length) {
+    switch (routes.length) {
       case 0:
         return (
           <>
@@ -216,14 +258,31 @@ const CarWorkingInfo = () => {
 
   const editInfo = () => {}; // ????
 
-  const saveExcel = () => {};
+  const saveExcel = () => {
+    /* dispatch(downloadMainList(mockData))
+      .unwrap()
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const date = new Date().toLocaleDateString();
+        a.download = `roadList#${date}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      }); */
+  };
 
-  const totalMil = modalData.reduce((acc, item) => {
-    return (acc += Number(item.total));
+  const totalMil = routes.reduce((acc, item) => {
+    return (acc += Number(item.mileage.total));
   }, 0);
   //* Fuel consumption is needed
   const formula =
-    (10 * totalMil) / 100 - ((10 * totalMil) / 100) * roadType[0]?.correction;
+    (selectedCar.fuelConsumption * totalMil) / 100 -
+    ((selectedCar.fuelConsumption * totalMil) / 100) * 0.15;
 
   return (
     <>
@@ -241,10 +300,6 @@ const CarWorkingInfo = () => {
           <StyledLink to="/papers/car">Робота машини</StyledLink>
         </StyledNav>
         <Line />
-        <StyledText>
-          Адреса збереження PDF:{' '}
-          <StyledSpan>C:\Users\zdane\Desktop\Шляховий</StyledSpan>
-        </StyledText>
       </BtnSection>
       <TableSection>
         <TableScroll>
@@ -347,14 +402,18 @@ const CarWorkingInfo = () => {
               <StyledSelect
                 options={driverOptions}
                 {...register('driver')}
-                onChange={value => console.log(value)}
+                onChange={value => setValue('driverRank', value.value)}
                 components={{ DropdownIndicator }}
-                ariaLabel={'Військове звання'}
-                placeholder="Військове звання"
+                ariaLabel={'Водій'}
+                placeholder="Водій"
                 classNamePrefix="Select"
               />
-              <p></p>
-              <input type={'text'} placeholder={'Прізвище, ініціали'} />
+              <input
+                {...register('driverRank')}
+                type={'text'}
+                placeholder={'Військове звання'}
+                readOnly={true}
+              />
             </InputWrapper>
           </PersonnelDiv>
           <PersonnelDiv>
@@ -364,14 +423,28 @@ const CarWorkingInfo = () => {
                 <StyledSelect
                   options={checkedOptions}
                   {...register('checkMan')}
-                  onChange={value => console.log(value)}
+                  onChange={({ value }) => {
+                    console.log(value);
+                    setValue('seniorRank', value.rank);
+                    setValue('seniorPos', value.position);
+                  }}
                   components={{ DropdownIndicator }}
-                  ariaLabel={'Військове звання'}
-                  placeholder="Військове звання"
+                  ariaLabel={'Прізвище, ініціали'}
+                  placeholder="Прізвище, ініціали"
                   classNamePrefix="Select"
                 />
-                <input type={'text'} placeholder={'Посада'} />
-                <input type={'text'} placeholder={'Прізвище, ініціали'} />
+                <input
+                  {...register('seniorPos')}
+                  type={'text'}
+                  placeholder={'Посада'}
+                  readOnly={true}
+                />
+                <input
+                  {...register('seniorRank')}
+                  type={'text'}
+                  placeholder={'Військове звання'}
+                  readOnly={true}
+                />
               </InputWrapper>
               <Controller
                 name="documentDate"
@@ -401,6 +474,7 @@ const CarWorkingInfo = () => {
                             name="dark-calendar"
                           />
                         }
+                        locale="uk"
                       />
                       {errors.documentDate && (
                         <span style={{ color: 'red' }}>
@@ -411,43 +485,11 @@ const CarWorkingInfo = () => {
                   </>
                 )}
               />
-              {/* <Controller
-                name="documentDate"
-                control={control}
-                rules={{
-                  required: "Обов'язкове поле",
-                  pattern: {
-                    value:
-                      /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
-                    message:
-                      'Невірний формат (приклад правильного формату: 01.01.2023)',
-                  },
-                }}
-                render={({ field }) => (
-                  <>
-                    <DatePickerTwo
-                      selected={field.value}
-                      onChange={date => setValue('documentDate', date)}
-                      dateFormat="dd.MM.yyyy"
-                      placeholderText="00.00.0000"
-                      showIcon
-                      icon={<IconStyleCalendar size={16} height={18} name="calendar" />}
-                    />
-                    {errors.documentDate && (
-                      <span style={{ color: 'red' }}>
-                        {errors.documentDate.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              /> */}
             </AuxWrapper>
           </PersonnelDiv>
         </form>
       </TableSection>
-      {isModalOpen && (
-        <CarInfoModal onClose={closeModal} modalSubmit={setModalData} />
-      )}
+      {isModalOpen && <CarInfoModal onClose={closeModal} />}
     </>
   );
 };
