@@ -75,7 +75,6 @@ export const ButtonCloseStyle = styled.button`
 
 export const InformTitle = styled.h3`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -123,7 +122,6 @@ export const Label = styled.label`
   flex-direction: column;
   gap: 8px;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -185,7 +183,6 @@ export const DocumentNumber = styled.p`
 export const MilitaryBase = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -197,7 +194,6 @@ export const MilitaryBase = styled.p`
 export const Driver = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -210,7 +206,6 @@ export const Driver = styled.p`
 
 export const OdometerTitle = styled.h3`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -327,34 +322,18 @@ export const ShortInputStyle = styled.input`
   color: #fbfcfc;
 `;
 
-export const MidInputStyle = styled.input`
-  text-indent: 10px;
-  width: 182x;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+export const MidInputStyle = styled(ShortInputStyle)`
+  width: 182px;
 `;
 
-export const LongInput = styled.input`
-  text-indent: 10px;
+export const LongInput = styled(ShortInputStyle)`
   width: 214px;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+  font-weight: 600;
 `;
 
-export const ToLongInput = styled.input`
-  text-indent: 10px;
+export const ToLongInput = styled(ShortInputStyle)`
   width: 280px;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+  font-weight: 600;
 `;
 
 // ------------------------
@@ -374,7 +353,6 @@ export const ConfirmBtnStyle = styled.button`
   border: none;
   border-radius: 12px;
   background: #47523f;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -403,7 +381,6 @@ export const CancelBtnStyle = styled.button`
   border-radius: 12px;
   border: none;
   line-height: 20px;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
