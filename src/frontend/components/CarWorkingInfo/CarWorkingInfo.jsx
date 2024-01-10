@@ -31,13 +31,9 @@ import {
   THeadRow,
   StyledSelect,
 } from './CarWorkingInfo.styled';
-import { DatePickerOne } from '../ModalMainField/ModalMainFieldStyle';
-import { IconStyle } from '../ModalFuel/ModalFuelStyle';
 import CarInfoModal from '../CarInfoModal/CarInfoModal';
-import {
-  DatePickerOne,
-  PickerContainer,
-} from '../CarInfoModal/CarInfoModal.styled';
+import { DatePickerOne } from '../CarInfoModal/CarInfoModal.styled';
+import { PickerContainer } from '../ModalFuel/ModalFuelStyle';
 import downloadMainList from 'redux/download/operations';
 import { selectCar, selectForm, selectRoutes } from 'redux/form/selectors';
 import { setCarWork, setPersonnel } from 'redux/form/slice';
@@ -327,7 +323,7 @@ const CarWorkingInfo = () => {
             <InfoBtn onClick={addGenInfo}>Додати загальну інформацію</InfoBtn>
             <InfoBtn onClick={openModal}>Редагувати</InfoBtn>
             <SaveBtn onClick={saveExcel}>Зберегти в Excel</SaveBtn>
-            <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn>
+            {/* <SaveBtn onClick={printPDF}>Друк сторінки</SaveBtn> */}
           </BtnBox>
         </SectionHead>
         <StyledNav>
@@ -520,13 +516,13 @@ const CarWorkingInfo = () => {
                         dateFormat="dd.MM.yyyy"
                         placeholderText="00.00.0000"
                         showIcon
-                        icon={
-                          <IconStyleCalendar
-                            size={16}
-                            height={18}
-                            name="dark-calendar"
-                          />
-                        }
+                        // icon={
+                        //   <IconStyleCalendar
+                        //     size={16}
+                        //     height={18}
+                        //     name="dark-calendar"
+                        //   />
+                        // }
                       />
                       {errors.documentDate && (
                         <span style={{ color: 'red' }}>
