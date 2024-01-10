@@ -33,11 +33,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { setCarWork } from 'redux/form/slice';
 
-export default function CarInfoModal({
-  showCloseIcon = true,
-  onClose,
-  modalSubmit,
-}) {
+export default function CarInfoModal({ showCloseIcon = true, onClose }) {
   const {
     handleSubmit,
     control,
@@ -78,18 +74,15 @@ export default function CarInfoModal({
   ]);
   useEffect(() => {
     try {
-      const { onStay, onMove, sum } = getValues();
+      const { onStay, onMove } = getValues();
       setValue('sum', Number(onStay) + Number(onMove));
-      console.log(watchTime);
-      console.log('sum :>> ', sum);
     } catch (error) {
       console.log(error);
     }
   }, [setValue, watchTime, getValues]);
 
   useEffect(() => {
-    const { withCargo, withoutCargo, withTrailer, withTug, total } =
-      getValues();
+    const { withCargo, withoutCargo, withTrailer, withTug } = getValues();
     setValue(
       'total',
       Number(withCargo) +
@@ -97,8 +90,6 @@ export default function CarInfoModal({
         Number(withTrailer) +
         Number(withTug)
     );
-    console.log(watchMileage);
-    console.log('total :>> ', total);
   }, [setValue, getValues, watchMileage]);
 
   const handleBackdropClick = e => {
@@ -143,7 +134,6 @@ export default function CarInfoModal({
         },
       })
     );
-    // modalSubmit(prev => [...prev, newData]);
     onClose();
   };
 
@@ -269,7 +259,6 @@ export default function CarInfoModal({
                           icon={
                             <IconStyle size={16} height={18} name="calendar" />
                           }
-                          locale="uk"
                         />
                         {errors.departureDate && (
                           <span style={{ color: 'red' }}>
@@ -340,7 +329,6 @@ export default function CarInfoModal({
                           icon={
                             <IconStyle size={16} height={18} name="calendar" />
                           }
-                          locale="uk"
                         />
                         {errors.departureDate && (
                           <span style={{ color: 'red' }}>
@@ -384,54 +372,104 @@ export default function CarInfoModal({
                 />
               </Label>
             </InputRowDiv>
-            <InputLegendDiv>
-              <Legend>Пройдено кілометрів</Legend>
+            <InputRowDiv>
+              <InputLegendDiv>
+                <Legend>Пройдено кілометрів</Legend>
 
-              <InputMultiDiv>
-                <Controller
-                  name="withCargo"
-                  control={control}
-                  rules={{
-                    required: "Обов'язкове поле",
-                  }}
-                  render={({ field }) => (
-                    <InputDiv>
-                      <ShortInputStyle
-                        type="number"
-                        placeholder="З вантажом"
-                        {...field}
-                        onChange={e => setValue('withCargo', e.target.value)}
-                      />
-                      {errors.withCargo && (
-                        <ErrorSpan style={{ color: 'red' }}>
-                          {errors.withCargo.message}
-                        </ErrorSpan>
-                      )}
-                    </InputDiv>
-                  )}
-                />
-                <Controller
-                  name="withoutCargo"
-                  control={control}
-                  rules={{
-                    required: "Обов'язкове поле",
-                  }}
-                  render={({ field }) => (
-                    <InputDiv>
-                      <ShortInputStyle
-                        type="number"
-                        placeholder="Без вантажу"
-                        {...field}
-                        onChange={e => setValue('withoutCargo', e.target.value)}
-                      />
-                      {errors.withoutCargo && (
-                        <ErrorSpan style={{ color: 'red' }}>
-                          {errors.withoutCargo.message}
-                        </ErrorSpan>
-                      )}
-                    </InputDiv>
-                  )}
-                />
+                <InputMultiDiv>
+                  <Controller
+                    name="withCargo"
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
+                    render={({ field }) => (
+                      <InputDiv>
+                        <ShortInputStyle
+                          type="number"
+                          placeholder="З вантажом"
+                          {...field}
+                          onChange={e => setValue('withCargo', e.target.value)}
+                        />
+                        {errors.withCargo && (
+                          <ErrorSpan style={{ color: 'red' }}>
+                            {errors.withCargo.message}
+                          </ErrorSpan>
+                        )}
+                      </InputDiv>
+                    )}
+                  />
+                  <Controller
+                    name="withoutCargo"
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
+                    render={({ field }) => (
+                      <InputDiv>
+                        <ShortInputStyle
+                          type="number"
+                          placeholder="Без вантажу"
+                          {...field}
+                          onChange={e =>
+                            setValue('withoutCargo', e.target.value)
+                          }
+                        />
+                        {errors.withoutCargo && (
+                          <ErrorSpan style={{ color: 'red' }}>
+                            {errors.withoutCargo.message}
+                          </ErrorSpan>
+                        )}
+                      </InputDiv>
+                    )}
+                  />
+                  <Controller
+                    name="withTrailer"
+                    control={control}
+                    render={({ field }) => (
+                      <InputDiv>
+                        <ShortInputStyle
+                          type="number"
+                          placeholder="З причепом"
+                          {...field}
+                          // defaultValue=""
+                          onChange={e =>
+                            setValue('withTrailer', e.target.value)
+                          }
+                        />
+                        {errors.withTrailer && (
+                          <ErrorSpan style={{ color: 'red' }}>
+                            {errors.withTrailer.message}
+                          </ErrorSpan>
+                        )}
+                      </InputDiv>
+                    )}
+                  />
+                  <Controller
+                    name="withTug"
+                    control={control}
+                    render={({ field }) => (
+                      <InputDiv>
+                        <ShortInputStyle
+                          type="number"
+                          placeholder="На буксир"
+                          {...field}
+                          // defaultValue=""
+                          onChange={e => setValue('withTug', e.target.value)}
+                        />
+                        {errors.withTug && (
+                          <ErrorSpan style={{ color: 'red' }}>
+                            {errors.withTug.message}
+                          </ErrorSpan>
+                        )}
+                      </InputDiv>
+                    )}
+                  />
+                </InputMultiDiv>
+              </InputLegendDiv>
+              <Label>
+                <Span>Усього</Span>
+
                 <Controller
                   name="total"
                   control={control}
@@ -452,96 +490,61 @@ export default function CarInfoModal({
                     </InputDiv>
                   )}
                 />
-                <Controller
-                  name="withTrailer"
-                  control={control}
-                  render={({ field }) => (
-                    <InputDiv>
-                      <ShortInputStyle
-                        type="number"
-                        placeholder="З причепом"
-                        {...field}
-                        // defaultValue=""
-                        onChange={e => setValue('withTrailer', e.target.value)}
-                      />
-                      {errors.withTrailer && (
-                        <ErrorSpan style={{ color: 'red' }}>
-                          {errors.withTrailer.message}
-                        </ErrorSpan>
-                      )}
-                    </InputDiv>
-                  )}
-                />
-                <Controller
-                  name="withTug"
-                  control={control}
-                  render={({ field }) => (
-                    <InputDiv>
-                      <ShortInputStyle
-                        type="number"
-                        placeholder="На буксир"
-                        {...field}
-                        // defaultValue=""
-                        onChange={e => setValue('withTug', e.target.value)}
-                      />
-                      {errors.withTug && (
-                        <ErrorSpan style={{ color: 'red' }}>
-                          {errors.withTug.message}
-                        </ErrorSpan>
-                      )}
-                    </InputDiv>
-                  )}
-                />
-              </InputMultiDiv>
-            </InputLegendDiv>
-            <InputLegendDiv>
-              <Legend>Відпрацьовано мотогодин</Legend>
+              </Label>
+            </InputRowDiv>
+            <InputRowDiv>
+              <InputLegendDiv>
+                <Legend>Відпрацьовано мотогодин</Legend>
+                <InputMultiDiv>
+                  <Controller
+                    name="onStay"
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
+                    render={({ field }) => (
+                      <InputDiv>
+                        <LongInput
+                          type="number"
+                          placeholder="На місці"
+                          {...field}
+                          onChange={e => setValue('onStay', e.target.value)}
+                        />
+                        {errors.onStay && (
+                          <ErrorSpan style={{ color: 'red' }}>
+                            {errors.onStay.message}
+                          </ErrorSpan>
+                        )}
+                      </InputDiv>
+                    )}
+                  />
+                  <Controller
+                    name="onMove"
+                    control={control}
+                    rules={{
+                      required: "Обов'язкове поле",
+                    }}
+                    render={({ field }) => (
+                      <InputDiv>
+                        <LongInput
+                          type="number"
+                          placeholder="Під час руху"
+                          {...field}
+                          onChange={e => setValue('onMove', e.target.value)}
+                        />
+                        {errors.onMove && (
+                          <ErrorSpan style={{ color: 'red' }}>
+                            {errors.onMove.message}
+                          </ErrorSpan>
+                        )}
+                      </InputDiv>
+                    )}
+                  />
+                </InputMultiDiv>
+              </InputLegendDiv>
+              <Label>
+                <Span>Усього</Span>
 
-              <InputMultiDiv>
-                <Controller
-                  name="onStay"
-                  control={control}
-                  rules={{
-                    required: "Обов'язкове поле",
-                  }}
-                  render={({ field }) => (
-                    <InputDiv>
-                      <LongInput
-                        type="number"
-                        placeholder="На місці"
-                        {...field}
-                        onChange={e => setValue('onStay', e.target.value)}
-                      />
-                      {errors.onStay && (
-                        <ErrorSpan style={{ color: 'red' }}>
-                          {errors.onStay.message}
-                        </ErrorSpan>
-                      )}
-                    </InputDiv>
-                  )}
-                />
-                <Controller
-                  name="onMove"
-                  control={control}
-                  rules={{
-                    required: "Обов'язкове поле",
-                  }}
-                  render={({ field }) => (
-                    <InputDiv>
-                      <LongInput
-                        type="number"
-                        placeholder="Під час руху"
-                        {...field}
-                        onChange={e => setValue('onMove', e.target.value)}
-                      />
-                      {errors.onMove && (
-                        <ErrorSpan style={{ color: 'red' }}>
-                          {errors.onMove.message}
-                        </ErrorSpan>
-                      )}
-                    </InputDiv>
-                  )}
-                />
                 <Controller
                   name="sum"
                   control={control}
@@ -562,8 +565,8 @@ export default function CarInfoModal({
                     </InputDiv>
                   )}
                 />
-              </InputMultiDiv>
-            </InputLegendDiv>
+              </Label>
+            </InputRowDiv>
             <InputRowDiv>
               <InputLegendDiv>
                 <Legend>Виконана робота</Legend>

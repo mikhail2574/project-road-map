@@ -86,7 +86,9 @@ export const slice = createSlice({
   initialState,
   reducers: {
     setCarWork: (state, { payload }) => {
-      state.routes.push(payload.route);
+      if (payload.route) {
+        state.routes.push(payload.route);
+      }
       state.totalMileage = payload.totalMileage;
       state.totalExpense = payload.totalExpense;
     },

@@ -1,10 +1,12 @@
+export const selectForm = state => state.form;
+
 export const selectSupervisor = state => state.form.supervisor;
 
 export const selectEngineer = state => state.form.engineer;
 
 export const selectRoute = state => state.form.route;
 
-export const selectDucumentDate = state => state.form.documentDate;
+export const selectDocumentDate = state => state.form.documentDate;
 
 export const selectExpiredDate = state => state.form.expiredDate;
 

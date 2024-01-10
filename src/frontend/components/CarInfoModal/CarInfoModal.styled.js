@@ -408,34 +408,18 @@ export const ShortInputStyle = styled.input`
   color: #fbfcfc;
 `;
 
-export const MidInputStyle = styled.input`
-  text-indent: 10px;
-  width: 182x;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+export const MidInputStyle = styled(ShortInputStyle)`
+  width: 182px;
 `;
 
-export const LongInput = styled.input`
-  text-indent: 10px;
+export const LongInput = styled(ShortInputStyle)`
   width: 214px;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+  font-weight: 600;
 `;
 
-export const ToLongInput = styled.input`
-  text-indent: 10px;
+export const ToLongInput = styled(ShortInputStyle)`
   width: 280px;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+  font-weight: 600;
 `;
 
 // ------------------------

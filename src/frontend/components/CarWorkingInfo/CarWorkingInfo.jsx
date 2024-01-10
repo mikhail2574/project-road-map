@@ -4,7 +4,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { selectPersonnel } from 'redux/infos/selectors';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
-import { fetchInfosThunk } from 'redux/infos/operations';
 import {
   AuxWrapper,
   BtnBox,
@@ -39,22 +38,36 @@ import {
   PickerContainer,
 } from '../CarInfoModal/CarInfoModal.styled';
 import downloadMainList from 'redux/download/operations';
-import { selectCar, selectRoutes } from 'redux/form/selectors';
+import { selectCar, selectForm, selectRoutes } from 'redux/form/selectors';
+import { setCarWork, setPersonnel } from 'redux/form/slice';
 
 const CarWorkingInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [driverSelect, setDriverOption] = useState(null);
+  const [driver, setDriver] = useState({
+    name: '',
+    rank: '',
+    position: '',
+  });
+  const [checked, setChecked] = useState({
+    name: '',
+    rank: '',
+    position: '',
+  });
 
   const dispatch = useDispatch();
+
   const routes = useSelector(selectRoutes);
   const personnel = useSelector(selectPersonnel);
   const selectedCar = useSelector(selectCar);
+  const formToSend = useSelector(selectForm);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const totalMil = routes.reduce((acc, item) => {
+    return (acc += Number(item?.mileage.total));
+  }, 0);
+  const formula =
+    (selectedCar.fuelConsumption * totalMil) / 100 -
+    ((selectedCar.fuelConsumption * totalMil) / 100) * 0.15;
 
   const {
     handleSubmit,
@@ -64,9 +77,30 @@ const CarWorkingInfo = () => {
     formState: { errors },
   } = useForm();
 
-  // useEffect(() => {
-  //   dispatch(fetchInfosThunk());
-  // }, [dispatch]);
+  useEffect(() => {
+    if (
+      selectedCar.driver.name ||
+      selectedCar.driver.rank ||
+      selectedCar.driver.position
+    ) {
+      const driverOption = {
+        value: selectedCar.driver?.rank,
+        label: selectedCar.driver?.name,
+      };
+      setDriverOption(driverOption);
+    }
+  }, [selectedCar]);
+
+  useEffect(() => {
+    if (routes.length !== 0) {
+      dispatch(
+        setCarWork({
+          totalMileage: totalMil,
+          totalExpense: formula,
+        })
+      );
+    }
+  }, [dispatch, routes, totalMil, formula]);
 
   const DropdownIndicator = props => {
     return (
@@ -190,7 +224,7 @@ const CarWorkingInfo = () => {
 
   const renderInstruction = () => {
     const renderCollection = () => {
-      return routes.map(route => {
+      return routes.map((route, idx) => {
         const {
           from,
           to,
@@ -202,7 +236,7 @@ const CarWorkingInfo = () => {
           odometer,
         } = route;
         return (
-          <TBodyRow>
+          <TBodyRow key={idx}>
             <td>
               {from} - {to}
               {route.return ? ` - ${from}` : null}
@@ -226,7 +260,7 @@ const CarWorkingInfo = () => {
     };
     let emptyRowArr = [];
     for (let i = 0; i < 14; i++) {
-      emptyRowArr.push(<td></td>);
+      emptyRowArr.push(<td key={i}></td>);
     }
     const renderEmpty = () => {
       return <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>;
@@ -259,7 +293,7 @@ const CarWorkingInfo = () => {
   const editInfo = () => {}; // ????
 
   const saveExcel = () => {
-    /* dispatch(downloadMainList(mockData))
+    dispatch(downloadMainList(formToSend))
       .unwrap()
       .then(blob => {
         const url = window.URL.createObjectURL(blob);
@@ -273,16 +307,15 @@ const CarWorkingInfo = () => {
       })
       .catch(error => {
         console.error('Error:', error);
-      }); */
+      });
   };
 
-  const totalMil = routes.reduce((acc, item) => {
-    return (acc += Number(item.mileage.total));
-  }, 0);
-  //* Fuel consumption is needed
-  const formula =
-    (selectedCar.fuelConsumption * totalMil) / 100 -
-    ((selectedCar.fuelConsumption * totalMil) / 100) * 0.15;
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -392,7 +425,8 @@ const CarWorkingInfo = () => {
             Всього пройдено: <span>{totalMil}</span>
           </p>
           <p>
-            Всього витрачено: <span>{formula || 0}</span>
+            Всього витрачено:{' '}
+            <span>{(formula > 0 && formula.toFixed(2)) || 0}</span>
           </p>
         </CalcDiv>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -402,7 +436,18 @@ const CarWorkingInfo = () => {
               <StyledSelect
                 options={driverOptions}
                 {...register('driver')}
-                onChange={value => setValue('driverRank', value.value)}
+                value={driverSelect}
+                onChange={value => {
+                  setValue('driverRank', value.value);
+                  setDriverOption(value);
+                  const driverFull = personnel.find(
+                    person => value.label === person.name
+                  );
+                  setDriver(driverFull);
+                  dispatch(
+                    setPersonnel({ driver: driverFull, checkPerson: checked })
+                  );
+                }}
                 components={{ DropdownIndicator }}
                 ariaLabel={'Водій'}
                 placeholder="Водій"
@@ -424,9 +469,15 @@ const CarWorkingInfo = () => {
                   options={checkedOptions}
                   {...register('checkMan')}
                   onChange={({ value }) => {
-                    console.log(value);
                     setValue('seniorRank', value.rank);
                     setValue('seniorPos', value.position);
+                    setChecked(value);
+                    dispatch(
+                      setPersonnel({
+                        driver,
+                        checkPerson: value,
+                      })
+                    );
                   }}
                   components={{ DropdownIndicator }}
                   ariaLabel={'Прізвище, ініціали'}
@@ -474,7 +525,6 @@ const CarWorkingInfo = () => {
                             name="dark-calendar"
                           />
                         }
-                        locale="uk"
                       />
                       {errors.documentDate && (
                         <span style={{ color: 'red' }}>
