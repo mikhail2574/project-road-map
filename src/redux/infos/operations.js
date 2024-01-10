@@ -68,9 +68,9 @@ export const updateCarsThunk = createAsyncThunk(
       carName: body.carName,
       sign: body.sign,
       fuelType: body.fuelType,
-      fuelConsumption: body.fuelConsumption,
+      fuelConsumption: String(body.fuelConsumption),
       oilType: body.oilType,
-      oilConsumption: body.oilConsumption,
+      oilConsumption: String(body.oilConsumption),
       exploitationGroup: body.exploitationGroup,
       exploitationGroupShort: body.exploitationGroupShort,
       driver: body.driver,
@@ -143,7 +143,7 @@ export const updatePersonnelThunk = createAsyncThunk(
 
 // Road Types
 
-export const addRoadTypesThunk = createAsyncThunk(
+/* export const addRoadTypesThunk = createAsyncThunk(
   'fetchRoadTypes',
   async (body, { rejectWithValue }) => {
     const data = {
@@ -157,9 +157,9 @@ export const addRoadTypesThunk = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-);
+); */
 
-export const updateRoadTypesThunk = createAsyncThunk(
+/* export const updateRoadTypesThunk = createAsyncThunk(
   'updateRoadTypes',
   async (body, { rejectWithValue }) => {
     const newBody = {
@@ -176,9 +176,9 @@ export const updateRoadTypesThunk = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-);
+); */
 
-export const deleteRoadTypesThunk = createAsyncThunk(
+/* export const deleteRoadTypesThunk = createAsyncThunk(
   'deleteRoadTypes',
   async (id, { rejectWithValue }) => {
     try {
@@ -188,11 +188,11 @@ export const deleteRoadTypesThunk = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-);
+); */
 
 // Routes
 
-export const addRoutesThunk = createAsyncThunk(
+/* export const addRoutesThunk = createAsyncThunk(
   'addRoutes',
   async (body, { rejectWithValue }) => {
     const data = {
@@ -211,9 +211,9 @@ export const addRoutesThunk = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-);
+); */
 
-export const updateRoutesThunk = createAsyncThunk(
+/* export const updateRoutesThunk = createAsyncThunk(
   'updateRoutes',
   async (body, { rejectWithValue }) => {
     const newBody = {
@@ -232,9 +232,9 @@ export const updateRoutesThunk = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-);
+); */
 
-export const deleteRoutesThunk = createAsyncThunk(
+/* export const deleteRoutesThunk = createAsyncThunk(
   'deleteRoutes',
   async (id, { rejectWithValue }) => {
     try {
@@ -244,4 +244,4 @@ export const deleteRoutesThunk = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-);
+); */

@@ -39,7 +39,7 @@ import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 export default function Modal({
   showCloseIcon = true,
   onClose,
-  setModalDataMain,
+  onSubmitCallbackMain,
 }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
@@ -137,7 +137,7 @@ export default function Modal({
 
   // --
   const [selectedSeniorCar, setSelectedSeniorCar] = useState(null);
-
+  console.log(selectedSeniorCar);
   const seniorCarArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший машини'
   );
@@ -150,7 +150,7 @@ export default function Modal({
 
   const [selectedHeadOfCarService, setSelectedHeadOfCarService] =
     useState(null);
-
+  console.log(selectedHeadOfCarService);
   const headOfCarServiceArr = personnel.filter(
     el => el.position.toLowerCase() === 'начальник автомобільної служби'
   );
@@ -175,7 +175,7 @@ export default function Modal({
   const seniorKtp = personnel.filter(el =>
     el.position.toLowerCase().includes('ктп')
   );
-  const seniorKtpOptions = seniorKtp.map(({ name, rank }) => ({
+  const seniorKtpOptions = seniorKtpArr.map(({ name, rank }) => ({
     value: { name, rank },
     label: name,
   }));
@@ -327,10 +327,9 @@ export default function Modal({
                         type="text"
                         placeholder="0"
                         {...field}
-                        onChange={e => {
-                          const inputText = e.target.value.replace(/\D/g, '');
-                          setValue('numberDocument', inputText);
-                        }}
+                        onChange={e =>
+                          setValue('numberDocument', e.target.value)
+                        }
                       />
                       {errors.numberDocument && (
                         <span style={{ color: 'red' }}>
@@ -589,7 +588,7 @@ export default function Modal({
                     <>
                       <LongInput
                         type="text"
-                        placeholder="Наряд №"
+                        placeholder="0"
                         {...field}
                         onChange={e =>
                           setValue('purposeStatement', e.target.value)
@@ -765,20 +764,13 @@ export default function Modal({
                       <>
                         <Select
                           {...field}
-                          options={Array.from(
-                            { length: (24 * 60) / 5 },
-                            (v, i) => {
-                              const totalMinutes = i * 5;
-                              const hours = Math.floor(totalMinutes / 60)
-                                .toString()
-                                .padStart(2, '0');
-                              const minutes = (totalMinutes % 60)
-                                .toString()
-                                .padStart(2, '0');
-                              const time = `${hours}:${minutes}`;
-                              return { value: time, label: time };
-                            }
-                          )}
+                          options={Array.from({ length: 24 }, (v, i) => {
+                            const hour = i.toString().padStart(2, '0');
+                            return [
+                              { value: `${hour}:00`, label: `${hour}:00` },
+                              { value: `${hour}:30`, label: `${hour}:30` },
+                            ];
+                          }).flat()}
                           onChange={selectedOption =>
                             setValue(
                               `departureTime[${index}]`,
@@ -873,217 +865,10 @@ export default function Modal({
                           onChange={e =>
                             setValue(`speedOmeter[${index}]`, e.target.value)
                           }
-                          onKeyPress={e => {
-                            const isValidInput = /^\d*$/.test(e.key);
-                            if (!isValidInput) {
-                              e.preventDefault();
-                            }
-                          }}
                         />
                         {errors.speedOmeter && (
                           <span style={{ color: 'red' }}>
                             {errors.speedOmeter.message}
-                          </span>
-                        )}
-                      </>
-                    )}
-                  />
-                </Label>
-
-                <Label>
-                  <Span>&nbsp;</Span>
-                  <BtnTrash
-                    type="button
-          "
-                    onClick={() => handleBtnTrashClick(index)}
-                  >
-                    {' '}
-                    <Icon size={16} name="trash" />
-                  </BtnTrash>
-                </Label>
-              </InputTimeDiv>
-            ))}
-          </TimeDiv>
-          <TimeDiv>
-            {[...Array(duplicateInputs)].map((_, index) => (
-              <InputTimeDiv key={index}>
-                <Label>
-                  <Span>Дата прибуття</Span>
-                  <Controller
-                    name={`arrivalDate[${index}]`}
-                    control={control}
-                    rules={{
-                      required: "Обов'язкове поле",
-                      pattern: {
-                        value:
-                          /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
-                        message:
-                          'Невірний формат (приклад правильного формату: 01.01.2023)',
-                      },
-                    }}
-                    render={({ field }) => (
-                      <>
-                        <PickerContainer>
-                          <DatePickerTwo
-                            selected={field.value}
-                            onChange={date =>
-                              setValue(`arrivalDate[${index}]`, date)
-                            }
-                            dateFormat="dd.MM.yyyy"
-                            placeholderText="00.00.0000"
-                            showIcon
-                            icon={
-                              <IconStyle
-                                size={16}
-                                height={18}
-                                name="calendar"
-                              />
-                            }
-                          />
-                          {errors.arrivalDate && (
-                            <span style={{ color: 'red' }}>
-                              {errors.arrivalDate.message}
-                            </span>
-                          )}
-                        </PickerContainer>
-                      </>
-                    )}
-                  />
-                </Label>
-                <Label>
-                  <Span>Час прибуття</Span>
-                  <Controller
-                    name={`arrivalTime[${index}]`}
-                    control={control}
-                    rules={{
-                      required: "Обов'язкове поле",
-                    }}
-                    render={({ field }) => (
-                      <>
-                        <Select
-                          {...field}
-                          options={Array.from(
-                            { length: (24 * 60) / 5 },
-                            (v, i) => {
-                              const totalMinutes = i * 5;
-                              const hours = Math.floor(totalMinutes / 60)
-                                .toString()
-                                .padStart(2, '0');
-                              const minutes = (totalMinutes % 60)
-                                .toString()
-                                .padStart(2, '0');
-                              const time = `${hours}:${minutes}`;
-                              return { value: time, label: time };
-                            }
-                          )}
-                          onChange={selectedOption =>
-                            setValue(
-                              `arrivalTime[${index}]`,
-                              selectedOption.value
-                            )
-                          }
-                          placeholder="00:00"
-                          value={
-                            field.value
-                              ? { value: field.value, label: field.value }
-                              : null
-                          }
-                          styles={{
-                            control: provided => ({
-                              ...provided,
-                              width: '182px',
-                              height: '46px',
-                              borderRadius: '12px',
-                              background: '#282828',
-                              border: 'none',
-                              color: '#fbfcfc',
-                              textIndent: '10px',
-                              cursor: 'pointer',
-                            }),
-                            singleValue: provided => ({
-                              ...provided,
-                              color: '#fbfcfc',
-                            }),
-                            dropdownIndicator: provided => ({
-                              ...provided,
-                              color: '#fbfcfc',
-                            }),
-                            menu: provided => ({
-                              ...provided,
-                              background: '#282828',
-                            }),
-                            option: (provided, state) => ({
-                              ...provided,
-                              backgroundColor: state.isSelected
-                                ? '#505050'
-                                : '#282828',
-                              color: '#fbfcfc',
-                              cursor: 'pointer',
-                              ':hover': {
-                                backgroundColor: '#505050',
-                              },
-                            }),
-                            // Стили для полосы прокрутки
-                            menuList: base => ({
-                              ...base,
-                              '::-webkit-scrollbar': {
-                                width: '8px',
-                              },
-                              '::-webkit-scrollbar-thumb': {
-                                backgroundColor: '#505050',
-                                borderRadius: '4px',
-                              },
-                              '::-webkit-scrollbar-track': {
-                                backgroundColor: '#282828',
-                              },
-                            }),
-                          }}
-                        />
-                        {errors[`arrivalTime[${index}]`] && (
-                          <span style={{ color: 'red' }}>
-                            {errors[`arrivalTime[${index}]`].message}
-                          </span>
-                        )}
-                      </>
-                    )}
-                  />
-                </Label>
-
-                <Label>
-                  <Span>Показники спідометра по прибуттю</Span>
-                  <Controller
-                    name={`speedOmeterArrival[${index}]`}
-                    control={control}
-                    rules={{
-                      required: "Обов'язкове поле",
-                      pattern: {
-                        value: /^\d*$/, // Разрешить только цифры
-                        message: 'Можна вводити тільки числа',
-                      },
-                    }}
-                    render={({ field }) => (
-                      <>
-                        <ToLongInput
-                          type="text"
-                          placeholder="Введіть текст"
-                          {...field}
-                          onChange={e =>
-                            setValue(
-                              `speedOmeterArrival[${index}]`,
-                              e.target.value
-                            )
-                          }
-                          onKeyPress={e => {
-                            // Разрешить только цифры или пустой ввод
-                            const isValidInput = /^\d*$/.test(e.key);
-                            if (!isValidInput) {
-                              e.preventDefault();
-                            }
-                          }}
-                        />
-                        {errors.speedOmeterArrival && (
-                          <span style={{ color: 'red' }}>
-                            {errors.speedOmeterArrival.message}
                           </span>
                         )}
                       </>

@@ -1,3 +1,4 @@
+import Select from 'react-select';
 import styled from 'styled-components';
 
 // ----------------------------------------------------------------------
@@ -27,7 +28,6 @@ export const ModalTitle = styled.h3`
   white-space: nowrap;
   padding-right: 440px;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -57,7 +57,7 @@ export const OverlayStyle = styled.div`
 `;
 
 export const ModalWindowStyle = styled.div`
-overflow-y: scroll;
+  overflow-y: scroll;
   &::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: #282828;
@@ -127,7 +127,6 @@ export const InputDiv = styled.div`
 
 export const Label = styled.label`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -136,6 +135,7 @@ export const Label = styled.label`
 
 export const Span = styled.span`
   margin-left: 10px;
+  color: rgba(251, 252, 252, 0.4);
 `;
 
 // /////////////////
@@ -196,9 +196,15 @@ export const AddBtnStyle = styled.button`
 
 export const BtnActive = styled.div`
   display: flex;
-  
+
   text-align: center;
   gap: 8px;
   margin-top: 15px;
   margin-right: 295px;
+`;
+
+export const StyledSelect = styled(Select)`
+  .css-1u9des2-indicatorSeparator {
+    background-color: transparent;
+  }
 `;

@@ -75,7 +75,6 @@ export const ButtonCloseStyle = styled.button`
 
 export const InformTitle = styled.h3`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -123,7 +122,6 @@ export const Label = styled.label`
   flex-direction: column;
   gap: 8px;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -185,7 +183,6 @@ export const DocumentNumber = styled.p`
 export const MilitaryBase = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -197,7 +194,6 @@ export const MilitaryBase = styled.p`
 export const Driver = styled.p`
   position: absolute;
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -210,7 +206,6 @@ export const Driver = styled.p`
 
 export const OdometerTitle = styled.h3`
   color: #fbfcfc;
-  font-family: Manrope;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -293,98 +288,12 @@ export const InputTimeDiv = styled.div`
 
 // PICKER
 
-export const PickerContainer = styled.div`
-  .react-datepicker__view-calendar-icon input {
-    color: #191413;
-    padding: 12px 16px;
-    /* padding: 0 !important;  */
-  }
-  .react-datepicker {
-    background: #47523f;
-    border: none;
-  }
-  .react-datepicker__header {
-    border-radius: 8px;
-    border: none;
-    background: var(--black);
-
-    font-weight: normal;
-  }
-  .react-datepicker__month-container {
-    float: left;
-    background: var(--black);
-    border-radius: 8px;
-  }
-  .react-datepicker__triangle {
-    visibility: hidden;
-  }
-  .react-datepicker__month {
-    border-top: 1px solid rgba(243, 243, 243, 0.2);
-  }
-
-  .react-datepicker__day-name {
-    color: rgba(243, 243, 243, 0.2);
-  }
-
-  .react-datepicker__day,
-  .react-datepicker__time-name,
-  .react-datepicker__current-month {
-    color: var(--white);
-  }
-
-  .react-datepicker__current-month,
-  .react-datepicker__navigation {
-    /* width: 0px; */
-  }
-
-  .react-datepicker__day:hover {
-    background: var(--white);
-    color: var(--black);
-    border-radius: 50%;
-  }
-
-  .react-datepicker__day--disabled,
-  .react-datepicker__month-text--disabled,
-  .react-datepicker__quarter-text--disabled,
-  .react-datepicker__year-text--disabled {
-    cursor: default;
-    color: rgba(243, 243, 243, 0.2);
-  }
-  .react-datepicker__day--disabled:hover,
-  .react-datepicker__month-text--disabled:hover,
-  .react-datepicker__quarter-text--disabled:hover,
-  .react-datepicker__year-text--disabled:hover {
-    background: var(--white);
-    color: var(--black);
-    border-radius: 50%;
-  }
-  .react-datepicker__day--selected,
-  .react-datepicker__day--keyboard-selected {
-    background: var(--white);
-    color: var(--black);
-    border-radius: 50%;
-  }
-  .react-datepicker__month-read-view,
-  .react-datepicker__year-read-view {
-    color: var(--white);
-    font-size: 16px;
-  }
-
-  .react-datepicker__navigation--years,
-  .react-datepicker__navigation--years-previous {
-    visibility: visible;
-    border-color: var(--black);
-    /* background-color: var(--black); */
-  }
-`;
-
 export const DatePickerOne = styled(DatePicker)`
   text-indent: 10px;
   width: 135px;
   height: 46px;
-  padding: 12px 16px;
   border-radius: 12px;
-  background: #f3f3f3;
+  background: #282828;
   border: none;
   color: #fbfcfc;
   cursor: pointer;
@@ -413,34 +322,18 @@ export const ShortInputStyle = styled.input`
   color: #fbfcfc;
 `;
 
-export const MidInputStyle = styled.input`
-  text-indent: 10px;
-  width: 182x;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+export const MidInputStyle = styled(ShortInputStyle)`
+  width: 182px;
 `;
 
-export const LongInput = styled.input`
-  text-indent: 10px;
+export const LongInput = styled(ShortInputStyle)`
   width: 214px;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+  font-weight: 600;
 `;
 
-export const ToLongInput = styled.input`
-  text-indent: 10px;
+export const ToLongInput = styled(ShortInputStyle)`
   width: 280px;
-  height: 46px;
-  border-radius: 12px;
-  background: #282828;
-  border: none;
-  color: #fbfcfc;
+  font-weight: 600;
 `;
 
 // ------------------------
@@ -460,7 +353,6 @@ export const ConfirmBtnStyle = styled.button`
   border: none;
   border-radius: 12px;
   background: #47523f;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -489,7 +381,6 @@ export const CancelBtnStyle = styled.button`
   border-radius: 12px;
   border: none;
   line-height: 20px;
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -514,11 +405,4 @@ export const IconStyleClock = styled(Icon)`
   bottom: 21%;
   right: 9%;
   z-index: 2;
-`;
-
-export const IconStyleCalendar = styled(Icon)`
-  cursor: pointer;
-  bottom: 15%;
-  right: 5%;
-  z-index: 1;
 `;

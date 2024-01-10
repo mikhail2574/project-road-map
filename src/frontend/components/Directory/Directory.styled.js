@@ -193,7 +193,6 @@ export const StyledTableDeleteButton = styled.button`
 export const StyledActiveButton = styled.button`
   position: relative;
 
-  font-family: Manrope;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -214,7 +213,6 @@ export const StyledActiveButton = styled.button`
 `;
 
 export const InnactiveButton = styled.button`
-  font-family: Manrope;
   font-size: 14.039px;
   font-style: normal;
   font-weight: 600;

@@ -1,6 +1,6 @@
 const ExcelJS = require('exceljs');
 const path = require('path');
-const { shortRanksEnum } = require('./../services/constants');
+const { shortRanksEnum, monthArr } = require('./../services/constants');
 
 const pathToExcel = path.resolve(__dirname, '../fileStorage/excel/roadXS.xlsx');
 
@@ -54,7 +54,7 @@ const fillTable = async (body = {}) => {
       break;
 
     default:
-      worksheet.getCell('N2').value = body.documentDate;
+      worksheet.getCell('N2').value = body.expireDate;
       worksheet.getCell('O3').value = body.documentNumber;
       worksheet.getCell('L4').value = body.militaryUnit;
       worksheet.getCell('P5').value = body.supervisor.rank;
@@ -264,15 +264,35 @@ const fillTable = async (body = {}) => {
           }
         }
       }
-
+      let dateSplit;
+      try {
+        dateSplit = body.checkedDate.split('.');
+      } catch (error) {
+        console.log(error);
+      }
       subWorksheet.getCell('A18').value = body.car.fuelType;
       subWorksheet.getCell('F18').value = '15%';
       subWorksheet.getCell('B18').value = body.car.fuelConsumption;
       subWorksheet.getCell('D18').value = body.totalMileage;
+      subWorksheet.getCell('N26').value = body.checkPerson.name;
+      subWorksheet.getCell('G26').value = body.checkPerson.rank;
       subWorksheet.getCell('H18').value = Math.round(
         (body.car.fuelConsumption * body.totalMileage) / 100 -
           ((body.car.fuelConsumption * body.totalMileage) / 100) * 0.15
       );
+      if (dateSplit.length) {
+        subWorksheet.getCell('A27').value = `"${dateSplit[0]}" ${
+          monthArr[Number(dateSplit[1])]
+        }`;
+        subWorksheet.getCell('A27').border = {
+          bottom: { style: 'thin' },
+        };
+        subWorksheet.getCell('B27').value = `${Number(dateSplit[2])}`;
+      } else {
+        subWorksheet.getCell('A27').value = '"____"__________________';
+        subWorksheet.getCell('B27').value = new Date().getFullYear();
+      }
+
       break;
   }
 

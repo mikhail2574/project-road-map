@@ -3,7 +3,6 @@ import {
   AddBtnStyle,
   BtnActive,
   ButtonCloseStyle,
-  CancelBtnStyle,
   ModalTitle,
   OverlayStyle,
 } from '../modal/Modal.styled';
@@ -79,11 +78,6 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
     }
   };
 
-  const handleReset = () => {
-    setValue('rank', '');
-    setValue('name', '');
-    setValue('position', '');
-  };
   return (
     <OverlayStyle onClick={e => handleBackdropClick(e)}>
       <StyledModalWindowWrapper>
@@ -102,7 +96,7 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
           </ButtonCloseStyle>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalTitle>Додати людину</ModalTitle>
+          <ModalTitle>Редагувати людину</ModalTitle>
           <StyledModalInputWrapper>
             <Controller
               name="rank"
@@ -197,11 +191,8 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
           />
           <BtnActive>
             <AddBtnStyle type="submit" name="add">
-              Додати
+              Зберегти
             </AddBtnStyle>
-            <CancelBtnStyle type="button" onClick={handleReset}>
-              Видалити
-            </CancelBtnStyle>
           </BtnActive>
         </form>
       </StyledModalWindowWrapper>
