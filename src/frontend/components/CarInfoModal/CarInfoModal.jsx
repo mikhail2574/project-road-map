@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -30,10 +30,12 @@ import {
 import { Icons } from '../Icons';
 import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 import moment from 'moment';
+import uk from 'date-fns/locale/uk';
 import { useDispatch } from 'react-redux';
 import { setCarWork } from 'redux/form/slice';
 
 export default function CarInfoModal({ showCloseIcon = true, onClose }) {
+  const [minDate, setMinDate] = useState();
   const {
     handleSubmit,
     control,
@@ -66,6 +68,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
   const dispatch = useDispatch();
 
   const watchTime = watch(['onStay', 'onMove']);
+  const watchDep = watch('departureDate');
   const watchMileage = watch([
     'withCargo',
     'withoutCargo',
@@ -91,6 +94,11 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
         Number(withTug)
     );
   }, [setValue, getValues, watchMileage]);
+
+  useEffect(() => {
+    const { departureDate } = getValues();
+    setMinDate(departureDate);
+  }, [getValues, watchDep]);
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
@@ -253,6 +261,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                         <DatePickerTwo
                           selected={field.value}
                           onChange={date => setValue(`departureDate`, date)}
+                          locale={uk}
                           dateFormat="dd.MM.yyyy"
                           placeholderText="00.00.0000"
                           showIcon
@@ -286,14 +295,13 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                   render={({ field }) => (
                     <>
                       <MidInputStyle
-                        type="text"
+                        type="time"
                         placeholder="00:00"
                         {...field}
                         onChange={e =>
                           setValue(`departureTime`, e.target.value)
                         }
                       />
-                      <IconStyleClock size={18} height={18} name="clock" />
                       {errors.departureTime && (
                         <span style={{ color: 'red' }}>
                           {errors.departureTime.message}
@@ -323,6 +331,8 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                         <DatePickerTwo
                           selected={field.value}
                           onChange={date => setValue(`arrivalDate`, date)}
+                          minDate={minDate}
+                          locale={uk}
                           dateFormat="dd.MM.yyyy"
                           placeholderText="00.00.0000"
                           showIcon
@@ -356,12 +366,11 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                   render={({ field }) => (
                     <>
                       <MidInputStyle
-                        type="text"
+                        type="time"
                         placeholder="00:00"
                         {...field}
                         onChange={e => setValue(`arrivalTime`, e.target.value)}
                       />
-                      <IconStyleClock size={18} height={18} name="clock" />
                       {errors.departureTime && (
                         <span style={{ color: 'red' }}>
                           {errors.departureTime.message}
