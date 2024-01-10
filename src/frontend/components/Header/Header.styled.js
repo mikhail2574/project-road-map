@@ -29,16 +29,4 @@ export const LogoLink = styled(Link)`
     position: relative;
     z-index: 1;
   }
-
-  &:after {
-    content: '';
-    height: 6px;
-    width: 11px;
-    position: absolute;
-    left: 11px;
-    top: 40px;
-    background: var(--transparent-gray);
-    clip-path: ellipse(70% 50% at 50% 50%);
-    box-shadow: 0px 0px 0px 20px var(--transparent-gray);
-  }
 `;

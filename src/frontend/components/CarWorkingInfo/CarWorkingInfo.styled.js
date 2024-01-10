@@ -263,6 +263,7 @@ export const InputWrapper = styled.div`
   gap: 8px;
 
   input {
+    width: fit-content;
     text-overflow: ellipsis;
     font-weight: 500;
     padding: 12px;
