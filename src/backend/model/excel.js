@@ -28,7 +28,7 @@ const parseInfo = async () => {
   const rowDataRoutes = [];
 
   worksheet.eachRow((row, rowNumber) => {
-    if (rowNumber <= 2) return;
+    if (rowNumber <= 2) return; // пропускаю 1 рядок, бо так оформленний ексель
 
     const rowCars = {
       carName: row.values[1], // 'A'
