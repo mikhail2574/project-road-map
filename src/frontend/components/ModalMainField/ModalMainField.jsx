@@ -93,7 +93,9 @@ export default function Modal({
   };
 
   const onSubmit = data => {
-    setModalDataMain(data);
+    console.log(data);
+
+    onSubmitCallbackMain(data);
     onClose();
   };
 
@@ -161,7 +163,7 @@ export default function Modal({
 
   // --
   const [selectedSeniorTechUnit, setSelectedSeniorTechUnit] = useState(null);
-
+  console.log(selectedSeniorTechUnit);
   const seniorTechUnitArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший (технік) підрозділу'
   );
@@ -171,15 +173,14 @@ export default function Modal({
   }));
   // --
   const [selectedSeniorKtp, setSelectedSeniorKtp] = useState(null);
-
-  const seniorKtp = personnel.filter(el =>
-    el.position.toLowerCase().includes('ктп')
+  console.log(selectedSeniorKtp);
+  const seniorKtpArr = personnel.filter(
+    el => el.position.toLowerCase() === 'начальник ктп'
   );
   const seniorKtpOptions = seniorKtpArr.map(({ name, rank }) => ({
     value: { name, rank },
     label: name,
   }));
-
   // --
   const customStyles = {
     control: provided => ({
