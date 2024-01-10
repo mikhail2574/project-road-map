@@ -153,6 +153,7 @@ export const PickerContainer = styled.div`
   .react-datepicker__view-calendar-icon input {
     padding: 0 !important;
   }
+
   .react-datepicker {
     background: #47523f;
     border: none;
