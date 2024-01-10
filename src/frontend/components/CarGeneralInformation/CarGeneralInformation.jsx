@@ -47,6 +47,7 @@ import ModalFuel from '../ModalFuel/ModalFuel';
 
 const CarGeneralInformation = () => {
   const dispatch = useDispatch();
+  let firstTableMarkup = [];
 
   const mockData = {
     supervisor: {
@@ -183,7 +184,7 @@ const CarGeneralInformation = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
-
+  const pmmMarkup = [];
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -245,22 +246,22 @@ const CarGeneralInformation = () => {
     }
   }
   if (modalData.availability_0) {
-    for (let i = 0; i < duplicated; i++) {
-      pmmMarkup.push(
-        <StyledTBody key={i}>
-          <td>{modalData[`itemName_${i}`]}</td>
-          <td>{modalData[`itemCode_${i}`]}</td>
-          <td>{modalData[`availabilityBeforeDeparture_${i}`]}</td>
-          <td>{modalData[`receivedDate_${i}`].toLocaleDateString()}</td>
-          <td>{modalData[`availability_${i}`]}</td>
-          <td>{modalData[`received_${i}`]}</td>
-          <td>{modalData[`spent_${i}`]}</td>
-          <td>{modalData[`norm_${i}`]}</td>
-          <td>{modalData[`saving_${i}`]}</td>
-          <td>{modalData[`overuse_${i}`]}</td>
-        </StyledTBody>
-      );
-    }
+    // for (let i = 0; i < duplicated; i++) {
+    //   pmmMarkup.push(
+    //     <StyledTBody key={i}>
+    //       <td>{modalData[`itemName_${i}`]}</td>
+    //       <td>{modalData[`itemCode_${i}`]}</td>
+    //       <td>{modalData[`availabilityBeforeDeparture_${i}`]}</td>
+    //       <td>{modalData[`receivedDate_${i}`].toLocaleDateString()}</td>
+    //       <td>{modalData[`availability_${i}`]}</td>
+    //       <td>{modalData[`received_${i}`]}</td>
+    //       <td>{modalData[`spent_${i}`]}</td>
+    //       <td>{modalData[`norm_${i}`]}</td>
+    //       <td>{modalData[`saving_${i}`]}</td>
+    //       <td>{modalData[`overuse_${i}`]}</td>
+    //     </StyledTBody>
+    //   );
+    // }
   }
   return (
     <MainContainer>

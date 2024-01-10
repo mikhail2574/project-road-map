@@ -138,7 +138,6 @@ export const Label = styled.label`
 
 export const Span = styled.span`
   margin-left: 10px;
-  color: rgba(251, 252, 252, 0.4);
 `;
 
 // /////////////////

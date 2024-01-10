@@ -66,7 +66,7 @@ export const ModalWindowStyle = styled.div`
 
 export const TitlePlusDiv = styled.div`
   display: flex;
-  gap: 260px;
+  gap: 220px;
   justify-content: center;
   align-items: center;
 `;
@@ -153,6 +153,7 @@ export const PickerContainer = styled.div`
   .react-datepicker__view-calendar-icon input {
     padding: 0 !important;
   }
+
   .react-datepicker {
     background: #47523f;
     border: none;
