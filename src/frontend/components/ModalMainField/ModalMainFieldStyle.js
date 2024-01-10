@@ -165,6 +165,7 @@ export const OdometerTitle = styled.h3`
   font-style: normal;
   font-weight: 600;
   line-height: 24px;
+  white-space: nowrap;
 `;
 
 // -----
@@ -175,7 +176,7 @@ export const OdomPlusContainer = styled.div`
   justify-content: center;
   margin-bottom: 35px;
 
-  gap: 360px;
+  gap: 340px;
 `;
 
 //  BtnPlus

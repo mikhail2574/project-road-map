@@ -66,7 +66,7 @@ export const ModalWindowStyle = styled.div`
 
 export const TitlePlusDiv = styled.div`
   display: flex;
-  gap: 260px;
+  gap: 220px;
   justify-content: center;
   align-items: center;
 `;

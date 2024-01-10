@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
+
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -127,7 +128,7 @@ export default function Modal({
               <br /> матеріалів (у літрах)
             </ModalTitle>
             <BtnPlus onClick={handleBtnPlusClick}>
-              <Icon size={24} name="plus" />
+              <Icon size={28} name="plus" />
             </BtnPlus>
           </TitlePlusDiv>
 
@@ -278,6 +279,7 @@ export default function Modal({
                                   name="calendar"
                                 />
                               }
+                              locale="uk"
                             />
 
                             {errors[`receivedDate_${index}`] && (
@@ -292,7 +294,7 @@ export default function Modal({
                   </Label>
 
                   <Label>
-                    <Span>Наявність під час постановки </Span>
+                    <Span>Наявність при постановці </Span>
                     <Controller
                       name={`availability_${index}`}
                       control={control}

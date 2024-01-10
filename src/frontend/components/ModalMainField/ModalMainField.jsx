@@ -465,7 +465,7 @@ export default function Modal({
                 />
               </Label>
               <Label>
-                <Span>Начальник автомобільної служби</Span>
+                <Span>Начальник авто служби</Span>
                 <Controller
                   name="headOfCarService"
                   control={control}
@@ -704,7 +704,7 @@ export default function Modal({
           <OdomPlusContainer>
             <OdometerTitle>Показники спідометра</OdometerTitle>
             <BtnPlus onClick={handleBtnPlusClick}>
-              <Icon size={25} name="plus" />
+              <Icon size={28} name="plus" />
             </BtnPlus>
           </OdomPlusContainer>
 
@@ -1051,7 +1051,7 @@ export default function Modal({
                 </Label>
 
                 <Label>
-                  <Span>Показники спідометра по прибуттю</Span>
+                  <Span>Показники по прибуттю</Span>
                   <Controller
                     name={`speedOmeterArrival[${index}]`}
                     control={control}
