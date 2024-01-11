@@ -18,7 +18,6 @@ import {
   ConfirmBtnStyle,
   BtnBox,
   DatePickerTwo,
-  IconStyleClock,
   Legend,
   InputMultiDiv,
   InputLegendDiv,

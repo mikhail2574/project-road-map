@@ -422,10 +422,6 @@ export const ToLongInput = styled(ShortInputStyle)`
   font-weight: 600;
 `;
 
-// ------------------------
-
-// 22222222222222222222222222
-
 export const BtnBox = styled.div`
   display: flex;
   gap: 8px;
