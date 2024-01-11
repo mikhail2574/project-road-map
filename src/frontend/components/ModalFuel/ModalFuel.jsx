@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
+
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -30,9 +31,9 @@ export default function Modal({
   showCloseIcon = true,
   onCloseFuel,
   onSubmitCallback,
-  setDuplicated,
 }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
+
   const {
     handleSubmit,
     control,
@@ -42,7 +43,7 @@ export default function Modal({
   } = useForm();
 
   const onSubmit = data => {
-    setDuplicated(duplicateInputs);
+    console.log(data);
     onSubmitCallback(data); // Передача данных родительскому компоненту
     onCloseFuel(); // Закрытие модального окна
   };
@@ -127,7 +128,7 @@ export default function Modal({
               <br /> матеріалів (у літрах)
             </ModalTitle>
             <BtnPlus onClick={handleBtnPlusClick}>
-              <Icon size={24} name="plus" />
+              <Icon size={28} name="plus" />
             </BtnPlus>
           </TitlePlusDiv>
 
@@ -233,13 +234,9 @@ export default function Modal({
                             type="text"
                             placeholder="Кількість"
                             {...field}
-                            onChange={e => {
-                              const inputText = e.target.value.replace(
-                                /[^0-9.]/g,
-                                ''
-                              );
-                              setValue(`received_${index}`, inputText);
-                            }}
+                            onChange={e =>
+                              setValue(`received_${index}`, e.target.value)
+                            }
                           />
                           {errors[`received_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -278,6 +275,7 @@ export default function Modal({
                                   name="calendar"
                                 />
                               }
+                              locale="uk"
                             />
 
                             {errors[`receivedDate_${index}`] && (
@@ -292,7 +290,7 @@ export default function Modal({
                   </Label>
 
                   <Label>
-                    <Span>Наявність під час постановки </Span>
+                    <Span>Наявність при постановці </Span>
                     <Controller
                       name={`availability_${index}`}
                       control={control}
@@ -331,13 +329,9 @@ export default function Modal({
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e => {
-                              const inputText = e.target.value.replace(
-                                /[^0-9.]/g,
-                                ''
-                              ); // Оставляем только цифры и точки
-                              setValue(`spent_${index}`, inputText);
-                            }}
+                            onChange={e =>
+                              setValue(`spent_${index}`, e.target.value)
+                            }
                           />
                           {errors[`spent_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -361,13 +355,9 @@ export default function Modal({
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e => {
-                              const inputText = e.target.value.replace(
-                                /[^0-9.]/g,
-                                ''
-                              );
-                              setValue(`norm_${index}`, inputText);
-                            }}
+                            onChange={e =>
+                              setValue(`norm_${index}`, e.target.value)
+                            }
                           />
                           {errors[`norm_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -391,13 +381,9 @@ export default function Modal({
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e => {
-                              const inputText = e.target.value.replace(
-                                /[^0-9.]/g,
-                                ''
-                              );
-                              setValue(`saving_${index}`, inputText);
-                            }}
+                            onChange={e =>
+                              setValue(`saving_${index}`, e.target.value)
+                            }
                           />
                           {errors[`saving_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -416,18 +402,14 @@ export default function Modal({
                       control={control}
                       rules={{ required: "Обов'язкове поле" }}
                       render={({ field }) => (
-                        <>  
+                        <>
                           <ShortInput
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e => {
-                              const inputText = e.target.value.replace(
-                                /[^0-9.]/g,
-                                ''
-                              );
-                              setValue(`overuse_${index}`, inputText);
-                            }}
+                            onChange={e =>
+                              setValue(`overuse_${index}`, e.target.value)
+                            }
                           />
                           {errors[`overuse_${index}`] && (
                             <span style={{ color: 'red' }}>

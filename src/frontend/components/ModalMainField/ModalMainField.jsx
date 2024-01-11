@@ -39,7 +39,7 @@ import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
 export default function Modal({
   showCloseIcon = true,
   onClose,
-  setModalDataMain,
+  onSubmitCallbackMain,
 }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
   // const personnel = useSelector(selectPersonnel);
@@ -93,8 +93,9 @@ export default function Modal({
   };
 
   const onSubmit = data => {
-   
-    setModalDataMain(data);
+    console.log(data);
+
+    onSubmitCallbackMain(data);
     onClose();
   };
 
@@ -138,7 +139,7 @@ export default function Modal({
 
   // --
   const [selectedSeniorCar, setSelectedSeniorCar] = useState(null);
-
+  console.log(selectedSeniorCar);
   const seniorCarArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший машини'
   );
@@ -151,7 +152,7 @@ export default function Modal({
 
   const [selectedHeadOfCarService, setSelectedHeadOfCarService] =
     useState(null);
-
+  console.log(selectedHeadOfCarService);
   const headOfCarServiceArr = personnel.filter(
     el => el.position.toLowerCase() === 'начальник автомобільної служби'
   );
@@ -162,7 +163,7 @@ export default function Modal({
 
   // --
   const [selectedSeniorTechUnit, setSelectedSeniorTechUnit] = useState(null);
-  
+  console.log(selectedSeniorTechUnit);
   const seniorTechUnitArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший (технік) підрозділу'
   );
@@ -172,15 +173,14 @@ export default function Modal({
   }));
   // --
   const [selectedSeniorKtp, setSelectedSeniorKtp] = useState(null);
-
-  const seniorKtp = personnel.filter(
-    el => el.position.toLowerCase().includes('ктп')
+  console.log(selectedSeniorKtp);
+  const seniorKtpArr = personnel.filter(
+    el => el.position.toLowerCase() === 'начальник ктп'
   );
-  const seniorKtpOptions = seniorKtp.map(({ name, rank }) => ({
+  const seniorKtpOptions = seniorKtpArr.map(({ name, rank }) => ({
     value: { name, rank },
     label: name,
   }));
-  
   // --
   const customStyles = {
     control: provided => ({
@@ -328,10 +328,9 @@ export default function Modal({
                         type="text"
                         placeholder="0"
                         {...field}
-                        onChange={e => {
-                          const inputText = e.target.value.replace(/\D/g, '');
-                          setValue('numberDocument', inputText);
-                        }}
+                        onChange={e =>
+                          setValue('numberDocument', e.target.value)
+                        }
                       />
                       {errors.numberDocument && (
                         <span style={{ color: 'red' }}>
@@ -465,7 +464,7 @@ export default function Modal({
                 />
               </Label>
               <Label>
-                <Span>Начальник автомобільної служби</Span>
+                <Span>Начальник авто служби</Span>
                 <Controller
                   name="headOfCarService"
                   control={control}
@@ -590,7 +589,7 @@ export default function Modal({
                     <>
                       <LongInput
                         type="text"
-                        placeholder="Наряд №"
+                        placeholder="0"
                         {...field}
                         onChange={e =>
                           setValue('purposeStatement', e.target.value)
@@ -704,7 +703,7 @@ export default function Modal({
           <OdomPlusContainer>
             <OdometerTitle>Показники спідометра</OdometerTitle>
             <BtnPlus onClick={handleBtnPlusClick}>
-              <Icon size={25} name="plus" />
+              <Icon size={28} name="plus" />
             </BtnPlus>
           </OdomPlusContainer>
 
@@ -766,20 +765,13 @@ export default function Modal({
                       <>
                         <Select
                           {...field}
-                          options={Array.from(
-                            { length: (24 * 60) / 5 },
-                            (v, i) => {
-                              const totalMinutes = i * 5;
-                              const hours = Math.floor(totalMinutes / 60)
-                                .toString()
-                                .padStart(2, '0');
-                              const minutes = (totalMinutes % 60)
-                                .toString()
-                                .padStart(2, '0');
-                              const time = `${hours}:${minutes}`;
-                              return { value: time, label: time };
-                            }
-                          )}
+                          options={Array.from({ length: 24 }, (v, i) => {
+                            const hour = i.toString().padStart(2, '0');
+                            return [
+                              { value: `${hour}:00`, label: `${hour}:00` },
+                              { value: `${hour}:30`, label: `${hour}:30` },
+                            ];
+                          }).flat()}
                           onChange={selectedOption =>
                             setValue(
                               `departureTime[${index}]`,
@@ -874,12 +866,6 @@ export default function Modal({
                           onChange={e =>
                             setValue(`speedOmeter[${index}]`, e.target.value)
                           }
-                          onKeyPress={e => {
-                            const isValidInput = /^\d*$/.test(e.key);
-                            if (!isValidInput) {
-                              e.preventDefault();
-                            }
-                          }}
                         />
                         {errors.speedOmeter && (
                           <span style={{ color: 'red' }}>
@@ -1051,7 +1037,7 @@ export default function Modal({
                 </Label>
 
                 <Label>
-                  <Span>Показники спідометра по прибуттю</Span>
+                  <Span>Показники по прибуттю</Span>
                   <Controller
                     name={`speedOmeterArrival[${index}]`}
                     control={control}

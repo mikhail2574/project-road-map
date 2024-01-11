@@ -161,7 +161,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
           <MainDiv>
             <InputDiv>
               <Label>
-                <Span>Марка автомобіля</Span>
+                <Span>Назва автомобіля</Span>
                 <Controller
                   name="carName"
                   control={control}
@@ -281,6 +281,11 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                     </>
                   )}
                 />
+                {errors.fuelConsumption && (
+                  <span style={{ color: 'red' }}>
+                    {errors.fuelConsumption.message}
+                  </span>
+                )}
               </Label>
               <Label>
                 <Span>Тип мастила</Span>
@@ -308,27 +313,19 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   control={control}
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
-                    <>
-                      <ShortInput
-                        type="text"
-                        placeholder="0"
-                        {...field}
-                        onChange={e => {
-                          const inputText = e.target.value.replace(
-                            /[^0-9.,]/g,
-                            ''
-                          ); // Оставляем только цифры, точки и запятые
-                          setValue('oilConsumption', inputText);
-                        }}
-                      />
-                      {errors.oilConsumption && (
-                        <span style={{ color: 'red' }}>
-                          {errors.oilConsumption.message}
-                        </span>
-                      )}
-                    </>
+                    <ShortInput
+                      type="number"
+                      placeholder="0"
+                      {...field}
+                      onChange={e => setValue('oilConsumption', e.target.value)}
+                    />
                   )}
                 />
+                {errors.oilConsumption && (
+                  <span style={{ color: 'red' }}>
+                    {errors.oilConsumption.message}
+                  </span>
+                )}
               </Label>
             </InputDiv>
 
