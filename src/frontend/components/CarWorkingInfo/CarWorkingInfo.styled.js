@@ -227,12 +227,11 @@ export const CalcDiv = styled.div`
   p {
     position: relative;
   }
-
   span {
     margin-left: 55px;
   }
   p:last-child > span {
-    margin-left: 51px;
+    margin-left: 50px;
   }
 
   span:after {
@@ -243,6 +242,16 @@ export const CalcDiv = styled.div`
     position: absolute;
     bottom: 2px;
     left: 142px;
+  }
+  p:first-child:after {
+    content: 'км';
+    position: absolute;
+    left: 265px;
+  }
+  p:last-child:after {
+    content: 'л';
+    position: absolute;
+    left: 265px;
   }
 `;
 
