@@ -265,10 +265,10 @@ const CarWorkingInfo = () => {
                   Прибуття
                 </th>
                 <th scope="col" rowSpan={2}>
-                  З ванта жом
+                  З вантажем
                 </th>
                 <th scope="col" rowSpan={2}>
-                  Без
+                  Без вантажу
                 </th>
                 <th scope="col" rowSpan={2}>
                   Усього
@@ -289,12 +289,12 @@ const CarWorkingInfo = () => {
                   Найменування вантажу
                 </th>
                 <th scope="col" rowSpan={2}>
-                  Кількість
+                  Кількість, т
                 </th>
               </SubRow>
               <SubSubRow>
                 <th scope="col">З приче пом</th>
-                <th scope="col">На буксир</th>
+                <th scope="col">На буксирі</th>
               </SubSubRow>
             </StyledTHead>
             <StyledTBody>{renderInstruction()}</StyledTBody>
