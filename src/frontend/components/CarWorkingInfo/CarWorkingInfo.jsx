@@ -122,106 +122,6 @@ const CarWorkingInfo = () => {
     label: person.name,
   }));
 
-  //* ========================= mock data =========================
-  /* const mockData = {
-    supervisor: {
-      name: 'Кумар М.Б.',
-      rank: 'капітан',
-      position: 'Начальник автомобільної служби',
-    },
-    engineer: {
-      name: 'Дизель В.М.',
-      rank: 'солдат',
-      position: 'Начальник КТП',
-    },
-    route: 'Київ - Вінниця',
-    documentDate: '15.10.2024',
-    expireDate: '17.10.2024',
-    checkedDate: '16.10.2024',
-    documentNumber: '123456',
-    dutyNumber: '25',
-    militaryUnit: 'А1234',
-
-    car: {
-      carSign: 'AA1234FF',
-      carName: 'ЗІЛ-131',
-      fuelConsumption: 11.5,
-      fuelType: 'ДТ',
-      exploitationGroup: 'Транспорт',
-      driver: {
-        name: 'Петренко В.В.',
-        rank: 'солдат',
-        position: 'Водій',
-      },
-    },
-    formal: {
-      departureTime: '7:30 29.09.2023',
-      arrivalTime: '18:10 29.09.2023',
-    },
-    expenses: [
-      {
-        name: 'Масло',
-        amountBefore: 10,
-        amountDuring: 5,
-        expense: 5,
-        byNorm: 5,
-        economy: 0,
-        overExpense: 0,
-        code: 24,
-        got: 5,
-        date: '29.09.2023',
-      },
-    ],
-    facts: [
-      {
-        departure: { time: '1 29.09.2023', odometer: 12337 },
-        arrival: { time: '2 29.09.2023', odometer: 12338 },
-      },
-      {
-        departure: { time: '3 30.09.2023', odometer: 12339 },
-        arrival: { time: '4 30.09.2023', odometer: 12340 },
-      },
-      {
-        departure: { time: '7:30 01.10.2023', odometer: 12340 },
-        arrival: { time: '18:10 01.10.2023', odometer: 12345 },
-      },
-      {
-        departure: { time: '7:30 02.10.2023', odometer: 12345 },
-        arrival: { time: '18:10 02.10.2023', odometer: 12349 },
-      },
-      {
-        departure: { time: '7:30 03.10.2023', odometer: 12349 },
-        arrival: { time: '18:10 03.10.2023', odometer: 12353 },
-      },
-    ],
-    routes: [
-      {
-        from: 'Київ',
-        to: 'Вінниця',
-        return: 'ні',
-        depTime: '7:30, 29.00.23',
-        arrTime: '18:10, 29.00.23',
-        mileage: {
-          withCargo: 10,
-          withoutCargo: 10,
-          total: 20,
-          withTrailer: '',
-          withTug: '',
-        },
-        motorHours: { onStay: 10, onMove: 50, sum: 60 },
-        work: { nameCargo: 'Пісок', weight: 15 },
-        odometer: 12354,
-      },
-    ],
-    totalMileage: 1557,
-    totalExpense: 50,
-    checkPerson: {
-      name: 'Петрович А.І.',
-      rank: 'сержант',
-      position: 'Караульний',
-    },
-  }; */
-
   const renderInstruction = () => {
     const renderCollection = () => {
       return routes.map((route, idx) => {
@@ -239,7 +139,7 @@ const CarWorkingInfo = () => {
           <TBodyRow key={idx}>
             <td>
               {from} - {to}
-              {route.return ? ` - ${from}` : null}
+              {route.return ? null : ` - ${from}`}
             </td>
             <td>{depTime}</td>
             <td>{arrTime}</td>
@@ -286,9 +186,7 @@ const CarWorkingInfo = () => {
     }
   };
 
-  const onSubmit = data => {
-    console.log(data);
-  };
+  const onSubmit = data => {};
 
   const editInfo = () => {}; // ????
 
