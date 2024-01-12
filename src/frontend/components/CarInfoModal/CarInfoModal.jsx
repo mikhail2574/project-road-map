@@ -395,7 +395,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                       <InputDiv>
                         <ShortInputStyle
                           type="number"
-                          placeholder="З вантажом"
+                          placeholder="З вантажем"
                           {...field}
                           onChange={e => setValue('withCargo', e.target.value)}
                         />
@@ -460,7 +460,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                       <InputDiv>
                         <ShortInputStyle
                           type="number"
-                          placeholder="На буксир"
+                          placeholder="На буксирі"
                           {...field}
                           // defaultValue=""
                           onChange={e => setValue('withTug', e.target.value)}

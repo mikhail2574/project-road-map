@@ -39,6 +39,25 @@ const GlobalStyles = createGlobalStyle`
       -moz-appearance: textfield;
     }
 
+    input[type=time]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      color: white;
+      height: 100%;
+      filter: invert(1);
+      background-size: 20px 20px;
+      background-position: center;
+      padding: 10px;
+  }
+  input[type="time"]::-webkit-calendar-picker-indicator::after {
+      content: 'boom'; 
+      color: #333;  
+      font-size: 14px; 
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
   ::-webkit-scrollbar {
   width: 6px;
 }
