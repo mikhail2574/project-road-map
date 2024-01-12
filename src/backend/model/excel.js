@@ -11,9 +11,9 @@ const pathToExcel = path.resolve(
   'excel',
   'roadXS.xlsx'
 );
-let workbook = new ExcelJS.Workbook();
 
 const parseInfo = async () => {
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -26,7 +26,7 @@ const parseInfo = async () => {
   const rowDataRoutes = [];
 
   worksheet.eachRow((row, rowNumber) => {
-    if (rowNumber <= 2) return; // пропускаю 1 рядок, бо так оформленний ексель
+    if (rowNumber <= 2) return;
 
     const rowCars = {
       carName: row.values[1], // 'A'
@@ -89,6 +89,7 @@ const parseInfo = async () => {
 };
 
 const addCarToExcel = async car => {
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -144,6 +145,7 @@ const updateCarInExcel = async (sign, car, flag = true, InWorkbook) => {
   let lastRowNumber;
 
   if (flag) {
+    const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.readFile(pathToExcel);
     const worksheet = workbook.getWorksheet('Довідники');
     if (!worksheet) {
@@ -167,8 +169,6 @@ const updateCarInExcel = async (sign, car, flag = true, InWorkbook) => {
     if (car.exploitationGroupShort)
       row.getCell(7).value = car.exploitationGroupShort;
     if (car.exploitationGroup) row.getCell(8).value = car.exploitationGroup;
-    console.log('car.driver =>', car.driver);
-    console.log('car.driverRank =>', car.driverRank);
     if (car.driver) row.getCell(9).value = car.driver;
     if (car.driverRank) row.getCell(10).value = car.driverRank;
     if (car.unit) row.getCell(11).value = car.unit;
@@ -180,7 +180,7 @@ const updateCarInExcel = async (sign, car, flag = true, InWorkbook) => {
     return carInExcel;
   } else {
     let InputWorksheet = InWorkbook.getWorksheet('Довідники');
-    for (let i = InWorkbook.rowCount; i >= startRowNumber; i--) {
+    for (let i = InputWorksheet.rowCount; i >= startRowNumber; i--) {
       const row = InputWorksheet.getRow(i);
       if (row.getCell(columnNumber).value === sign) {
         lastRowNumber = i;
@@ -188,14 +188,14 @@ const updateCarInExcel = async (sign, car, flag = true, InWorkbook) => {
       }
     }
     const row = InputWorksheet.getRow(lastRowNumber);
-    console.log('car.driver =>', car.driver);
+
     if (car.driver) row.getCell(9).value = car.driver;
     if (car.driverRank) row.getCell(10).value = car.driverRank;
-    return InWorkbook;
   }
 };
 
 const addPersonToExcel = async person => {
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -238,6 +238,7 @@ const addPersonToExcel = async person => {
 };
 
 const updatePersonInExcel = async (personName, person) => {
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -273,30 +274,24 @@ const updatePersonInExcel = async (personName, person) => {
   if (person.rankShort) row.getCell(21).value = person.rankShort;
   if (person.name) row.getCell(22).value = person.name;
 
-  // need to find this person in cars and update by function updateCarInExcel
   const cars = data.cars.filter(item => item.driver === personName);
   if (cars.length) {
-    for (let i = 0; i < cars.length; i++) {
-      const car = cars[i];
+    for (const car of cars) {
       await updateCarInExcel(
         car.sign,
-        {
-          driver: person.name,
-          driverRank: person.rank,
-        },
+        { driver: person.name, driverRank: person.rankShort },
         false,
         workbook
       );
-      continue;
     }
   }
-
   personInExcel = { ...personInExcel, ...person, oldName: personName };
   await workbook.xlsx.writeFile(pathToExcel);
   return personInExcel;
 };
 
 const addRouteToExcel = async route => {
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {

@@ -33,9 +33,16 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    dispatch(addPersonnelThunk(data));
-
-    close();
+    dispatch(addPersonnelThunk(data))
+      .unwrap()
+      .then(() => close())
+      .catch(err => {
+        alert(
+          err.includes('409')
+            ? 'Такий службовець вже існує'
+            : 'Помилка валідації'
+        );
+      });
   };
 
   useEffect(() => {

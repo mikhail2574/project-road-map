@@ -184,7 +184,6 @@ const CarGeneralInformation = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
-  const pmmMarkup = [];
   const openModal = () => {
     setIsModalOpen(true);
   };
