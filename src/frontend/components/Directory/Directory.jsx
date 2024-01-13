@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCarsThunk, fetchInfosThunk } from 'redux/infos/operations';
+import { deleteCarsThunk } from 'redux/infos/operations';
 import { selectCars, selectIsLoading } from 'redux/infos/selectors';
 import {
   InnactiveButton,
@@ -61,10 +61,6 @@ const Directory = () => {
   const closeDeleteModal = () => {
     setDeleteModalVisible(false);
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchInfosThunk());
-  // }, [dispatch]);
 
   const handleDeleteCar = sign => {
     dispatch(deleteCarsThunk(sign));
