@@ -71,7 +71,6 @@ export const ButtonCloseStyle = styled.button`
     transition: transform 0.3s ease-in-out;
   }
 `;
-// --------------INFROM TITLE
 
 export const InformTitle = styled.h3`
   color: #fbfcfc;
@@ -82,29 +81,21 @@ export const InformTitle = styled.h3`
   margin-bottom: 28px;
 `;
 
-//   InputContainerDiv
-
 export const InputContainerDiv = styled.div`
-  /* position: relative; */
-  /* margin-top: -160px; */
   display: flex;
   flex-wrap: wrap;
   row-gap: 16px;
   margin-bottom: 44px;
 `;
 
-// InputRowDiv
-
 export const InputRowDiv = styled.div`
   display: flex;
-  /* width: 100%; */
 
   gap: 8px;
 `;
 
 export const InputLegendDiv = styled.div`
   display: grid;
-  /* width: 100%; */
 
   gap: 8px;
 `;
@@ -150,7 +141,6 @@ export const Legend = styled.legend`
   font-weight: 500;
   line-height: 18px;
   text-indent: 10px;
-  /* position: relative; */
 `;
 
 export const Span = styled.span`
@@ -169,130 +159,13 @@ export const InputDiv = styled.div`
   position: relative;
 `;
 
-export const DocumentNumber = styled.p`
-  position: absolute;
-  color: #fbfcfc;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  left: 157px;
-  top: -25px;
-`;
-
-export const MilitaryBase = styled.p`
-  position: absolute;
-  color: #fbfcfc;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  left: 303px;
-  top: -25px;
-`;
-
-export const Driver = styled.p`
-  position: absolute;
-  color: #fbfcfc;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  left: 493px;
-  top: -25px;
-`;
-
-// OdometerTitle
-
-export const OdometerTitle = styled.h3`
-  color: #fbfcfc;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 24px;
-`;
-
-// -----
-
-export const OdomPlusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 35px;
-
-  gap: 360px;
-`;
-
-//  BtnPlus
-
-export const BtnPlus = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #47523f;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 14px;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    opacity: 0.8;
-    transform: translateY(-1px);
-  }
-`;
-
-// Time container
-
-export const BtnTrash = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #191413;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 14px;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    opacity: 0.8;
-    transform: translateY(-1px);
-  }
-`;
-
-export const TimeDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 36px;
-  margin-bottom: 44px;
-`;
-export const InputTimeDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-`;
-
 // PICKER
 
 export const PickerContainer = styled.div`
   .react-datepicker__view-calendar-icon input {
-    color: #191413;
-    padding: 12px 16px;
+    padding: 0 !important;
   }
+
   .react-datepicker {
     background: #47523f;
     border: none;
@@ -324,11 +197,6 @@ export const PickerContainer = styled.div`
   .react-datepicker__time-name,
   .react-datepicker__current-month {
     color: var(--white);
-  }
-
-  .react-datepicker__current-month,
-  .react-datepicker__navigation {
-    /* width: 0px; */
   }
 
   .react-datepicker__day:hover {

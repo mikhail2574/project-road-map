@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { selectPersonnel } from 'redux/infos/selectors';
+import downloadMainList from 'redux/download/operations';
+import {
+  selectCar,
+  selectCheckPerson,
+  selectForm,
+  selectRoutes,
+} from 'redux/form/selectors';
+import { setCarWork, setPersonnel } from 'redux/form/slice';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
 import uk from 'date-fns/locale/uk';
@@ -32,35 +40,29 @@ import {
   THeadRow,
   StyledSelect,
 } from './CarWorkingInfo.styled';
-import { IconStyleCalendar } from '../CarInfoModal/CarInfoModal.styled';
 import CarInfoModal from '../CarInfoModal/CarInfoModal';
 import {
   DatePickerOne,
   PickerContainer,
+  IconStyleCalendar,
 } from '../CarInfoModal/CarInfoModal.styled';
-import downloadMainList from 'redux/download/operations';
-import { selectCar, selectForm, selectRoutes } from 'redux/form/selectors';
-import { setCarWork, setPersonnel } from 'redux/form/slice';
+import EditRouteModal from '../EditRouteInfo/EditRouteInfo';
+import ChooseRouteModal from '../ChooseRouteModal/ChooseRouteModal';
 
 const CarWorkingInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editRouteOpen, setEditRouteOpen] = useState(false);
+  const [selectedRoute, setSelectedRoute] = useState(null);
   const [driverSelect, setDriverOption] = useState(null);
-  const [driver, setDriver] = useState({
-    name: '',
-    rank: '',
-    position: '',
-  });
-  const [checked, setChecked] = useState({
-    name: '',
-    rank: '',
-    position: '',
-  });
+  const [checkedSelect, setCheckedOption] = useState(null);
 
   const dispatch = useDispatch();
 
   const routes = useSelector(selectRoutes);
   const personnel = useSelector(selectPersonnel);
   const selectedCar = useSelector(selectCar);
+  const checkPerson = useSelector(selectCheckPerson);
   const formToSend = useSelector(selectForm);
 
   const totalMil = routes.reduce((acc, item) => {
@@ -93,6 +95,16 @@ const CarWorkingInfo = () => {
   }, [selectedCar]);
 
   useEffect(() => {
+    if (checkPerson.name || checkPerson.rank || checkPerson.position) {
+      const checkOption = {
+        value: checkPerson,
+        label: checkPerson.name,
+      };
+      setCheckedOption(checkOption);
+    }
+  }, [checkPerson]);
+
+  useEffect(() => {
     if (routes.length !== 0) {
       dispatch(
         setCarWork({
@@ -102,6 +114,15 @@ const CarWorkingInfo = () => {
       );
     }
   }, [dispatch, routes, totalMil, formula]);
+
+  useEffect(() => {
+    setValue('driverRank', selectedCar.driver.rank);
+  }, [setValue, selectedCar]);
+
+  useEffect(() => {
+    setValue('checkPos', checkPerson.position);
+    setValue('checkRank', checkPerson.rank);
+  }, [setValue, checkPerson]);
 
   const DropdownIndicator = props => {
     return (
@@ -125,8 +146,9 @@ const CarWorkingInfo = () => {
 
   const renderInstruction = () => {
     const renderCollection = () => {
-      return routes.map((route, idx) => {
+      return routes.map(route => {
         const {
+          id,
           from,
           to,
           depTime,
@@ -137,7 +159,7 @@ const CarWorkingInfo = () => {
           odometer,
         } = route;
         return (
-          <TBodyRow key={idx}>
+          <TBodyRow key={id}>
             <td>
               {from} - {to}
               {route.return ? null : ` - ${from}`}
@@ -164,7 +186,11 @@ const CarWorkingInfo = () => {
       emptyRowArr.push(<td key={i}></td>);
     }
     const renderEmpty = () => {
-      return <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>;
+      return (
+        <>
+          <TBodyRow>{emptyRowArr.map(item => item)}</TBodyRow>
+        </>
+      );
     };
     switch (routes.length) {
       case 0:
@@ -188,8 +214,6 @@ const CarWorkingInfo = () => {
   };
 
   const onSubmit = data => {};
-
-  const editInfo = () => {}; // ????
 
   const saveExcel = () => {
     dispatch(downloadMainList(formToSend))
@@ -215,6 +239,18 @@ const CarWorkingInfo = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const openEditModal = () => {
+    setEditModalOpen(true);
+  };
+  const closeEditModal = () => {
+    setEditModalOpen(false);
+  };
+  const openEditRoute = () => {
+    setEditRouteOpen(true);
+  };
+  const closeEditRoute = () => {
+    setEditRouteOpen(false);
+  };
 
   return (
     <>
@@ -223,7 +259,12 @@ const CarWorkingInfo = () => {
           <StyledTitle>Дорожній лист</StyledTitle>
           <BtnBox>
             <InfoBtn onClick={openModal}>Додати загальну інформацію</InfoBtn>
-            <InfoBtn onClick={editInfo}>Редагувати</InfoBtn>
+            <InfoBtn
+              onClick={openEditModal}
+              disabled={routes.length === 0 ? true : false}
+            >
+              Редагувати
+            </InfoBtn>
             <SaveBtn onClick={saveExcel}>Зберегти в Excel</SaveBtn>
           </BtnBox>
         </SectionHead>
@@ -337,15 +378,10 @@ const CarWorkingInfo = () => {
                 {...register('driver')}
                 value={driverSelect}
                 onChange={value => {
-                  setValue('driverRank', value.value);
-                  setDriverOption(value);
                   const driverFull = personnel.find(
                     person => value.label === person.name
                   );
-                  setDriver(driverFull);
-                  dispatch(
-                    setPersonnel({ driver: driverFull, checkPerson: checked })
-                  );
+                  dispatch(setPersonnel({ driver: driverFull, checkPerson }));
                 }}
                 components={{ DropdownIndicator }}
                 ariaLabel={'Водій'}
@@ -366,14 +402,12 @@ const CarWorkingInfo = () => {
               <InputWrapper>
                 <StyledSelect
                   options={checkedOptions}
-                  {...register('checkMan')}
+                  {...register('checkPerson')}
+                  value={checkedSelect}
                   onChange={({ value }) => {
-                    setValue('seniorRank', value.rank);
-                    setValue('seniorPos', value.position);
-                    setChecked(value);
                     dispatch(
                       setPersonnel({
-                        driver,
+                        driver: selectedCar.driver,
                         checkPerson: value,
                       })
                     );
@@ -384,13 +418,13 @@ const CarWorkingInfo = () => {
                   classNamePrefix="Select"
                 />
                 <input
-                  {...register('seniorPos')}
+                  {...register('checkPos')}
                   type={'text'}
                   placeholder={'Посада'}
                   readOnly={true}
                 />
                 <input
-                  {...register('seniorRank')}
+                  {...register('checkRank')}
                   type={'text'}
                   placeholder={'Військове звання'}
                   readOnly={true}
@@ -440,6 +474,16 @@ const CarWorkingInfo = () => {
         </form>
       </TableSection>
       {isModalOpen && <CarInfoModal onClose={closeModal} />}
+      {editModalOpen && (
+        <ChooseRouteModal
+          onClose={closeEditModal}
+          openEdit={openEditRoute}
+          selectRoute={setSelectedRoute}
+        />
+      )}
+      {editRouteOpen && (
+        <EditRouteModal onClose={closeEditRoute} id={selectedRoute} />
+      )}
     </>
   );
 };

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setCarWork } from 'redux/form/slice';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import uk from 'date-fns/locale/uk';
+import { nanoid } from 'nanoid';
+import moment from 'moment';
+import { Icons } from '../Icons';
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -25,13 +30,9 @@ import {
   CheckboxLabel,
   ErrorSpan,
   InputDiv,
+  IconStyleCalendar,
+  PickerContainer,
 } from './CarInfoModal.styled';
-import { Icons } from '../Icons';
-import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
-import moment from 'moment';
-import uk from 'date-fns/locale/uk';
-import { useDispatch } from 'react-redux';
-import { setCarWork } from 'redux/form/slice';
 
 export default function CarInfoModal({ showCloseIcon = true, onClose }) {
   const [minDate, setMinDate] = useState();
@@ -119,6 +120,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
     dispatch(
       setCarWork({
         route: {
+          id: nanoid(),
           from: data.routeFrom,
           to: data.routeTo,
           return: newWay,
@@ -229,11 +231,6 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                         {...field}
                         onChange={e => setValue('oneway', e.target.checked)}
                       />
-                      {/* {errors.oneway && (
-                        <span style={{ color: 'red' }}>
-                          {errors.oneway.message}
-                        </span>
-                      )} */}
                     </>
                   )}
                 />
@@ -265,7 +262,11 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                           placeholderText="00.00.0000"
                           showIcon
                           icon={
-                            <IconStyle size={16} height={18} name="calendar" />
+                            <IconStyleCalendar
+                              size={16}
+                              height={18}
+                              name="calendar"
+                            />
                           }
                         />
                         {errors.departureDate && (
@@ -336,7 +337,11 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                           placeholderText="00.00.0000"
                           showIcon
                           icon={
-                            <IconStyle size={16} height={18} name="calendar" />
+                            <IconStyleCalendar
+                              size={16}
+                              height={18}
+                              name="calendar"
+                            />
                           }
                         />
                         {errors.departureDate && (
@@ -462,7 +467,6 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                           type="number"
                           placeholder="На буксирі"
                           {...field}
-                          // defaultValue=""
                           onChange={e => setValue('withTug', e.target.value)}
                         />
                         {errors.withTug && (
@@ -563,7 +567,6 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                         placeholder="Усього"
                         {...field}
                         readOnly={true}
-                        // onChange={e => setValue('sum', e.target.value)}
                       />
                       {errors.sum && (
                         <ErrorSpan style={{ color: 'red' }}>

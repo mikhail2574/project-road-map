@@ -38,10 +38,13 @@ export const InfoBtn = styled.button`
   border: 1px solid rgba(71, 82, 63, 0.2);
   transition: var(--fast);
 
-  &:hover {
+  &:hover:not(:disabled) {
     cursor: pointer;
     color: var(--white);
     background: var(--btn-active);
+  }
+  &:disabled {
+    cursor: not-allowed;
   }
 `;
 
@@ -278,6 +281,7 @@ export const InputWrapper = styled.div`
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--transparent-gray);
+    cursor: not-allowed;
   }
   input:hover {
     border: 1px solid var(--dark);
