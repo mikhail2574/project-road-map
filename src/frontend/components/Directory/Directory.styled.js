@@ -38,7 +38,7 @@ export const StyledWhiteWrapper = styled.div`
 `;
 
 export const StyledTableScrollWrapper = styled.div`
-  max-height: 60vh;
+  max-height: 55vh;
   overflow-y: scroll;
   margin-right: 6px;
   margin-left: 12px;

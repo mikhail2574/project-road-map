@@ -13,11 +13,7 @@ import {
   StyledTableWrapper,
   StyledWhiteWrapper,
 } from '../Directory/Directory.styled';
-import {
-  selectError,
-  selectIsLoading,
-  selectPersonnel,
-} from 'redux/infos/selectors';
+import { selectIsLoading, selectPersonnel } from 'redux/infos/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePersonnelThunk, fetchInfosThunk } from 'redux/infos/operations';
 import EditPersonnelForm from '../EditPersonnelForm/EditPersonnelForm';
@@ -28,11 +24,11 @@ import {
   StyledPersonnelTableButtonWrapper,
   StyledTableHeadPersonnel,
 } from './Personnel.styled';
+import { Loader } from '../Loader/Loader';
 
 const Personnel = () => {
   const personnel = useSelector(selectPersonnel);
   const loading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   const [selectedDriverId, setSelectedDriverId] = useState(null);
@@ -54,7 +50,6 @@ const Personnel = () => {
   };
 
   const openEditDriverModal = name => {
-    console.log(name);
     setSelectedDriverId(name);
     setEditDriverModalVisible(true);
   };
@@ -69,8 +64,7 @@ const Personnel = () => {
 
   return (
     <>
-      {loading && <h1>Loading...</h1>}
-      {error && <p>Щось пішло не так</p>}
+      {loading && <Loader />}
       <StyledWhiteWrapper>
         <StyledTableScrollWrapper>
           <StyledTableWrapper>

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const roadApi = axios.create({
   baseURL: 'http://localhost:3030/api',
@@ -42,8 +43,12 @@ export const addCarsThunk = createAsyncThunk(
     };
     try {
       const res = await roadApi.post('/infos/cars', data);
+      toast.success('Автомобіль успішно додано');
       return res.data;
     } catch (error) {
+      if (error.message === 'Request failed with status code 409') {
+        toast.error('Автомобіль з таким номерним знаком вже існує');
+      }
       return rejectWithValue(error.message);
     }
   }
@@ -54,6 +59,7 @@ export const deleteCarsThunk = createAsyncThunk(
   async (sign, { rejectWithValue }) => {
     try {
       await roadApi.delete(`/infos/cars/${sign}`);
+      toast.success('Автомобіль успішно видалено');
       return sign;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -81,6 +87,7 @@ export const updateCarsThunk = createAsyncThunk(
     };
     try {
       const { data } = await roadApi.put(`/infos/cars/${body.sign}`, newBody);
+      toast.success('Автомобіль успішно оновлено');
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -101,8 +108,12 @@ export const addPersonnelThunk = createAsyncThunk(
     };
     try {
       const res = await roadApi.post('/infos/personnel', data);
+      toast.success('Людину успішно додано');
       return res.data;
     } catch (error) {
+      if (error.message === 'Request failed with status code 409') {
+        toast.error("Людина з таким ім'ям вже існує");
+      }
       return rejectWithValue(error.message);
     }
   }
@@ -113,6 +124,7 @@ export const deletePersonnelThunk = createAsyncThunk(
   async (name, { rejectWithValue }) => {
     try {
       await roadApi.delete(`/infos/personnel/${name}`);
+      toast.success('Людину успішно видалено');
       return name;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -134,6 +146,7 @@ export const updatePersonnelThunk = createAsyncThunk(
         `/infos/personnel/${body.oldName}`,
         newBody
       );
+      toast.success('Людину успішно оновлено');
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
