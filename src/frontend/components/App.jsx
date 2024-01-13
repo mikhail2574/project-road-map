@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { fetchInfosThunk } from 'redux/infos/operations';
 
 export const App = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
