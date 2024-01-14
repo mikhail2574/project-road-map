@@ -43,12 +43,8 @@ export const addCarsThunk = createAsyncThunk(
     };
     try {
       const res = await roadApi.post('/infos/cars', data);
-      toast.success('Автомобіль успішно додано');
       return res.data;
     } catch (error) {
-      if (error.message === 'Request failed with status code 409') {
-        toast.error('Автомобіль з таким номерним знаком вже існує');
-      }
       return rejectWithValue(error.message);
     }
   }
@@ -86,8 +82,10 @@ export const updateCarsThunk = createAsyncThunk(
       seniorRank: body.seniorRank,
     };
     try {
-      const { data } = await roadApi.put(`/infos/cars/${body.sign}`, newBody);
-      toast.success('Автомобіль успішно оновлено');
+      const { data } = await roadApi.put(
+        `/infos/cars/${body.oldSign}`,
+        newBody
+      );
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -108,12 +106,8 @@ export const addPersonnelThunk = createAsyncThunk(
     };
     try {
       const res = await roadApi.post('/infos/personnel', data);
-      toast.success('Людину успішно додано');
       return res.data;
     } catch (error) {
-      if (error.message === 'Request failed with status code 409') {
-        toast.error("Людина з таким ім'ям вже існує");
-      }
       return rejectWithValue(error.message);
     }
   }
@@ -146,115 +140,9 @@ export const updatePersonnelThunk = createAsyncThunk(
         `/infos/personnel/${body.oldName}`,
         newBody
       );
-      toast.success('Людину успішно оновлено');
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
-
-// Road Types
-
-/* export const addRoadTypesThunk = createAsyncThunk(
-  'fetchRoadTypes',
-  async (body, { rejectWithValue }) => {
-    const data = {
-      roadType: body.roadType,
-      correction: body.correction,
-    };
-    try {
-      const res = await roadApi.post('/infos/roadTypes', data);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const updateRoadTypesThunk = createAsyncThunk(
-  'updateRoadTypes',
-  async (body, { rejectWithValue }) => {
-    const newBody = {
-      roadType: body.roadType,
-      correction: body.correction,
-    };
-    try {
-      const res = await roadApi.put(
-        `/infos/roadTypes/${body.roadType}`,
-        newBody
-      );
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const deleteRoadTypesThunk = createAsyncThunk(
-  'deleteRoadTypes',
-  async (id, { rejectWithValue }) => {
-    try {
-      await roadApi.delete(`/infos/roadTypes/${id}`);
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-// Routes
-
-/* export const addRoutesThunk = createAsyncThunk(
-  'addRoutes',
-  async (body, { rejectWithValue }) => {
-    const data = {
-      from: body.from,
-      to: body.to,
-      return: body.return,
-      route: {
-        formula: body.formula,
-        result: body.result,
-      },
-    };
-    try {
-      const res = await roadApi.post('/infos/routes', data);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const updateRoutesThunk = createAsyncThunk(
-  'updateRoutes',
-  async (body, { rejectWithValue }) => {
-    const newBody = {
-      from: body.from,
-      to: body.to,
-      return: body.return,
-      route: {
-        formula: body.formula,
-        result: body.result,
-      },
-    };
-    try {
-      const res = await roadApi.put(`/infos/routes/${body.id}`, newBody);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const deleteRoutesThunk = createAsyncThunk(
-  'deleteRoutes',
-  async (id, { rejectWithValue }) => {
-    try {
-      await roadApi.delete(`/infos/routes/${id}`);
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */

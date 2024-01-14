@@ -135,6 +135,9 @@ const addCarToExcel = async car => {
 
 const updateCarInExcel = async (sign, car, flag = true, InWorkbook) => {
   const data = await parseInfo();
+  if (car.sign !== sign && data.cars.find(item => item.sign === car.sign)) {
+    throw requestError(409, 'Такий автомобіль вже існує');
+  }
   let carInExcel = data.cars.find(item => item.sign === sign);
   if (!carInExcel) {
     throw requestError(404, 'Такого автомобіля не існує');
@@ -246,6 +249,9 @@ const updatePersonInExcel = async (personName, person) => {
   }
 
   const data = await parseInfo();
+  if (data.personnel.find(item => item.name === person.name)) {
+    throw requestError(409, 'Такий службовець вже існує');
+  }
   let personInExcel = data.personnel.find(item => item.name === personName);
   if (!personInExcel) {
     throw requestError(404, 'Такого службовця не існує');
