@@ -96,12 +96,8 @@ export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
     'withTug',
   ]);
   useEffect(() => {
-    try {
-      const { onStay, onMove } = getValues();
-      setValue('sum', Number(onStay) + Number(onMove));
-    } catch (error) {
-      console.log(error);
-    }
+    const { onStay, onMove } = getValues();
+    setValue('sum', Number(onStay) + Number(onMove));
   }, [setValue, watchTime, getValues]);
 
   useEffect(() => {
@@ -133,8 +129,6 @@ export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
   };
 
   const onSubmit = data => {
-    console.log('route :>> ', route);
-    console.log('data :>> ', data);
     const { arrivalDate, departureDate, oneway } = data;
     const arrDate = moment(arrivalDate).format('DD.MM.YY');
     const depDate = moment(departureDate).format('DD.MM.YY');
@@ -186,7 +180,7 @@ export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InformTitle>Заповніть дані</InformTitle>
+          <InformTitle>Змініть дані</InformTitle>
 
           <InputContainerDiv>
             <InputRowDiv>

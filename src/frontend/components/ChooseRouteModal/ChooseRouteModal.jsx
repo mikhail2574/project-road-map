@@ -72,7 +72,7 @@ export default function ChooseRouteModal({
             </svg>
           </ButtonCloseStyle>
         )}
-        <InformTitle>Заповніть дані</InformTitle>
+        <InformTitle>Виберіть маршрут</InformTitle>
 
         <RouteList>
           {routes.map(route => {
