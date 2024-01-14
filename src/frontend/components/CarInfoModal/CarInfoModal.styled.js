@@ -244,7 +244,7 @@ export const DatePickerOne = styled(DatePicker)`
   border-radius: 12px;
   background: #f3f3f3;
   border: none;
-  color: #fbfcfc;
+  color: var(--text-dark);
   cursor: pointer;
 `;
 
