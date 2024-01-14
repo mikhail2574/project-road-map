@@ -266,9 +266,21 @@ export const ShortInputStyle = styled.input`
   width: 135px;
   height: 46px;
   border-radius: 12px;
-  background: #282828;
-  border: none;
+  font-weight: 600;
   color: #fbfcfc;
+  background: #282828;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--white);
+    background-color: #282828;
+    box-shadow: inset 0 0 20px 20px #282828;
+    transition: all 0s 50000s;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 `;
 
 export const MidInputStyle = styled(ShortInputStyle)`
@@ -277,12 +289,10 @@ export const MidInputStyle = styled(ShortInputStyle)`
 
 export const LongInput = styled(ShortInputStyle)`
   width: 214px;
-  font-weight: 600;
 `;
 
 export const ToLongInput = styled(ShortInputStyle)`
   width: 280px;
-  font-weight: 600;
 `;
 
 export const BtnBox = styled.div`
@@ -295,13 +305,9 @@ export const ConfirmBtnStyle = styled.button`
   width: 151px;
   height: 48px;
   color: #fbfcfc;
-  border: none;
   border-radius: 12px;
   background: #47523f;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
+  line-height: 1.43;
   cursor: pointer;
 
   opacity: 1;
@@ -317,21 +323,10 @@ export const ConfirmBtnStyle = styled.button`
 export const CancelBtnStyle = styled.button`
   width: 132px;
   height: 48px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: #282828;
   border-radius: 12px;
-  border: none;
-  line-height: 20px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 1.8px;
+  line-height: 1.43;
   color: #fbfcfc;
-
+  background-color: #282828;
   cursor: pointer;
 
   opacity: 1;

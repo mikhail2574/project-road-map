@@ -162,7 +162,7 @@ const CarWorkingInfo = () => {
           <TBodyRow key={id}>
             <td>
               {from} - {to}
-              {route.return ? null : ` - ${from}`}
+              {route.return === 'ні' ? null : ` - ${from}`}
             </td>
             <td>{depTime}</td>
             <td>{arrTime}</td>
@@ -245,7 +245,8 @@ const CarWorkingInfo = () => {
   const closeEditModal = () => {
     setEditModalOpen(false);
   };
-  const openEditRoute = () => {
+  const openEditRoute = id => {
+    setSelectedRoute(id);
     setEditRouteOpen(true);
   };
   const closeEditRoute = () => {
