@@ -92,6 +92,14 @@ export const slice = createSlice({
       state.totalMileage = payload.totalMileage;
       state.totalExpense = payload.totalExpense;
     },
+    updateRoute: (state, { payload }) => {
+      state.routes = state.routes.map(route =>
+        route.id === payload.id ? payload : route
+      );
+    },
+    deleteRoute: (state, { payload }) => {
+      state.routes = state.routes.filter(route => route.id !== payload);
+    },
     setPersonnel: (state, { payload }) => {
       state.car.driver = payload.driver;
       state.checkPerson = payload.checkPerson;
@@ -99,5 +107,6 @@ export const slice = createSlice({
   },
 });
 
-export const { setCarWork, setPersonnel } = slice.actions;
+export const { setCarWork, setPersonnel, updateRoute, deleteRoute } =
+  slice.actions;
 export const formReducer = slice.reducer;

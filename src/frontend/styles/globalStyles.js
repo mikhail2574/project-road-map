@@ -35,6 +35,18 @@ const GlobalStyles = createGlobalStyle`
       margin: 0;
     }
 
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: var(--white);
+      background-color: #282828;
+      box-shadow: inset 0 0 20px 20px #282828;
+      transition: all 0s 50000s;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
     input[type=number] {
       -moz-appearance: textfield;
     }
