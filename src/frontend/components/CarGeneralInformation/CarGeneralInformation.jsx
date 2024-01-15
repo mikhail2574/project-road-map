@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BtnBox,
   BtnSection,
@@ -44,144 +44,48 @@ import downloadMainList from '../../../redux/download/operations';
 import React, { useState } from 'react';
 import ModalMainField from '../ModalMainField/ModalMainField';
 import ModalFuel from '../ModalFuel/ModalFuel';
+import {
+  selectCar,
+  selectCheckPerson,
+  selectForm,
+  selectRoutes,
+} from 'redux/form/selectors';
+import { selectPersonnel } from 'redux/infos/selectors';
 
 const CarGeneralInformation = () => {
   const dispatch = useDispatch();
-  let firstTableMarkup = [];
 
-  const mockData = {
-    supervisor: {
-      name: 'Кумар М.Б.',
-      rank: 'капітан',
-      position: 'Начальник автомобільної служби',
-    },
-    engineer: {
-      name: 'Дизель В.М.',
-      rank: 'солдат',
-      position: 'Начальник КТП',
-    },
-    route: 'Київ - Вінниця',
-    documentDate: '15.10.2024',
-    expireDate: '17.10.2024',
-    checkedDate: '16.10.2024',
-    documentNumber: '123456',
-    dutyNumber: '25',
-    militaryUnit: 'А1234',
+  const routes = useSelector(selectRoutes);
+  const personnel = useSelector(selectPersonnel);
+  const selectedCar = useSelector(selectCar);
+  const checkPerson = useSelector(selectCheckPerson);
+  const formToSend = useSelector(selectForm);
+  console.log(routes);
+  console.log(personnel);
+  console.log(selectedCar);
+  console.log(formToSend);
 
-    car: {
-      carSign: 'AA1234FF',
-      carName: 'ЗІЛ-131',
-      fuelConsumption: 11.5,
-      fuelType: 'ДТ',
-      exploitationGroup: 'Транспорт',
-      driver: {
-        name: 'Петренко В.В.',
-        rank: 'солдат',
-        position: 'Водій',
-      },
-    },
-    formal: {
-      departureTime: '7:30 29.09.2023',
-      arrivalTime: '18:10 29.09.2023',
-    },
-    expenses: [
-      {
-        name: 'Масло',
-        amountBefore: 10,
-        amountDuring: 5,
-        expense: 5,
-        byNorm: 5,
-        economy: 0,
-        overExpense: 0,
-        code: 24,
-        got: 5,
-        date: '29.09.2023',
-      },
-    ],
-    facts: [
-      {
-        departure: { time: '1 29.09.2023', odometer: 12337 },
-        arrival: { time: '2 29.09.2023', odometer: 12338 },
-      },
-      {
-        departure: { time: '3 30.09.2023', odometer: 12339 },
-        arrival: { time: '4 30.09.2023', odometer: 12340 },
-      },
-      {
-        departure: { time: '7:30 01.10.2023', odometer: 12340 },
-        arrival: { time: '18:10 01.10.2023', odometer: 12345 },
-      },
-      {
-        departure: { time: '7:30 02.10.2023', odometer: 12345 },
-        arrival: { time: '18:10 02.10.2023', odometer: 12349 },
-      },
-      {
-        departure: { time: '7:30 03.10.2023', odometer: 12349 },
-        arrival: { time: '18:10 03.10.2023', odometer: 12353 },
-      },
-    ],
-    routes: [
-      {
-        from: 'Київ',
-        to: 'Вінниця',
-        return: 'ні',
-        depTime: '7:30, 29.00.23',
-        arrTime: '18:10, 29.00.23',
-        mileage: {
-          withCargo: 10,
-          withoutCargo: 10,
-          total: 20,
-          withTrailer: '',
-          withTug: '',
-        },
-        motorHours: { onStay: 10, onMove: 50, sum: 60 },
-        work: { nameCargo: 'Пісок', weight: 15 },
-        odometer: 12354,
-      },
-      {
-        from: 'Тернопіль',
-        to: 'Львів',
-        return: 'так',
-        depTime: '7:30, 30.00.23',
-        arrTime: '18:10, 31.00.23',
-        mileage: {
-          withCargo: 10,
-          withoutCargo: 10,
-          total: 20,
-          withTrailer: '',
-          withTug: '',
-        },
-        motorHours: { onStay: 10, onMove: 50, sum: 60 },
-        work: { nameCargo: 'Пісок', weight: 15 },
-        odometer: 12454,
-      },
-    ],
-    totalMileage: 1557,
-    totalExpense: 50,
-    checkPerson: {
-      name: 'Петрович А.І.',
-      rank: 'сержант',
-      position: 'Караульний',
-    },
-  };
+  const firstTableMarkup = [];
+  const pmmMarkup = [];
+  const [duplicated, setDuplicated] = useState(0);
 
-  const handleClick = () => {
-    dispatch(downloadMainList(mockData))
-      .unwrap()
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        const date = new Date().toLocaleDateString();
-        a.download = `roadList#${date}.xlsx`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
+  // const saveExcel = () => {
+  //   dispatch(downloadMainList(formToSend))
+  //     .unwrap()
+  //     .then(blob => {
+  //       const url = window.URL.createObjectURL(blob);
+  //       const a = document.createElement('a');
+  //       a.href = url;
+  //       const date = new Date().toLocaleDateString();
+  //       a.download = `roadList#${date}.xlsx`;
+  //       document.body.appendChild(a);
+  //       a.click();
+  //       a.remove();
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
   const openModal = () => {
@@ -203,7 +107,6 @@ const CarGeneralInformation = () => {
   // +++
 
   const [modalDataMain, setModalDataMain] = useState([]);
-  console.log(modalDataMain);
   const handleFMainData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     setModalDataMain(data);
@@ -211,12 +114,10 @@ const CarGeneralInformation = () => {
 
   // +++
   const [modalData, setModalData] = useState([]);
-  console.log(modalData);
   const handleFuelData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     setModalData(data);
   };
-  console.log(modalData);
 
   if (modalDataMain.carName) {
     for (let i = 0; i < modalDataMain.departureDate.length; i++) {
@@ -245,22 +146,22 @@ const CarGeneralInformation = () => {
     }
   }
   if (modalData.availability_0) {
-    // for (let i = 0; i < duplicated; i++) {
-    //   pmmMarkup.push(
-    //     <StyledTBody key={i}>
-    //       <td>{modalData[`itemName_${i}`]}</td>
-    //       <td>{modalData[`itemCode_${i}`]}</td>
-    //       <td>{modalData[`availabilityBeforeDeparture_${i}`]}</td>
-    //       <td>{modalData[`receivedDate_${i}`].toLocaleDateString()}</td>
-    //       <td>{modalData[`availability_${i}`]}</td>
-    //       <td>{modalData[`received_${i}`]}</td>
-    //       <td>{modalData[`spent_${i}`]}</td>
-    //       <td>{modalData[`norm_${i}`]}</td>
-    //       <td>{modalData[`saving_${i}`]}</td>
-    //       <td>{modalData[`overuse_${i}`]}</td>
-    //     </StyledTBody>
-    //   );
-    // }
+    for (let i = 0; i < duplicated; i++) {
+      pmmMarkup.push(
+        <StyledTBody key={i}>
+          <td>{modalData[`itemName_${i}`]}</td>
+          <td>{modalData[`itemCode_${i}`]}</td>
+          <td>{modalData[`availabilityBeforeDeparture_${i}`]}</td>
+          <td>{modalData[`receivedDate_${i}`].toLocaleDateString()}</td>
+          <td>{modalData[`availability_${i}`]}</td>
+          <td>{modalData[`received_${i}`]}</td>
+          <td>{modalData[`spent_${i}`]}</td>
+          <td>{modalData[`norm_${i}`]}</td>
+          <td>{modalData[`saving_${i}`]}</td>
+          <td>{modalData[`overuse_${i}`]}</td>
+        </StyledTBody>
+      );
+    }
   }
   return (
     <MainContainer>
@@ -272,7 +173,7 @@ const CarGeneralInformation = () => {
             <InfoBtn onClick={openFuelExpensesModal}>
               Додати витрати ПММ
             </InfoBtn>
-            <SaveBtn onClick={handleClick}>Зберегти в Excel</SaveBtn>
+            <SaveBtn>Зберегти в Excel</SaveBtn>
             <SaveBtn>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
@@ -291,15 +192,22 @@ const CarGeneralInformation = () => {
           <VerticalContainer>
             <Title className="text-center pt-4">
               Корінець дорожнього листа №
-              <Space className="w-[109px] ml-4"></Space>
+              <Space className="w-[109px] ml-4">
+                {modalDataMain.numberDocument}
+              </Space>
             </Title>
             <ParagraphContainer className="flex items-end gap-10">
               <Paragraph className="ml-[65px] whitespace-nowrap pt-4">
                 Марка машини
-                <Space className="ml-2 w-[140px]"></Space>
+                <Space className="ml-2 w-[140px]">
+                  {modalDataMain.carName}
+                </Space>
               </Paragraph>
               <Paragraph>
-                Номерний знак машини <Space className="ml-2 w-[140px]"></Space>
+                Номерний знак машини{' '}
+                <Space className="ml-2 w-[140px]">
+                  {modalDataMain.sign && modalDataMain.sign.label}
+                </Space>
               </Paragraph>
               <Paragraph>
                 Марка причепа <Space className="ml-2 w-[140px]"></Space>
@@ -312,7 +220,9 @@ const CarGeneralInformation = () => {
               </Paragraph>
               <Paragraph>
                 Група експлуатації
-                <Space className="ml-2 w-[140px]"></Space>
+                <Space className="ml-2 w-[140px]">
+                  {modalDataMain.exploitationGroup}
+                </Space>
               </Paragraph>
             </ParagraphContainer>
             <ParagraphContainer className="flex items-end gap-10">
@@ -320,7 +230,10 @@ const CarGeneralInformation = () => {
                 У розпорядження <Space className="ml-2 w-[185px]"></Space>
               </Paragraph>
               <Paragraph>
-                Маршрут руху <Space className="ml-2 w-[320px]"></Space>
+                Маршрут руху{' '}
+                <Space className="ml-2 w-[320px]">
+                  {modalDataMain.trafficRoute}
+                </Space>
               </Paragraph>
             </ParagraphContainer>
             <ParagraphContainer className="flex items-end gap-6">
@@ -328,8 +241,20 @@ const CarGeneralInformation = () => {
                 Дорожній лист отримав <Space className="ml-2 w-[522px]"></Space>
               </Paragraph>
               <Paragraph>
-                "<Space className="w-9"></Space>"
-                <Space className="ml-2 w-[53px] mr-2"></Space>
+                "
+                <Space className="w-9">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.getDay()
+                    : ''}
+                </Space>
+                "
+                <Space className="ml-2 w-[53px] mr-2">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.toLocaleString('uk-ua', {
+                        month: 'long',
+                      })
+                    : ''}
+                </Space>
                 2024 року
               </Paragraph>
             </ParagraphContainer>
@@ -340,22 +265,44 @@ const CarGeneralInformation = () => {
           <HorizontalContainer>
             <MainInformationContainer className="w-[1169px] float-right">
               <Paragraph className=" text-center pt-5">
-                Дійсний до "<Space className="w-[32px]"></Space>"
-                <Space className="w-[53px] mr-1.5 ml-4"></Space> 2023 року
+                Дійсний до "
+                <Space className="w-[32px]">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.getDay()
+                    : ''}
+                </Space>
+                "
+                <Space className="w-[53px] mr-1.5 ml-4">
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.toLocaleString('uk-ua', {
+                        month: 'long',
+                      })
+                    : ''}
+                </Space>{' '}
+                2023 року
               </Paragraph>
               <Title className=" text-center pt-3">
-                Дорожній лист №<Space className="w-[109px] ml-4"></Space>
+                Дорожній лист №
+                <Space className="w-[109px] ml-4">
+                  {modalDataMain.numberDocument}
+                </Space>
               </Title>
               <Paragraph className=" pl-32 pb-4 pt-5">
                 Військова частина (підрозділ)
-                <Space className="w-[216px] ml-2"></Space>
+                <Space className="w-[216px] ml-2">{modalDataMain.unit}</Space>
               </Paragraph>
               <ParagraphContainer className=" pl-32 flex gap-10 pt-5">
                 <Paragraph>
-                  Водій<Space className="w-[385px] ml-2"></Space>
+                  Водій
+                  <Space className="w-[385px] ml-2">
+                    {modalDataMain.driver}
+                  </Space>
                 </Paragraph>
                 <Paragraph>
-                  Старший машини<Space className="w-[385px] ml-2"></Space>
+                  Старший машини
+                  <Space className="w-[385px] ml-2">
+                    {modalDataMain.senior ? modalDataMain.senior.label : ''}
+                  </Space>
                 </Paragraph>
               </ParagraphContainer>
               <ParagraphContainer className="flex gap-[369px]">
@@ -365,7 +312,10 @@ const CarGeneralInformation = () => {
                 <Riddle>(військове звання, прізвище,ініціали)</Riddle>
               </ParagraphContainer>
               <Paragraph className="pl-32 pt-5">
-                Маршрут руху<Space className="ml-2 w-[803px]"></Space>
+                Маршрут руху
+                <Space className="ml-2 w-[803px]">
+                  {modalDataMain.trafficRoute}
+                </Space>
               </Paragraph>
               <Space className="pt-6 ml-32 w-[908px]"></Space>
               <ParagraphContainer className="flex gap-[335px]">
@@ -409,66 +359,22 @@ const CarGeneralInformation = () => {
                   </th>
                 </SubRow>
               </StyledTHead>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
+              {firstTableMarkup.length ? (
+                firstTableMarkup
+              ) : (
+                <StyledTBody>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </StyledTBody>
+              )}
               <StyledTBody>
                 <td></td>
                 <td></td>
@@ -500,14 +406,18 @@ const CarGeneralInformation = () => {
                 </THeadRow>
               </StyledTHead2>
               <StyledTBody>
+                <td>{modalDataMain.numberDocument}</td>
+                <td>
+                  {modalDataMain.documentDate
+                    ? modalDataMain.documentDate.toLocaleDateString()
+                    : ''}
+                </td>
+                <td>{modalDataMain.purposeStatement}</td>
+                <td>{modalDataMain.carName}</td>
+                <td>{modalDataMain.sign ? modalDataMain.sign.label : ''}</td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{modalDataMain.exploitationGroup}</td>
                 <td></td>
                 <td></td>
               </StyledTBody>
@@ -535,54 +445,22 @@ const CarGeneralInformation = () => {
                   <th scope="colgroup">Перевитрата</th>
                 </THeadRow>
               </StyledTHead3>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
-              <StyledTBody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </StyledTBody>
+              {pmmMarkup.length ? (
+                pmmMarkup
+              ) : (
+                <StyledTBody>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </StyledTBody>
+              )}
             </StyledTable3>
           </TableSection3>
         </PaperSection>
@@ -597,10 +475,10 @@ const CarGeneralInformation = () => {
         <ModalFuel
           onCloseFuel={closeFuelExpensesModal}
           onSubmitCallback={handleFuelData}
+          setDuplicated={setDuplicated}
         />
       )}
     </MainContainer>
   );
 };
-// modalSubmit={setModalData}
 export default CarGeneralInformation;

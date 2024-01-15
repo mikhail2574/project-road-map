@@ -82,7 +82,7 @@ export default function ChooseRouteModal({
               <li key={id}>
                 <EditButton
                   onClick={() => openEdit(id)}
-                  title="Редагувати маршрут"
+                  title="Ре агувати маршрут"
                 >
                   {from} - {to}
                   {route.return === 'ні' ? null : ` - ${from}`}, {arrTime},{' '}

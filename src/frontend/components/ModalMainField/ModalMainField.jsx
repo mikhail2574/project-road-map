@@ -410,11 +410,6 @@ export default function Modal({
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
-                    pattern: {
-                      value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
-                      message:
-                        'Невірний формат (приклад правильного формату : Бандера С.А.)',
-                    },
                   }}
                   render={({ field }) => (
                     <>
