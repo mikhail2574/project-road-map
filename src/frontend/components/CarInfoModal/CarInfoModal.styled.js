@@ -71,7 +71,6 @@ export const ButtonCloseStyle = styled.button`
     transition: transform 0.3s ease-in-out;
   }
 `;
-// --------------INFROM TITLE
 
 export const InformTitle = styled.h3`
   color: #fbfcfc;
@@ -82,29 +81,21 @@ export const InformTitle = styled.h3`
   margin-bottom: 28px;
 `;
 
-//   InputContainerDiv
-
 export const InputContainerDiv = styled.div`
-  /* position: relative; */
-  /* margin-top: -160px; */
   display: flex;
   flex-wrap: wrap;
   row-gap: 16px;
   margin-bottom: 44px;
 `;
 
-// InputRowDiv
-
 export const InputRowDiv = styled.div`
   display: flex;
-  /* width: 100%; */
 
   gap: 8px;
 `;
 
 export const InputLegendDiv = styled.div`
   display: grid;
-  /* width: 100%; */
 
   gap: 8px;
 `;
@@ -150,7 +141,6 @@ export const Legend = styled.legend`
   font-weight: 500;
   line-height: 18px;
   text-indent: 10px;
-  /* position: relative; */
 `;
 
 export const Span = styled.span`
@@ -169,133 +159,92 @@ export const InputDiv = styled.div`
   position: relative;
 `;
 
-export const DocumentNumber = styled.p`
-  position: absolute;
-  color: #fbfcfc;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  left: 157px;
-  top: -25px;
-`;
-
-export const MilitaryBase = styled.p`
-  position: absolute;
-  color: #fbfcfc;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  left: 303px;
-  top: -25px;
-`;
-
-export const Driver = styled.p`
-  position: absolute;
-  color: #fbfcfc;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  left: 493px;
-  top: -25px;
-`;
-
-// OdometerTitle
-
-export const OdometerTitle = styled.h3`
-  color: #fbfcfc;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 24px;
-`;
-
-// -----
-
-export const OdomPlusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 35px;
-
-  gap: 360px;
-`;
-
-//  BtnPlus
-
-export const BtnPlus = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #47523f;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 14px;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    opacity: 0.8;
-    transform: translateY(-1px);
-  }
-`;
-
-// Time container
-
-export const BtnTrash = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #191413;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 14px;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    opacity: 0.8;
-    transform: translateY(-1px);
-  }
-`;
-
-export const TimeDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 36px;
-  margin-bottom: 44px;
-`;
-export const InputTimeDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-`;
-
 // PICKER
+
+export const PickerContainer = styled.div`
+  .react-datepicker__view-calendar-icon input {
+    padding: 0 !important;
+  }
+
+  .react-datepicker {
+    background: #47523f;
+    border: none;
+  }
+  .react-datepicker__header {
+    border-radius: 8px;
+    border: none;
+    background: var(--black);
+
+    font-weight: normal;
+  }
+  .react-datepicker__month-container {
+    float: left;
+    background: var(--black);
+    border-radius: 8px;
+  }
+  .react-datepicker__triangle {
+    visibility: hidden;
+  }
+  .react-datepicker__month {
+    border-top: 1px solid rgba(243, 243, 243, 0.2);
+  }
+
+  .react-datepicker__day-name {
+    color: rgba(243, 243, 243, 0.2);
+  }
+
+  .react-datepicker__day,
+  .react-datepicker__time-name,
+  .react-datepicker__current-month {
+    color: var(--white);
+  }
+
+  .react-datepicker__day:hover {
+    background: var(--white);
+    color: var(--black);
+    border-radius: 50%;
+  }
+  .react-datepicker__day--disabled,
+  .react-datepicker__month-text--disabled,
+  .react-datepicker__quarter-text--disabled,
+  .react-datepicker__year-text--disabled {
+    cursor: default;
+    color: rgba(243, 243, 243, 0.2);
+  }
+  .react-datepicker__day--disabled:hover,
+  .react-datepicker__month-text--disabled:hover,
+  .react-datepicker__quarter-text--disabled:hover,
+  .react-datepicker__year-text--disabled:hover {
+    background: var(--white);
+    color: var(--black);
+    border-radius: 50%;
+  }
+  .react-datepicker__day--selected,
+  .react-datepicker__day--keyboard-selected {
+    background: var(--white);
+    color: var(--black);
+    border-radius: 50%;
+  }
+  .react-datepicker__month-read-view,
+  .react-datepicker__year-read-view {
+    color: var(--white);
+    font-size: 16px;
+  }
+  .react-datepicker__navigation--years,
+  .react-datepicker__navigation--years-previous {
+    visibility: visible;
+    border-color: var(--black);
+  }
+`;
 
 export const DatePickerOne = styled(DatePicker)`
   text-indent: 10px;
   width: 135px;
   height: 46px;
   border-radius: 12px;
-  background: #282828;
+  background: #f3f3f3;
   border: none;
-  color: #fbfcfc;
+  color: var(--text-dark);
   cursor: pointer;
 `;
 
@@ -317,9 +266,21 @@ export const ShortInputStyle = styled.input`
   width: 135px;
   height: 46px;
   border-radius: 12px;
-  background: #282828;
-  border: none;
+  font-weight: 600;
   color: #fbfcfc;
+  background: #282828;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--white);
+    background-color: #282828;
+    box-shadow: inset 0 0 20px 20px #282828;
+    transition: all 0s 50000s;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 `;
 
 export const MidInputStyle = styled(ShortInputStyle)`
@@ -328,17 +289,11 @@ export const MidInputStyle = styled(ShortInputStyle)`
 
 export const LongInput = styled(ShortInputStyle)`
   width: 214px;
-  font-weight: 600;
 `;
 
 export const ToLongInput = styled(ShortInputStyle)`
   width: 280px;
-  font-weight: 600;
 `;
-
-// ------------------------
-
-// 22222222222222222222222222
 
 export const BtnBox = styled.div`
   display: flex;
@@ -350,13 +305,9 @@ export const ConfirmBtnStyle = styled.button`
   width: 151px;
   height: 48px;
   color: #fbfcfc;
-  border: none;
   border-radius: 12px;
   background: #47523f;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
+  line-height: 1.43;
   cursor: pointer;
 
   opacity: 1;
@@ -372,21 +323,10 @@ export const ConfirmBtnStyle = styled.button`
 export const CancelBtnStyle = styled.button`
   width: 132px;
   height: 48px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: #282828;
   border-radius: 12px;
-  border: none;
-  line-height: 20px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 1.8px;
+  line-height: 1.43;
   color: #fbfcfc;
-
+  background-color: #282828;
   cursor: pointer;
 
   opacity: 1;
@@ -405,4 +345,11 @@ export const IconStyleClock = styled(Icon)`
   bottom: 21%;
   right: 9%;
   z-index: 2;
+`;
+
+export const IconStyleCalendar = styled(Icon)`
+  cursor: pointer;
+  bottom: 15%;
+  right: 5%;
+  z-index: 1;
 `;

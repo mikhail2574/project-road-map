@@ -19,6 +19,7 @@ import {
 } from './ModalEditingStyle';
 import { useEffect } from 'react';
 import { selectCars, selectPersonnel } from 'redux/infos/selectors';
+import { toast } from 'react-toastify';
 
 export default function Modal({ showCloseIcon = true, close, id }) {
   const personnel = useSelector(selectPersonnel);
@@ -58,13 +59,15 @@ export default function Modal({ showCloseIcon = true, close, id }) {
       ...data,
       driver: data.driver.value.name,
       senior: data.senior.value.name,
+      oldSign: car.sign,
     };
-    try {
-      dispatch(updateCarsThunk(newData));
-      close();
-    } catch (error) {
-      return error.message;
-    }
+    dispatch(updateCarsThunk(newData))
+      .unwrap()
+      .then(() => {
+        toast.success('Зміни збережено');
+        close();
+      })
+      .catch(() => toast.error('Такий автомобіль вже існує'));
   };
 
   useEffect(() => {

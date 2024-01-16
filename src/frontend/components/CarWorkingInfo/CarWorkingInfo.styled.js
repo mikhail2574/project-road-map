@@ -38,10 +38,13 @@ export const InfoBtn = styled.button`
   border: 1px solid rgba(71, 82, 63, 0.2);
   transition: var(--fast);
 
-  &:hover {
+  &:hover:not(:disabled) {
     cursor: pointer;
     color: var(--white);
     background: var(--btn-active);
+  }
+  &:disabled {
+    cursor: not-allowed;
   }
 `;
 
@@ -227,12 +230,11 @@ export const CalcDiv = styled.div`
   p {
     position: relative;
   }
-
   span {
     margin-left: 55px;
   }
   p:last-child > span {
-    margin-left: 51px;
+    margin-left: 50px;
   }
 
   span:after {
@@ -243,6 +245,16 @@ export const CalcDiv = styled.div`
     position: absolute;
     bottom: 2px;
     left: 142px;
+  }
+  p:first-child:after {
+    content: 'км';
+    position: absolute;
+    left: 265px;
+  }
+  p:last-child:after {
+    content: 'л';
+    position: absolute;
+    left: 265px;
   }
 `;
 
@@ -269,6 +281,7 @@ export const InputWrapper = styled.div`
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--transparent-gray);
+    cursor: not-allowed;
   }
   input:hover {
     border: 1px solid var(--dark);

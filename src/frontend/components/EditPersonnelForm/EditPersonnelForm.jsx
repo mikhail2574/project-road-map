@@ -21,6 +21,7 @@ import {
   StyledModalInputWrapper,
   StyledModalWindowWrapper,
 } from '../AddPersonnelForm/AddPersonnelForm.styled';
+import { toast } from 'react-toastify';
 
 const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
   const personnel = useSelector(selectPersonnel).find(
@@ -48,9 +49,13 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
       position: data.position,
       oldName: personnel.name,
     };
-    console.log(data);
-    dispatch(updatePersonnelThunk(body));
-    close();
+    dispatch(updatePersonnelThunk(body))
+      .unwrap()
+      .then(() => {
+        toast.success('Зміни збережено');
+        close();
+      })
+      .catch(() => toast.error('Такий службовець вже існує'));
   };
 
   useEffect(() => {

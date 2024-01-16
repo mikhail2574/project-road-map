@@ -4,7 +4,7 @@ import Select from 'react-select';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import uk from 'date-fns/locale/uk';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectCars, selectPersonnel } from 'redux/infos/selectors';
 import {
   ModalWindowStyle,
@@ -30,7 +30,6 @@ import {
   BtnTrash,
   DatePickerOne,
   DatePickerTwo,
-  IconStyleClock,
 } from '../ModalMainField/ModalMainFieldStyle';
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
@@ -126,9 +125,7 @@ export default function Modal({
   // ----------------
   const personnel = useSelector(selectPersonnel);
   const cars = useSelector(selectCars);
-  const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedSign, setSelectedSign] = useState(null);
-  console.log(selectedDriver);
 
   const carsOption = cars.map(
     ({ carName, sign, driver, senior, unit, exploitationGroup }) => ({
@@ -413,11 +410,6 @@ export default function Modal({
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
-                    pattern: {
-                      value: /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$/,
-                      message:
-                        'Невірний формат (приклад правильного формату : Бандера С.А.)',
-                    },
                   }}
                   render={({ field }) => (
                     <>

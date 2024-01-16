@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCarsThunk, fetchInfosThunk } from 'redux/infos/operations';
-import {
-  selectCars,
-  selectError,
-  selectIsLoading,
-} from 'redux/infos/selectors';
+import { deleteCarsThunk } from 'redux/infos/operations';
+import { selectCars, selectIsLoading } from 'redux/infos/selectors';
 import {
   InnactiveButton,
   StyledActiveButton,
@@ -34,11 +30,11 @@ import ModalEditing from '../ModalEditing/ModalEditing';
 import { Line, StyledNav } from '../CarWorkingInfo/CarWorkingInfo.styled';
 import Personnel from '../Personnel/Personnel';
 import AddPersonnelForm from '../AddPersonnelForm/AddPersonnelForm';
+import { Loader } from '../Loader/Loader';
 
 const Directory = () => {
   const cars = useSelector(selectCars);
   const loading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   const [selectedCarSign, setSelectedCarSign] = useState(null);
@@ -65,10 +61,6 @@ const Directory = () => {
   const closeDeleteModal = () => {
     setDeleteModalVisible(false);
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchInfosThunk());
-  // }, [dispatch]);
 
   const handleDeleteCar = sign => {
     dispatch(deleteCarsThunk(sign));
@@ -97,8 +89,7 @@ const Directory = () => {
 
   return (
     <>
-      {loading && <h1>Loading...</h1>}
-      {error && <p>Щось пішло не так</p>}
+      {loading && <Loader />}
       <StyledHeaderWrapper>
         <StyledTitleDirectory>Довідник</StyledTitleDirectory>
         {selectedTable === 'cars' ? (

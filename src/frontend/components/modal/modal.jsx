@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCarsThunk } from 'redux/infos/operations';
 import { useEffect, useState } from 'react';
 import { selectPersonnel } from 'redux/infos/selectors';
+import { toast } from 'react-toastify';
 
 export default function Modal({ children, showCloseIcon = true, close }) {
   const {
@@ -48,9 +49,19 @@ export default function Modal({ children, showCloseIcon = true, close }) {
       driver: data.driver.value.name,
       senior: data.senior.value.name,
     };
-    dispatch(addCarsThunk(newData));
-
-    close();
+    dispatch(addCarsThunk(newData))
+      .unwrap()
+      .then(() => {
+        toast.success('Автомобіль успішно додано');
+        close();
+      })
+      .catch(err => {
+        toast.error(
+          err.includes('409')
+            ? 'Такий номерний знак вже існує'
+            : 'Помилка валідації'
+        );
+      });
   };
 
   useEffect(() => {

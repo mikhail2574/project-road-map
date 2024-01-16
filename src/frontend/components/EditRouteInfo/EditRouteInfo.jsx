@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setCarWork } from 'redux/form/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateRoute } from 'redux/form/slice';
+import { selectRoutes } from 'redux/form/selectors';
 import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import uk from 'date-fns/locale/uk';
-import { nanoid } from 'nanoid';
 import moment from 'moment';
 import { Icons } from '../Icons';
 import {
@@ -32,10 +32,20 @@ import {
   InputDiv,
   IconStyleCalendar,
   PickerContainer,
-} from './CarInfoModal.styled';
+} from '../CarInfoModal/CarInfoModal.styled';
 
-export default function CarInfoModal({ showCloseIcon = true, onClose }) {
+export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
   const [minDate, setMinDate] = useState();
+
+  const route = useSelector(selectRoutes).find(route => route.id === id);
+  const { depTime, arrTime, motorHours, mileage, work } = route;
+  const selectedWay = route.return === 'ні' ? true : false;
+
+  const [departureTime, dDate] = depTime.split(', ');
+  const [arrivalTime, aDate] = arrTime.split(', ');
+  const departureDate = moment(dDate, 'DD.MM.YY').toDate();
+  const arrivalDate = moment(aDate, 'DD.MM.YY').toDate();
+
   const {
     handleSubmit,
     control,
@@ -45,12 +55,22 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      onStay: '',
-      onMove: '',
-      withCargo: '',
-      withoutCargo: '',
-      withTrailer: '',
-      withTug: '',
+      routeFrom: route.from,
+      routeTo: route.to,
+      oneway: selectedWay,
+      departureTime,
+      departureDate,
+      arrivalTime,
+      arrivalDate,
+      withCargo: mileage.withCargo,
+      withoutCargo: mileage.withoutCargo,
+      withTrailer: mileage.withTrailer,
+      withTug: mileage.withTug,
+      onStay: motorHours.onStay,
+      onMove: motorHours.onMove,
+      nameCargo: work.nameCargo,
+      weight: work.weight,
+      odometer: route.odometer,
     },
   });
   useEffect(() => {
@@ -76,12 +96,8 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
     'withTug',
   ]);
   useEffect(() => {
-    try {
-      const { onStay, onMove } = getValues();
-      setValue('sum', Number(onStay) + Number(onMove));
-    } catch (error) {
-      console.log(error);
-    }
+    const { onStay, onMove } = getValues();
+    setValue('sum', Number(onStay) + Number(onMove));
   }, [setValue, watchTime, getValues]);
 
   useEffect(() => {
@@ -118,29 +134,27 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
     const depDate = moment(departureDate).format('DD.MM.YY');
     const newWay = oneway ? 'ні' : 'так';
     dispatch(
-      setCarWork({
-        route: {
-          id: nanoid(),
-          from: data.routeFrom,
-          to: data.routeTo,
-          return: newWay,
-          depTime: `${data.departureTime}, ${depDate}`,
-          arrTime: `${data.arrivalTime}, ${arrDate}`,
-          mileage: {
-            withCargo: data.withCargo,
-            withoutCargo: data.withoutCargo,
-            total: data.total,
-            withTrailer: data.withTrailer,
-            withTug: data.withTug,
-          },
-          motorHours: {
-            onStay: data.onStay,
-            onMove: data.onMove,
-            sum: data.sum,
-          },
-          work: { nameCargo: data.nameCargo, weight: data.weight },
-          odometer: data.odometer,
+      updateRoute({
+        id: route.id,
+        from: data.routeFrom,
+        to: data.routeTo,
+        return: newWay,
+        depTime: `${data.departureTime}, ${depDate}`,
+        arrTime: `${data.arrivalTime}, ${arrDate}`,
+        mileage: {
+          withCargo: data.withCargo,
+          withoutCargo: data.withoutCargo,
+          total: data.total,
+          withTrailer: data.withTrailer,
+          withTug: data.withTug,
         },
+        motorHours: {
+          onStay: data.onStay,
+          onMove: data.onMove,
+          sum: data.sum,
+        },
+        work: { nameCargo: data.nameCargo, weight: data.weight },
+        odometer: data.odometer,
       })
     );
     onClose();
@@ -166,7 +180,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InformTitle>Заповніть дані</InformTitle>
+          <InformTitle>Змініть дані</InformTitle>
 
           <InputContainerDiv>
             <InputRowDiv>
@@ -226,6 +240,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                     <>
                       <input
                         type="checkbox"
+                        checked={field.value}
                         defaultValue={false}
                         placeholder="В один кінець"
                         {...field}
@@ -467,6 +482,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                           type="number"
                           placeholder="На буксирі"
                           {...field}
+                          // defaultValue=""
                           onChange={e => setValue('withTug', e.target.value)}
                         />
                         {errors.withTug && (
@@ -492,6 +508,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                         placeholder="Усього"
                         {...field}
                         readOnly={true}
+                        // onChange={e => setValue('total', e.target.value)}
                       />
                       {errors.total && (
                         <ErrorSpan style={{ color: 'red' }}>
@@ -566,6 +583,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                         placeholder="Усього"
                         {...field}
                         readOnly={true}
+                        // onChange={e => setValue('sum', e.target.value)}
                       />
                       {errors.sum && (
                         <ErrorSpan style={{ color: 'red' }}>
@@ -659,7 +677,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
           </InputContainerDiv>
           <BtnBox>
             <ConfirmBtnStyle type="submit" name="confirm">
-              Додати
+              Змінити
             </ConfirmBtnStyle>
             <CancelBtnStyle type="button" name="cancel" onClick={closeClick}>
               Відмінити

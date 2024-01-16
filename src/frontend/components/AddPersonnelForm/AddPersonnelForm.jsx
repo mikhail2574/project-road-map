@@ -21,6 +21,7 @@ import {
   StyledModalInputWrapper,
   StyledModalWindowWrapper,
 } from './AddPersonnelForm.styled';
+import { toast } from 'react-toastify';
 
 const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
   const {
@@ -33,9 +34,19 @@ const AddPersonnelForm = ({ showCloseIcon = true, close }) => {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    dispatch(addPersonnelThunk(data));
-
-    close();
+    dispatch(addPersonnelThunk(data))
+      .unwrap()
+      .then(() => {
+        toast.success('Службовець успішно додано');
+        close();
+      })
+      .catch(err => {
+        toast.error(
+          err.includes('409')
+            ? 'Такий службовець вже існує'
+            : 'Помилка валідації'
+        );
+      });
   };
 
   useEffect(() => {

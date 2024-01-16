@@ -4,18 +4,16 @@ const path = require('path');
 const { nanoid } = require('nanoid');
 const { shortRanksEnum } = require('../services/constants');
 
-const pathToExcel = path.join(
+const pathToExcel = path.resolve(
   __dirname,
   '..',
-  '..',
-  'backend',
   'fileStorage',
   'excel',
   'roadXS.xlsx'
 );
-const workbook = new ExcelJS.Workbook();
 
 const parseInfo = async () => {
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -28,7 +26,7 @@ const parseInfo = async () => {
   const rowDataRoutes = [];
 
   worksheet.eachRow((row, rowNumber) => {
-    if (rowNumber <= 2) return; // пропускаю 1 рядок, бо так оформленний ексель
+    if (rowNumber <= 2) return;
 
     const rowCars = {
       carName: row.values[1], // 'A'
@@ -92,13 +90,6 @@ const parseInfo = async () => {
 
 const addCarToExcel = async car => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -115,7 +106,6 @@ const addCarToExcel = async car => {
   const startRowNumber = 2;
   let lastRowNumber;
 
-  // із-за того що на одному листі декілька таблиць, відловлюю останню строку таблиці
   for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
     const row = worksheet.getRow(i);
     if (row.getCell(columnNumber).value) {
@@ -143,22 +133,11 @@ const addCarToExcel = async car => {
   return car;
 };
 
-const updateCarInExcel = async (sign, car) => {
-  const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
-  await workbook.xlsx.readFile(pathToExcel);
-  const worksheet = workbook.getWorksheet('Довідники');
-  if (!worksheet) {
-    throw new Error('Worksheet not found');
-  }
-
+const updateCarInExcel = async (sign, car, flag = true, InWorkbook) => {
   const data = await parseInfo();
+  if (car.sign !== sign && data.cars.find(item => item.sign === car.sign)) {
+    throw requestError(409, 'Такий автомобіль вже існує');
+  }
   let carInExcel = data.cars.find(item => item.sign === sign);
   if (!carInExcel) {
     throw requestError(404, 'Такого автомобіля не існує');
@@ -168,45 +147,58 @@ const updateCarInExcel = async (sign, car) => {
   const startRowNumber = 2;
   let lastRowNumber;
 
-  for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
-    const row = worksheet.getRow(i);
-    if (row.getCell(columnNumber).value === sign) {
-      lastRowNumber = i;
-      break;
+  if (flag) {
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.readFile(pathToExcel);
+    const worksheet = workbook.getWorksheet('Довідники');
+    if (!worksheet) {
+      throw new Error('Worksheet not found');
     }
+    for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
+      const row = worksheet.getRow(i);
+      if (row.getCell(columnNumber).value === sign) {
+        lastRowNumber = i;
+        break;
+      }
+    }
+
+    const row = worksheet.getRow(lastRowNumber);
+    if (car.carName) row.getCell(1).value = car.carName;
+    if (car.sign) row.getCell(2).value = car.sign;
+    if (car.fuelType) row.getCell(3).value = car.fuelType;
+    if (car.fuelConsumption) row.getCell(4).value = car.fuelConsumption;
+    if (car.oilType) row.getCell(5).value = car.oilType;
+    if (car.oilConsumption) row.getCell(6).value = car.oilConsumption;
+    if (car.exploitationGroupShort)
+      row.getCell(7).value = car.exploitationGroupShort;
+    if (car.exploitationGroup) row.getCell(8).value = car.exploitationGroup;
+    if (car.driver) row.getCell(9).value = car.driver;
+    if (car.driverRank) row.getCell(10).value = car.driverRank;
+    if (car.unit) row.getCell(11).value = car.unit;
+    if (car.senior) row.getCell(12).value = car.senior;
+    if (car.seniorRank) row.getCell(13).value = car.seniorRank;
+
+    carInExcel = { ...carInExcel, ...car };
+    await workbook.xlsx.writeFile(pathToExcel);
+    return carInExcel;
+  } else {
+    let InputWorksheet = InWorkbook.getWorksheet('Довідники');
+    for (let i = InputWorksheet.rowCount; i >= startRowNumber; i--) {
+      const row = InputWorksheet.getRow(i);
+      if (row.getCell(columnNumber).value === sign) {
+        lastRowNumber = i;
+        break;
+      }
+    }
+    const row = InputWorksheet.getRow(lastRowNumber);
+
+    if (car.driver) row.getCell(9).value = car.driver;
+    if (car.driverRank) row.getCell(10).value = car.driverRank;
   }
-
-  const row = worksheet.getRow(lastRowNumber);
-  if (car.carName) row.getCell(1).value = car.carName;
-  if (car.sign) row.getCell(2).value = car.sign;
-  if (car.fuelType) row.getCell(3).value = car.fuelType;
-  if (car.fuelConsumption) row.getCell(4).value = car.fuelConsumption;
-  if (car.oilType) row.getCell(5).value = car.oilType;
-  if (car.oilConsumption) row.getCell(6).value = car.oilConsumption;
-  if (car.exploitationGroupShort)
-    row.getCell(7).value = car.exploitationGroupShort;
-  if (car.exploitationGroup) row.getCell(8).value = car.exploitationGroup;
-  if (car.driver) row.getCell(9).value = car.driver;
-  if (car.driverRank) row.getCell(10).value = car.driverRank;
-  if (car.unit) row.getCell(11).value = car.unit;
-  if (car.senior) row.getCell(12).value = car.senior;
-  if (car.seniorRank) row.getCell(13).value = car.seniorRank;
-
-  carInExcel = { ...carInExcel, ...car };
-
-  await workbook.xlsx.writeFile(pathToExcel);
-  return carInExcel;
 };
 
 const addPersonToExcel = async person => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -248,15 +240,8 @@ const addPersonToExcel = async person => {
   return person;
 };
 
-const updatePersonInExcel = async (name, person) => {
+const updatePersonInExcel = async (personName, person) => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -264,7 +249,10 @@ const updatePersonInExcel = async (name, person) => {
   }
 
   const data = await parseInfo();
-  let personInExcel = data.personnel.find(item => item.name === name);
+  if (data.personnel.find(item => item.name === person.name)) {
+    throw requestError(409, 'Такий службовець вже існує');
+  }
+  let personInExcel = data.personnel.find(item => item.name === personName);
   if (!personInExcel) {
     throw requestError(404, 'Такого службовця не існує');
   }
@@ -275,7 +263,7 @@ const updatePersonInExcel = async (name, person) => {
 
   for (let i = worksheet.rowCount; i >= startRowNumber; i--) {
     const row = worksheet.getRow(i);
-    if (row.getCell(columnNumber).value === name) {
+    if (row.getCell(columnNumber).value === personName) {
       lastRowNumber = i;
       break;
     }
@@ -292,20 +280,24 @@ const updatePersonInExcel = async (name, person) => {
   if (person.rankShort) row.getCell(21).value = person.rankShort;
   if (person.name) row.getCell(22).value = person.name;
 
-  personInExcel = { ...personInExcel, ...person, oldName: name };
+  const cars = data.cars.filter(item => item.driver === personName);
+  if (cars.length) {
+    for (const car of cars) {
+      await updateCarInExcel(
+        car.sign,
+        { driver: person.name, driverRank: person.rankShort },
+        false,
+        workbook
+      );
+    }
+  }
+  personInExcel = { ...personInExcel, ...person, oldName: personName };
   await workbook.xlsx.writeFile(pathToExcel);
   return personInExcel;
 };
 
 const addRouteToExcel = async route => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -356,13 +348,6 @@ const addRouteToExcel = async route => {
 
 const updateRouteInExcel = async (id, routeNew) => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -425,13 +410,7 @@ const updateRouteInExcel = async (id, routeNew) => {
 
 const deleteCarFromExcel = async sign => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
+
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -485,13 +464,6 @@ const deleteCarFromExcel = async sign => {
 
 const deletePersonnelFromExcel = async name => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
@@ -545,13 +517,6 @@ const deletePersonnelFromExcel = async name => {
 
 const deleteRouteFromExcel = async id => {
   const workbook = new ExcelJS.Workbook();
-  const pathToExcel = path.resolve(
-    __dirname,
-    '..',
-    'fileStorage',
-    'excel',
-    'roadXS.xlsx'
-  );
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {

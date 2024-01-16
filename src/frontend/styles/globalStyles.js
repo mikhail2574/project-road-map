@@ -35,8 +35,39 @@ const GlobalStyles = createGlobalStyle`
       margin: 0;
     }
 
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: var(--white);
+      background-color: #282828;
+      box-shadow: inset 0 0 20px 20px #282828;
+      transition: all 0s 50000s;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
     input[type=number] {
       -moz-appearance: textfield;
+    }
+
+    input[type=time]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      color: white;
+      height: 100%;
+      filter: invert(1);
+      background-size: 20px 20px;
+      background-position: center;
+      padding: 10px;
+  }
+  input[type="time"]::-webkit-calendar-picker-indicator::after {
+      content: 'boom'; 
+      color: #333;  
+      font-size: 14px; 
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
   ::-webkit-scrollbar {

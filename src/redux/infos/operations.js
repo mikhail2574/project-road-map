@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const roadApi = axios.create({
   baseURL: 'http://localhost:3030/api',
@@ -54,6 +55,7 @@ export const deleteCarsThunk = createAsyncThunk(
   async (sign, { rejectWithValue }) => {
     try {
       await roadApi.delete(`/infos/cars/${sign}`);
+      toast.success('Автомобіль успішно видалено');
       return sign;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -80,7 +82,10 @@ export const updateCarsThunk = createAsyncThunk(
       seniorRank: body.seniorRank,
     };
     try {
-      const { data } = await roadApi.put(`/infos/cars/${body.sign}`, newBody);
+      const { data } = await roadApi.put(
+        `/infos/cars/${body.oldSign}`,
+        newBody
+      );
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -113,6 +118,7 @@ export const deletePersonnelThunk = createAsyncThunk(
   async (name, { rejectWithValue }) => {
     try {
       await roadApi.delete(`/infos/personnel/${name}`);
+      toast.success('Людину успішно видалено');
       return name;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -140,108 +146,3 @@ export const updatePersonnelThunk = createAsyncThunk(
     }
   }
 );
-
-// Road Types
-
-/* export const addRoadTypesThunk = createAsyncThunk(
-  'fetchRoadTypes',
-  async (body, { rejectWithValue }) => {
-    const data = {
-      roadType: body.roadType,
-      correction: body.correction,
-    };
-    try {
-      const res = await roadApi.post('/infos/roadTypes', data);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const updateRoadTypesThunk = createAsyncThunk(
-  'updateRoadTypes',
-  async (body, { rejectWithValue }) => {
-    const newBody = {
-      roadType: body.roadType,
-      correction: body.correction,
-    };
-    try {
-      const res = await roadApi.put(
-        `/infos/roadTypes/${body.roadType}`,
-        newBody
-      );
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const deleteRoadTypesThunk = createAsyncThunk(
-  'deleteRoadTypes',
-  async (id, { rejectWithValue }) => {
-    try {
-      await roadApi.delete(`/infos/roadTypes/${id}`);
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-// Routes
-
-/* export const addRoutesThunk = createAsyncThunk(
-  'addRoutes',
-  async (body, { rejectWithValue }) => {
-    const data = {
-      from: body.from,
-      to: body.to,
-      return: body.return,
-      route: {
-        formula: body.formula,
-        result: body.result,
-      },
-    };
-    try {
-      const res = await roadApi.post('/infos/routes', data);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const updateRoutesThunk = createAsyncThunk(
-  'updateRoutes',
-  async (body, { rejectWithValue }) => {
-    const newBody = {
-      from: body.from,
-      to: body.to,
-      return: body.return,
-      route: {
-        formula: body.formula,
-        result: body.result,
-      },
-    };
-    try {
-      const res = await roadApi.put(`/infos/routes/${body.id}`, newBody);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */
-
-/* export const deleteRoutesThunk = createAsyncThunk(
-  'deleteRoutes',
-  async (id, { rejectWithValue }) => {
-    try {
-      await roadApi.delete(`/infos/routes/${id}`);
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-); */

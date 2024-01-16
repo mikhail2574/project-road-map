@@ -31,6 +31,7 @@ export default function Modal({
   showCloseIcon = true,
   onCloseFuel,
   onSubmitCallback,
+  setDuplicated,
 }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
 
@@ -43,6 +44,7 @@ export default function Modal({
   } = useForm();
 
   const onSubmit = data => {
+    setDuplicated(duplicateInputs);
     console.log(data);
     onSubmitCallback(data); // Передача данных родительскому компоненту
     onCloseFuel(); // Закрытие модального окна
