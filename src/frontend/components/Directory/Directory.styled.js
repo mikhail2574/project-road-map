@@ -141,6 +141,8 @@ export const StyledTableBodyTd = styled.td`
   font-weight: 600;
   line-height: 20px;
   color: #191413;
+  max-width: 50px;
+  word-wrap: ${({ $wordWrap }) => $wordWrap || 'normal'};
 
   padding-left: 19px;
   padding-right: 19px;

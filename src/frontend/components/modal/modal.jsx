@@ -179,7 +179,7 @@ export default function Modal({ children, showCloseIcon = true, close }) {
                   rules={{
                     required: "Обов'язкове поле",
                     pattern: {
-                      value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
+                      value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 -]*$/,
                       message: 'Може містити літери та цифри',
                     },
                   }}
