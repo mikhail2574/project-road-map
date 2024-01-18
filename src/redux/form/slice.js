@@ -17,24 +17,6 @@ import { createSlice } from '@reduxjs/toolkit';
 //       departure: { time: '1 29.09.2023', odometer: 12337 },
 //       arrival: { time: '2 29.09.2023', odometer: 12338 },
 //     },
-// routes array object type  👌👌
-// {
-//   from: 'Київ',
-//   to: 'Вінниця',
-//   return: 'ні',
-//   depTime: '7:30, 29.00.23',
-//   arrTime: '18:10, 29.00.23',
-//   mileage: {
-//     withCargo: 10,
-//     withoutCargo: 10,
-//     total: 20,
-//     withTrailer: '',
-//     withTug: '',
-//   },
-//  motorHours: { onStay: 10, onMove: 50, sum: 60 },
-//  work: { nameCargo: 'Пісок', weight: 15 },
-//  odometer: 12354,
-// },
 const initialState = {
   supervisor: {
     name: '',
