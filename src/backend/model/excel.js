@@ -249,7 +249,10 @@ const updatePersonInExcel = async (personName, person) => {
   }
 
   const data = await parseInfo();
-  if (data.personnel.find(item => item.name === person.name)) {
+  if (
+    personName !== person.name &&
+    data.personnel.find(item => item.name === person.name)
+  ) {
     throw requestError(409, 'Такий службовець вже існує');
   }
   let personInExcel = data.personnel.find(item => item.name === personName);
