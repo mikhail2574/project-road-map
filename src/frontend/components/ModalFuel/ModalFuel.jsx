@@ -45,7 +45,6 @@ export default function Modal({
 
   const onSubmit = data => {
     setDuplicated(duplicateInputs);
-    console.log(data);
     onSubmitCallback(data); // Передача данных родительскому компоненту
     onCloseFuel(); // Закрытие модального окна
   };

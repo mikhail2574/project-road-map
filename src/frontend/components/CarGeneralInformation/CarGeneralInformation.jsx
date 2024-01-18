@@ -51,24 +51,17 @@ import {
   selectRoutes,
 } from 'redux/form/selectors';
 import { selectPersonnel } from 'redux/infos/selectors';
+import { setMainInfo, setPmm } from 'redux/form/slice';
 
 const CarGeneralInformation = () => {
   const dispatch = useDispatch();
 
-  const routes = useSelector(selectRoutes);
-  const personnel = useSelector(selectPersonnel);
-  const selectedCar = useSelector(selectCar);
-  const checkPerson = useSelector(selectCheckPerson);
-  const formToSend = useSelector(selectForm);
-  console.log(routes);
-  console.log(personnel);
-  console.log(selectedCar);
-  console.log(formToSend);
+  const mainForm = useSelector(selectForm);
+  // console.log(mainForm);
 
   const firstTableMarkup = [];
   const pmmMarkup = [];
-  const [duplicated, setDuplicated] = useState(0);
-
+  const [duplicated, setDuplicated] = useState(1);
   // const saveExcel = () => {
   //   dispatch(downloadMainList(formToSend))
   //     .unwrap()
@@ -109,56 +102,58 @@ const CarGeneralInformation = () => {
   const [modalDataMain, setModalDataMain] = useState([]);
   const handleFMainData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
-    setModalDataMain(data);
+    dispatch(setMainInfo(data));
   };
-
   // +++
   const [modalData, setModalData] = useState([]);
   const handleFuelData = data => {
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
-    setModalData(data);
+    dispatch(setPmm({ ...data }));
+    console.log(data.length);
   };
 
-  if (modalDataMain.carName) {
-    for (let i = 0; i < modalDataMain.departureDate.length; i++) {
+  if (mainForm.documentNumber) {
+    for (let i = 0; i < mainForm.formal.departureTime.length; i++) {
       firstTableMarkup.push(
         <StyledTBody key={i}>
-          <td>{modalDataMain.seniorTechUnitRank}</td>
-          <td>{modalDataMain.seniorTechUnit.label}</td>
-          <td>{modalDataMain.departureDate[i].toLocaleDateString()}</td>
-          <td>{modalDataMain.seniorCarRank}</td>
-          <td>{modalDataMain.senior.label}</td>
-          <td>{modalDataMain.departureDate[i].toLocaleDateString()}</td>
+          <td>{mainForm.supervisor.rank}</td>
+          <td>{mainForm.supervisor.name}</td>
+          <td>{mainForm.formal.departureDate[i].toLocaleDateString()}</td>
+          <td>{mainForm.engineer.rank}</td>
+          <td>{mainForm.engineer.name}</td>
+          <td>{mainForm.formal.arrivalDate[i].toLocaleDateString()}</td>
           <td>
-            {modalDataMain.departureTime[i] +
+            {mainForm.formal.departureTime[i] +
               ' ' +
-              modalDataMain.departureDate[i].toLocaleDateString()}
+              mainForm.formal.departureDate[i].toLocaleDateString()}
           </td>
-          <td>{modalDataMain.speedOmeter[i]}</td>
+          <td>{mainForm.formal.departureKilo[i]}</td>
           <td>
-            {modalDataMain.departureTime[i] +
+            {mainForm.formal.departureTime[i] +
               ' ' +
-              modalDataMain.departureDate[i].toLocaleDateString()}
+              mainForm.formal.departureDate[i].toLocaleDateString()}
           </td>
-          <td>{modalDataMain.speedOmeterArrival[i]}</td>
+          <td>{mainForm.formal.arrivalKilo[i]}</td>
         </StyledTBody>
       );
     }
   }
-  if (modalData.availability_0) {
-    for (let i = 0; i < duplicated; i++) {
+  if (mainForm.pmm.code.length) {
+    console.log(mainForm);
+    for (let i = 0; i < mainForm.pmm.name.length; i++) {
       pmmMarkup.push(
         <StyledTBody key={i}>
-          <td>{modalData[`itemName_${i}`]}</td>
-          <td>{modalData[`itemCode_${i}`]}</td>
-          <td>{modalData[`availabilityBeforeDeparture_${i}`]}</td>
-          <td>{modalData[`receivedDate_${i}`].toLocaleDateString()}</td>
-          <td>{modalData[`availability_${i}`]}</td>
-          <td>{modalData[`received_${i}`]}</td>
-          <td>{modalData[`spent_${i}`]}</td>
-          <td>{modalData[`norm_${i}`]}</td>
-          <td>{modalData[`saving_${i}`]}</td>
-          <td>{modalData[`overuse_${i}`]}</td>
+          <td>{mainForm.pmm.name[i]}</td>
+          <td>{mainForm.pmm.code[i]}</td>
+          <td>{mainForm.pmm.startCount[i]}</td>
+          {console.log(mainForm.pmm.receivedDate)}
+          <td>{mainForm.pmm.receivedDate[i].toLocaleDateString()}</td>
+          <td>{mainForm.pmm.endCount[i]}</td>
+          <td>{mainForm.pmm.receivedCount[i]}</td>
+          <td>{mainForm.pmm.usedCount[i]}</td>
+          <td>{mainForm.pmm.normCount[i]}</td>
+          <td>{mainForm.pmm.ecoCount[i]}</td>
+          <td>{mainForm.pmm.reuseCount[i]}</td>
         </StyledTBody>
       );
     }
@@ -193,21 +188,17 @@ const CarGeneralInformation = () => {
             <Title className="text-center pt-4">
               Корінець дорожнього листа №
               <Space className="w-[109px] ml-4">
-                {modalDataMain.numberDocument}
+                {mainForm.documentNumber}
               </Space>
             </Title>
             <ParagraphContainer className="flex items-end gap-10">
               <Paragraph className="ml-[65px] whitespace-nowrap pt-4">
                 Марка машини
-                <Space className="ml-2 w-[140px]">
-                  {modalDataMain.carName}
-                </Space>
+                <Space className="ml-2 w-[140px]">{mainForm.car.carName}</Space>
               </Paragraph>
               <Paragraph>
                 Номерний знак машини{' '}
-                <Space className="ml-2 w-[140px]">
-                  {modalDataMain.sign && modalDataMain.sign.label}
-                </Space>
+                <Space className="ml-2 w-[140px]">{mainForm.car.carSign}</Space>
               </Paragraph>
               <Paragraph>
                 Марка причепа <Space className="ml-2 w-[140px]"></Space>
@@ -221,7 +212,7 @@ const CarGeneralInformation = () => {
               <Paragraph>
                 Група експлуатації
                 <Space className="ml-2 w-[140px]">
-                  {modalDataMain.exploitationGroup}
+                  {mainForm.car.exploitationGroup}
                 </Space>
               </Paragraph>
             </ParagraphContainer>
@@ -231,9 +222,7 @@ const CarGeneralInformation = () => {
               </Paragraph>
               <Paragraph>
                 Маршрут руху{' '}
-                <Space className="ml-2 w-[320px]">
-                  {modalDataMain.trafficRoute}
-                </Space>
+                <Space className="ml-2 w-[320px]">{mainForm.route}</Space>
               </Paragraph>
             </ParagraphContainer>
             <ParagraphContainer className="flex items-end gap-6">
@@ -242,15 +231,13 @@ const CarGeneralInformation = () => {
               </Paragraph>
               <Paragraph>
                 "
-                <Space className="w-9">
-                  {modalDataMain.documentDate
-                    ? modalDataMain.documentDate.getDay()
-                    : ''}
+                <Space className="w-9 text-center">
+                  {mainForm.documentDate ? mainForm.documentDate.getDay() : ''}
                 </Space>
                 "
-                <Space className="ml-2 w-[53px] mr-2">
-                  {modalDataMain.documentDate
-                    ? modalDataMain.documentDate.toLocaleString('uk-ua', {
+                <Space className="ml-2 w-[53px] mr-2 text-center">
+                  {mainForm.documentDate
+                    ? mainForm.documentDate.toLocaleString('uk-ua', {
                         month: 'long',
                       })
                     : ''}
@@ -267,41 +254,39 @@ const CarGeneralInformation = () => {
               <Paragraph className=" text-center pt-5">
                 Дійсний до "
                 <Space className="w-[32px]">
-                  {modalDataMain.documentDate
-                    ? modalDataMain.documentDate.getDay()
-                    : ''}
+                  {mainForm.documentDate ? mainForm.documentDate.getDay() : ''}
                 </Space>
                 "
                 <Space className="w-[53px] mr-1.5 ml-4">
-                  {modalDataMain.documentDate
-                    ? modalDataMain.documentDate.toLocaleString('uk-ua', {
+                  {mainForm.documentDate
+                    ? mainForm.documentDate.toLocaleString('uk-ua', {
                         month: 'long',
                       })
                     : ''}
-                </Space>{' '}
+                </Space>
                 2023 року
               </Paragraph>
               <Title className=" text-center pt-3">
                 Дорожній лист №
                 <Space className="w-[109px] ml-4">
-                  {modalDataMain.numberDocument}
+                  {mainForm.documentNumber}
                 </Space>
               </Title>
               <Paragraph className=" pl-32 pb-4 pt-5">
                 Військова частина (підрозділ)
-                <Space className="w-[216px] ml-2">{modalDataMain.unit}</Space>
+                <Space className="w-[216px] ml-2">
+                  {mainForm.militaryUnit}
+                </Space>
               </Paragraph>
               <ParagraphContainer className=" pl-32 flex gap-10 pt-5">
                 <Paragraph>
                   Водій
-                  <Space className="w-[385px] ml-2">
-                    {modalDataMain.driver}
-                  </Space>
+                  <Space className="w-[385px] ml-2">{mainForm.driver}</Space>
                 </Paragraph>
                 <Paragraph>
                   Старший машини
                   <Space className="w-[385px] ml-2">
-                    {modalDataMain.senior ? modalDataMain.senior.label : ''}
+                    {mainForm.supervisor.name}
                   </Space>
                 </Paragraph>
               </ParagraphContainer>
@@ -313,9 +298,7 @@ const CarGeneralInformation = () => {
               </ParagraphContainer>
               <Paragraph className="pl-32 pt-5">
                 Маршрут руху
-                <Space className="ml-2 w-[803px]">
-                  {modalDataMain.trafficRoute}
-                </Space>
+                <Space className="ml-2 w-[803px]">{mainForm.route}</Space>
               </Paragraph>
               <Space className="pt-6 ml-32 w-[908px]"></Space>
               <ParagraphContainer className="flex gap-[335px]">
@@ -406,18 +389,18 @@ const CarGeneralInformation = () => {
                 </THeadRow>
               </StyledTHead2>
               <StyledTBody>
-                <td>{modalDataMain.numberDocument}</td>
+                <td>{mainForm.documentNumber}</td>
                 <td>
-                  {modalDataMain.documentDate
-                    ? modalDataMain.documentDate.toLocaleDateString()
+                  {mainForm.documentDate
+                    ? mainForm.documentDate.toLocaleDateString()
                     : ''}
                 </td>
-                <td>{modalDataMain.purposeStatement}</td>
-                <td>{modalDataMain.carName}</td>
-                <td>{modalDataMain.sign ? modalDataMain.sign.label : ''}</td>
+                <td>{mainForm.purposeStatement}</td>
+                <td>{mainForm.car.carName}</td>
+                <td>{mainForm.car ? mainForm.car.carSign : ''}</td>
                 <td></td>
                 <td></td>
-                <td>{modalDataMain.exploitationGroup}</td>
+                <td>{mainForm.car.exploitationGroup}</td>
                 <td></td>
                 <td></td>
               </StyledTBody>
