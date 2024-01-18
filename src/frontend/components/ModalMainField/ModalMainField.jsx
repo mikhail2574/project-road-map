@@ -150,8 +150,8 @@ export default function Modal({
   const [selectedHeadOfCarService, setSelectedHeadOfCarService] =
     useState(null);
   console.log(selectedHeadOfCarService);
-  const headOfCarServiceArr = personnel.filter(
-    el => el.position.toLowerCase() === 'начальник автомобільної служби'
+  const headOfCarServiceArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('начальник авто')
   );
   const headOfCarServiceOptions = headOfCarServiceArr.map(({ name, rank }) => ({
     value: { name, rank },
@@ -161,8 +161,8 @@ export default function Modal({
   // --
   const [selectedSeniorTechUnit, setSelectedSeniorTechUnit] = useState(null);
   console.log(selectedSeniorTechUnit);
-  const seniorTechUnitArr = personnel.filter(
-    el => el.position.toLowerCase() === 'старший (технік) підрозділу'
+  const seniorTechUnitArr = personnel.filter(el =>
+    el.position.toLowerCase().includes('технік')
   );
   const seniorTechUnitOptions = seniorTechUnitArr.map(({ name, rank }) => ({
     value: { name, rank },
@@ -369,7 +369,7 @@ export default function Modal({
                         setValue('carName', selectedOption.value.carName);
                       }}
                       value={selectedSign}
-                      placeholder="Введіть текст"
+                      placeholder="Обрати"
                       styles={customStyles}
                     />
                   )}
@@ -387,8 +387,10 @@ export default function Modal({
                   render={({ field }) => (
                     <>
                       <MidInputStyle
+                        style={{ outline: 'none' }}
                         type="text"
-                        placeholder="0"
+                        placeholder="Автозаповнення"
+                        readOnly
                         {...field}
                         onChange={e => setValue('unit', e.target.value)}
                       />
@@ -605,16 +607,14 @@ export default function Modal({
                   control={control}
                   rules={{
                     required: "Обов'язкове поле",
-                    pattern: {
-                      value: /^[a-zA-Zа-яА-Я0-9]*$/,
-                      message: 'Може містити літери та цифри',
-                    },
                   }}
                   render={({ field }) => (
                     <>
                       <LongInput
+                        style={{ outline: 'none' }}
+                        placeholder="Автозаповнення"
+                        readOnly
                         type="text"
-                        placeholder="Введіть текст"
                         {...field}
                         onChange={e => setValue('carName', e.target.value)}
                       />
@@ -632,29 +632,13 @@ export default function Modal({
                 <Controller
                   name="driver"
                   control={control}
-                  // rules={{
-                  //   required: "Обов'язкове поле",
-                  //   pattern: {
-                  //     value: /^[a-zA-Zа-яА-Я0-9]{2}\d{4}[a-zA-Zа-яА-Я0-9]{2}$/,
-                  //     message:
-                  //       'Невірний формат (приклад правильного формату: АА1234ББ)',
-                  //   },
-                  //   validate: value => {
-                  //     const forbiddenLetters = ['І', 'О', 'Є', 'Ї', 'Й'];
-                  //     const forbiddenLetterFound = forbiddenLetters.some(
-                  //       letter => value.includes(letter)
-                  //     );
-                  //     return (
-                  //       !forbiddenLetterFound ||
-                  //       'Заборонені літери: І, О, Є, Ї, Й'
-                  //     );
-                  //   },
-                  // }}
                   render={({ field }) => (
                     <>
                       <LongInput
+                        style={{ outline: 'none' }}
                         type="text"
-                        placeholder="Введіть текст"
+                        placeholder="Автозаповнення"
+                        readOnly
                         {...field}
                         onChange={e => setValue('sign', e.target.value)}
                       />
@@ -675,8 +659,10 @@ export default function Modal({
                   rules={{ required: "Обов'язкове поле" }}
                   render={({ field }) => (
                     <LongInput
+                      style={{ outline: 'none' }}
+                      placeholder="Автозаповнення"
                       type="text"
-                      placeholder="Введіть текст"
+                      readOnly
                       {...field}
                       onChange={e =>
                         setValue('exploitationGroup', e.target.value)

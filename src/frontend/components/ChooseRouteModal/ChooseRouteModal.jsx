@@ -85,7 +85,7 @@ export default function ChooseRouteModal({
                   title="Ре агувати маршрут"
                 >
                   {from} - {to}
-                  {route.return === 'ні' ? null : ` - ${from}`}, {arrTime},{' '}
+                  {route.return === 'так' ? null : ` - ${from}`}, {arrTime},{' '}
                   {depTime}
                 </EditButton>
                 <StyledDeleteButton
