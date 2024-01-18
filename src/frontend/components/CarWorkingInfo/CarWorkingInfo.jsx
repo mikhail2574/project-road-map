@@ -162,7 +162,7 @@ const CarWorkingInfo = () => {
           <TBodyRow key={id}>
             <td>
               {from} - {to}
-              {route.return === 'ні' ? null : ` - ${from}`}
+              {route.return === 'так' ? null : ` - ${from}`}
             </td>
             <td>{depTime}</td>
             <td>{arrTime}</td>

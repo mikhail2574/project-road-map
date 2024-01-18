@@ -39,7 +39,8 @@ export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
 
   const route = useSelector(selectRoutes).find(route => route.id === id);
   const { depTime, arrTime, motorHours, mileage, work } = route;
-  const selectedWay = route.return === 'ні' ? true : false;
+  console.log(route.return);
+  const selectedWay = route.return === 'так' ? true : false;
 
   const [departureTime, dDate] = depTime.split(', ');
   const [arrivalTime, aDate] = arrTime.split(', ');
@@ -132,7 +133,7 @@ export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
     const { arrivalDate, departureDate, oneway } = data;
     const arrDate = moment(arrivalDate).format('DD.MM.YY');
     const depDate = moment(departureDate).format('DD.MM.YY');
-    const newWay = oneway ? 'ні' : 'так';
+    const newWay = oneway ? 'так' : 'ні';
     dispatch(
       updateRoute({
         id: route.id,
@@ -244,7 +245,9 @@ export default function EditRouteModal({ showCloseIcon = true, onClose, id }) {
                         defaultValue={false}
                         placeholder="В один кінець"
                         {...field}
-                        onChange={e => setValue('oneway', e.target.checked)}
+                        onChange={e => {
+                          setValue('oneway', e.target.checked);
+                        }}
                       />
                     </>
                   )}
