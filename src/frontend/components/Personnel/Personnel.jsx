@@ -23,6 +23,7 @@ import {
   StyledEmptyTableTh,
   StyledPersonnelTableButtonWrapper,
   StyledTableHeadPersonnel,
+  StyledTableHeaderShortTh,
 } from './Personnel.styled';
 import { Loader } from '../Loader/Loader';
 
@@ -72,7 +73,9 @@ const Personnel = () => {
               <StyledTableHeaderTr>
                 <StyledTableHeaderTh>Посада</StyledTableHeaderTh>
                 <StyledTableHeaderTh>Звання</StyledTableHeaderTh>
-                <StyledTableHeaderTh>Звання скорочено</StyledTableHeaderTh>
+                <StyledTableHeaderShortTh>
+                  Звання скорочено
+                </StyledTableHeaderShortTh>
                 <StyledTableHeaderTh>ПІБ</StyledTableHeaderTh>
                 <StyledEmptyTableTh></StyledEmptyTableTh>
               </StyledTableHeaderTr>

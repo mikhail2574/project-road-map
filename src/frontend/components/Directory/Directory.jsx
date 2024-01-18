@@ -127,7 +127,7 @@ const Directory = () => {
             <StyledTableWrapper>
               <StyledTableHead>
                 <StyledTableHeaderTr>
-                  <StyledTableHeaderTh>Назва автомобіля</StyledTableHeaderTh>
+                  <StyledTableHeaderTh>Назва машини</StyledTableHeaderTh>
                   <StyledTableHeaderTh>Номерний знак</StyledTableHeaderTh>
                   <StyledTableHeaderTh>Тип палива</StyledTableHeaderTh>
                   <StyledTableHeaderTh>
@@ -151,7 +151,7 @@ const Directory = () => {
                 {cars?.map(car => (
                   <StyledTableBodyTr key={car.sign}>
                     <StyledTableBodyTd
-                      $wordWrap={car.carName.length > 15 && 'break-word'}
+                      $wordWrap={car.carName.length > 30 && 'break-word'}
                     >
                       {car.carName}
                     </StyledTableBodyTd>
@@ -195,7 +195,7 @@ const Directory = () => {
                       {car.exploitationGroup}
                     </StyledTableBodyTd>
                     <StyledTableShortTd
-                      $wordWrap={car.driver.length > 15 && 'break-word'}
+                      $wordWrap={car.driver.length > 25 && 'break-word'}
                     >
                       {car.driver}
                     </StyledTableShortTd>

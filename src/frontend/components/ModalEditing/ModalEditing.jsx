@@ -176,7 +176,7 @@ export default function Modal({ showCloseIcon = true, close, id }) {
                   rules={{
                     required: "Обов'язкове поле",
                     pattern: {
-                      value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]*$/,
+                      value: /^[a-zA-Zа-яА-ЯіІїЇєЄ0-9 -]*$/,
                       message: 'Може містити літери та цифри',
                     },
                   }}
