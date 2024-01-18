@@ -323,16 +323,23 @@ export default function Modal({
                     <Controller
                       name={`spent_${index}`}
                       control={control}
-                      rules={{ required: "Обов'язкове поле" }}
+                      rules={{
+                        required: "Обов'язкове поле",
+                      }}
                       render={({ field }) => (
                         <>
                           <ShortInput
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e =>
-                              setValue(`spent_${index}`, e.target.value)
-                            }
+                            onChange={e => {
+                              const onlyDigits = e.target.value.replace(
+                                /[^0-9]/g,
+                                ''
+                              );
+                              setValue(`spent_${index}`, onlyDigits);
+                            }}
+                            inputMode="numeric"
                           />
                           {errors[`spent_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -349,16 +356,23 @@ export default function Modal({
                     <Controller
                       name={`norm_${index}`}
                       control={control}
-                      rules={{ required: "Обов'язкове поле" }}
+                      rules={{
+                        required: "Обов'язкове поле",
+                      }}
                       render={({ field }) => (
                         <>
                           <ShortInput
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e =>
-                              setValue(`norm_${index}`, e.target.value)
-                            }
+                            onChange={e => {
+                              const onlyDigits = e.target.value.replace(
+                                /[^0-9]/g,
+                                ''
+                              );
+                              setValue(`norm_${index}`, onlyDigits);
+                            }}
+                            inputMode="numeric"
                           />
                           {errors[`norm_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -375,16 +389,23 @@ export default function Modal({
                     <Controller
                       name={`saving_${index}`}
                       control={control}
-                      rules={{ required: "Обов'язкове поле" }}
+                      rules={{
+                        required: "Обов'язкове поле",
+                      }}
                       render={({ field }) => (
                         <>
                           <ShortInput
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e =>
-                              setValue(`saving_${index}`, e.target.value)
-                            }
+                            onChange={e => {
+                              const onlyDigits = e.target.value.replace(
+                                /[^0-9]/g,
+                                ''
+                              );
+                              setValue(`saving_${index}`, onlyDigits);
+                            }}
+                            inputMode="numeric"
                           />
                           {errors[`saving_${index}`] && (
                             <span style={{ color: 'red' }}>
@@ -401,16 +422,23 @@ export default function Modal({
                     <Controller
                       name={`overuse_${index}`}
                       control={control}
-                      rules={{ required: "Обов'язкове поле" }}
+                      rules={{
+                        required: "Обов'язкове поле",
+                      }}
                       render={({ field }) => (
                         <>
                           <ShortInput
                             type="text"
                             placeholder="0"
                             {...field}
-                            onChange={e =>
-                              setValue(`overuse_${index}`, e.target.value)
-                            }
+                            onChange={e => {
+                              const onlyDigits = e.target.value.replace(
+                                /[^0-9]/g,
+                                ''
+                              );
+                              setValue(`overuse_${index}`, onlyDigits);
+                            }}
+                            inputMode="numeric"
                           />
                           {errors[`overuse_${index}`] && (
                             <span style={{ color: 'red' }}>
