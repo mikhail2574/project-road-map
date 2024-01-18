@@ -80,7 +80,11 @@ const Personnel = () => {
             <StyledTableBody>
               {personnel?.map((person, idx) => (
                 <StyledTableBodyTr key={person.name}>
-                  <StyledTableBodyTd>{person.position}</StyledTableBodyTd>
+                  <StyledTableBodyTd
+                    $wordWrap={person.position.length > 20 && 'break-word'}
+                  >
+                    {person.position}
+                  </StyledTableBodyTd>
                   <StyledTableBodyTd>{person.rank}</StyledTableBodyTd>
                   <StyledTableShortTd>{person.rankShort}</StyledTableShortTd>
                   <StyledTableBodyTd>{person.name}</StyledTableBodyTd>

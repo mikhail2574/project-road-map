@@ -150,23 +150,71 @@ const Directory = () => {
               <StyledTableBody>
                 {cars?.map(car => (
                   <StyledTableBodyTr key={car.sign}>
-                    <StyledTableBodyTd>{car.carName}</StyledTableBodyTd>
-                    <StyledTableBodyTd>{car.sign}</StyledTableBodyTd>
-                    <StyledTableShortTd>{car.fuelType}</StyledTableShortTd>
-                    <StyledTableBodyTd>{car.fuelConsumption}</StyledTableBodyTd>
-                    <StyledTableShortTd>{car.oilType}</StyledTableShortTd>
-                    <StyledTableBodyTd>{car.oilConsumption}</StyledTableBodyTd>
-                    <StyledTableBodyTd>
+                    <StyledTableBodyTd
+                      $wordWrap={car.carName.length > 15 && 'break-word'}
+                    >
+                      {car.carName}
+                    </StyledTableBodyTd>
+                    <StyledTableBodyTd
+                      $wordWrap={car.sign.length > 15 && 'break-word'}
+                    >
+                      {car.sign}
+                    </StyledTableBodyTd>
+                    <StyledTableShortTd
+                      $wordWrap={car.fuelType.length > 16 && 'break-word'}
+                    >
+                      {car.fuelType}
+                    </StyledTableShortTd>
+                    <StyledTableBodyTd
+                      $wordWrap={car.fuelType > 15 && 'break-word'}
+                    >
+                      {car.fuelConsumption}
+                    </StyledTableBodyTd>
+                    <StyledTableShortTd
+                      $wordWrap={car.oilType.length > 10 && 'break-word'}
+                    >
+                      {car.oilType}
+                    </StyledTableShortTd>
+                    <StyledTableBodyTd
+                      $wordWrap={car.oilConsumption.length > 15 && 'break-word'}
+                    >
+                      {car.oilConsumption}
+                    </StyledTableBodyTd>
+                    <StyledTableBodyTd
+                      $wordWrap={
+                        car.exploitationGroupShort.length > 15 && 'break-word'
+                      }
+                    >
                       {car.exploitationGroupShort}
                     </StyledTableBodyTd>
-                    <StyledTableBodyTd>
+                    <StyledTableBodyTd
+                      $wordWrap={
+                        car.exploitationGroup.length > 15 && 'break-word'
+                      }
+                    >
                       {car.exploitationGroup}
                     </StyledTableBodyTd>
-                    <StyledTableShortTd>{car.driver}</StyledTableShortTd>
-                    <StyledTableShortTd>{car.driverRank}</StyledTableShortTd>
-                    <StyledTableShortTd>{car.unit}</StyledTableShortTd>
+                    <StyledTableShortTd
+                      $wordWrap={car.driver.length > 15 && 'break-word'}
+                    >
+                      {car.driver}
+                    </StyledTableShortTd>
+                    <StyledTableShortTd
+                      $wordWrap={car.driverRank.length > 15 && 'break-word'}
+                    >
+                      {car?.driverRank}
+                    </StyledTableShortTd>
+                    <StyledTableShortTd
+                      $wordWrap={car.unit.length > 15 && 'break-word'}
+                    >
+                      {car.unit}
+                    </StyledTableShortTd>
                     <StyledTableShortTd>{car.senior}</StyledTableShortTd>
-                    <StyledTableShortTd>{car.seniorRank}</StyledTableShortTd>
+                    <StyledTableShortTd
+                      $wordWrap={car.seniorRank.length > 15 && 'break-word'}
+                    >
+                      {car.seniorRank}
+                    </StyledTableShortTd>
                     <StyledTableBodyTd>
                       <StyledButtonWrapper>
                         <StyledTableEditButton
