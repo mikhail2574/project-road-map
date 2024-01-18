@@ -121,6 +121,9 @@ export const slice = createSlice({
       state.car.driver = payload.driver;
       state.checkPerson = payload.checkPerson;
     },
+    setCheckedDate: (state, { payload }) => {
+      state.checkedDate = payload;
+    },
     setPmm: (state, { payload }) => {
       for (let i = 0; i === 0 || i; i++) {
         if (!payload[`itemName_${i}`]) {
@@ -167,6 +170,7 @@ export const slice = createSlice({
 export const {
   setCarWork,
   setPersonnel,
+  setCheckedDate,
   updateRoute,
   deleteRoute,
   setMainInfo,
