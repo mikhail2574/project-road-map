@@ -146,7 +146,7 @@ export const IconStyle = styled(Icon)`
   cursor: pointer;
   bottom: 15%;
   right: 5%;
-  z-index: 1;
+  
 `;
 
 export const PickerContainer = styled.div`

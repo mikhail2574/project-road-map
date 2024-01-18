@@ -35,9 +35,9 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
     trigger,
   } = useForm({
     defaultValues: {
-      rank: personnel.rank,
-      name: personnel.name,
-      position: personnel.position,
+      rank: personnel?.rank,
+      name: personnel?.name,
+      position: personnel?.position,
     },
   });
   const dispatch = useDispatch();
@@ -139,7 +139,7 @@ const EditPersonnelForm = ({ showCloseIcon = true, close, id }) => {
                 required: "Обов'язкове поле",
                 pattern: {
                   value:
-                    /^[А-ЯІ][а-яі]+\s[А-ЯІ]\.[А-ЯІ]\.$|^[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+\s[А-ЯІ][а-яі]+$/,
+                    /^[А-ЯІЇЄ][а-яіїє'-]+\s[А-ЯІЇЄ]\.[А-ЯІЇЄ]\.$|^[А-ЯІЇЄ][а-яіїє'-]+\s[А-ЯІЇЄ][а-яіїє]+\s[А-ЯІЇЄ][а-яіїє]+$|^[А-ЯІЇЄ][а-яіїє'-]+-[А-ЯІЇЄ][а-яіїє'-]+\s[А-ЯІЇЄ]\.[А-ЯІЇЄ]\.$|^[А-ЯІЇЄ][а-яіїє'-]+-[А-ЯІЇЄ][а-яіїє'-]+\s[А-ЯІЇЄ][а-яіїє]+\s[А-ЯІЇЄ][а-яіїє]+$|^[А-ЯІЇЄ][а-яіїє'-]+\s-\s[А-ЯІЇЄ][а-яіїє'-]+\s[А-ЯІЇЄ]\.[А-ЯІЇЄ]\.$|^[А-ЯІЇЄ][а-яіїє'-]+\s-\s[А-ЯІЇЄ][а-яіїє'-]+\s[А-ЯІЇЄ][а-яіїє]+\s[А-ЯІЇЄ][а-яіїє]+$/,
                   message:
                     'Невірний формат (приклад: Бандера С.А. або Бандера Степан Андрійович)',
                 },

@@ -23,6 +23,7 @@ import {
   StyledEmptyTableTh,
   StyledPersonnelTableButtonWrapper,
   StyledTableHeadPersonnel,
+  StyledTableHeaderShortTh,
 } from './Personnel.styled';
 import { Loader } from '../Loader/Loader';
 
@@ -72,7 +73,9 @@ const Personnel = () => {
               <StyledTableHeaderTr>
                 <StyledTableHeaderTh>Посада</StyledTableHeaderTh>
                 <StyledTableHeaderTh>Звання</StyledTableHeaderTh>
-                <StyledTableHeaderTh>Звання скорочено</StyledTableHeaderTh>
+                <StyledTableHeaderShortTh>
+                  Звання скорочено
+                </StyledTableHeaderShortTh>
                 <StyledTableHeaderTh>ПІБ</StyledTableHeaderTh>
                 <StyledEmptyTableTh></StyledEmptyTableTh>
               </StyledTableHeaderTr>
@@ -80,7 +83,11 @@ const Personnel = () => {
             <StyledTableBody>
               {personnel?.map((person, idx) => (
                 <StyledTableBodyTr key={person.name}>
-                  <StyledTableBodyTd>{person.position}</StyledTableBodyTd>
+                  <StyledTableBodyTd
+                    $wordWrap={person.position.length > 20 && 'break-word'}
+                  >
+                    {person.position}
+                  </StyledTableBodyTd>
                   <StyledTableBodyTd>{person.rank}</StyledTableBodyTd>
                   <StyledTableShortTd>{person.rankShort}</StyledTableShortTd>
                   <StyledTableBodyTd>{person.name}</StyledTableBodyTd>
