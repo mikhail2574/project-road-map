@@ -32,6 +32,11 @@ const initialState = {
   documentDate: '',
   expireDate: '',
   checkedDate: '',
+  checkPerson: {
+    name: '',
+    rank: '',
+    position: '',
+  },
   documentNumber: '',
   dutyNumber: '',
   militaryUnit: '',
@@ -39,8 +44,8 @@ const initialState = {
   car: {
     carSign: '',
     carName: '',
-    fuelConsumption: '15',
-    fuelType: 'ДТ',
+    fuelConsumption: '',
+    fuelType: '',
     exploitationGroup: '',
     driver: {
       name: '',
@@ -61,11 +66,6 @@ const initialState = {
   routes: [],
   totalMileage: 0,
   totalExpense: 0,
-  checkPerson: {
-    name: '',
-    rank: '',
-    position: '',
-  },
   pmm: {
     name: [],
     code: [],
@@ -131,7 +131,7 @@ export const slice = createSlice({
       state.route = payload.trafficRoute;
       state.documentDate = payload.documentDate;
       state.militaryUnit = payload.unit;
-      state.driver = payload.driver;
+      state.car.driver = payload.driver;
       state.engineer.name = payload.seniorKtp.label;
       state.engineer.rank = payload.seniorKtpRank;
       state.supervisor.name = payload.senior.label;

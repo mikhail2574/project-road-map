@@ -114,7 +114,9 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
 
   const onSubmit = data => {
     const { arrivalDate, departureDate, oneway } = data;
-    const newWay = oneway ? 'ні' : 'так';
+    const arrDate = moment(arrivalDate).format('DD.MM.YY');
+    const depDate = moment(departureDate).format('DD.MM.YY');
+    const newWay = oneway ? 'так' : 'ні';
     dispatch(
       setCarWork({
         route: {
