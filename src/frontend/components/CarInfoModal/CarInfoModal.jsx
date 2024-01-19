@@ -114,8 +114,6 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
 
   const onSubmit = data => {
     const { arrivalDate, departureDate, oneway } = data;
-    const arrDate = moment(arrivalDate).format('DD.MM.YY');
-    const depDate = moment(departureDate).format('DD.MM.YY');
     const newWay = oneway ? 'ні' : 'так';
     dispatch(
       setCarWork({
@@ -124,8 +122,8 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
           from: data.routeFrom,
           to: data.routeTo,
           return: newWay,
-          depTime: `${data.departureTime}, ${depDate}`,
-          arrTime: `${data.arrivalTime}, ${arrDate}`,
+          depTime: `${data.departureTime}, ${departureDate}`,
+          arrTime: `${data.arrivalTime}, ${arrivalDate}`,
           mileage: {
             withCargo: data.withCargo,
             withoutCargo: data.withoutCargo,
@@ -256,7 +254,12 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                       <PickerContainer>
                         <DatePickerTwo
                           selected={field.value}
-                          onChange={date => setValue(`departureDate`, date)}
+                          onChange={date =>
+                            setValue(
+                              `departureDate`,
+                              moment(date).format('DD.MM.YY')
+                            )
+                          }
                           locale={uk}
                           dateFormat="dd.MM.yyyy"
                           placeholderText="00.00.0000"
@@ -330,7 +333,12 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                       <PickerContainer>
                         <DatePickerTwo
                           selected={field.value}
-                          onChange={date => setValue(`arrivalDate`, date)}
+                          onChange={date =>
+                            setValue(
+                              `arrivalDate`,
+                              moment(date).format('DD.MM.YY')
+                            )
+                          }
                           minDate={minDate}
                           locale={uk}
                           dateFormat="dd.MM.yyyy"

@@ -9,7 +9,7 @@ import {
   selectForm,
   selectRoutes,
 } from 'redux/form/selectors';
-import { setCarWork, setPersonnel } from 'redux/form/slice';
+import { setCarWork, setCheckedDate, setPersonnel } from 'redux/form/slice';
 import { components } from 'react-select';
 import { VscChevronDown } from 'react-icons/vsc';
 import uk from 'date-fns/locale/uk';
@@ -48,6 +48,7 @@ import {
 } from '../CarInfoModal/CarInfoModal.styled';
 import EditRouteModal from '../EditRouteInfo/EditRouteInfo';
 import ChooseRouteModal from '../ChooseRouteModal/ChooseRouteModal';
+import moment from 'moment';
 
 const CarWorkingInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -367,7 +368,12 @@ const CarWorkingInfo = () => {
           </p>
           <p>
             Всього витрачено:{' '}
-            <span>{(formula > 0 && formula.toFixed(2)) || 0}</span>
+            <span>
+              {(selectedCar.fuelConsumption !== '' &&
+                formula > 0 &&
+                formula.toFixed(2)) ||
+                0}
+            </span>
           </p>
         </CalcDiv>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -432,7 +438,7 @@ const CarWorkingInfo = () => {
                 />
               </InputWrapper>
               <Controller
-                name="documentDate"
+                name="checkedDate"
                 control={control}
                 rules={{
                   required: "Обов'язкове поле",
@@ -448,7 +454,12 @@ const CarWorkingInfo = () => {
                     <PickerContainer>
                       <DatePickerOne
                         selected={field.value}
-                        onChange={date => setValue(`documentDate`, date)}
+                        onChange={date => {
+                          setValue(`checkedDate`, date);
+                          dispatch(
+                            setCheckedDate(moment(date).format('DD.MM.YY'))
+                          );
+                        }}
                         locale={uk}
                         dateFormat="dd.MM.yyyy"
                         placeholderText="00.00.0000"
@@ -461,9 +472,9 @@ const CarWorkingInfo = () => {
                           />
                         }
                       />
-                      {errors.documentDate && (
+                      {errors.checkedDate && (
                         <span style={{ color: 'red' }}>
-                          {errors.documentDate.message}
+                          {errors.checkedDate.message}
                         </span>
                       )}
                     </PickerContainer>
