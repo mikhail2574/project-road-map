@@ -146,7 +146,6 @@ export const IconStyle = styled(Icon)`
   cursor: pointer;
   bottom: 15%;
   right: 5%;
-  
 `;
 
 export const PickerContainer = styled.div`
@@ -229,7 +228,30 @@ export const PickerContainer = styled.div`
   .react-datepicker__navigation--years-previous {
     visibility: visible;
     border-color: var(--black);
-    /* background-color: var(--black); */
+  }
+
+  .react-datepicker-time__header {
+    color: var(--white);
+  }
+  .react-datepicker__time-list-item {
+    background-color: #47523f;
+    color: var(--white);
+    cursor: pointer;
+  }
+
+  .react-datepicker__time-list-item:hover {
+    color: black;
+  }
+  .react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box
+    ul.react-datepicker__time-list
+    li.react-datepicker__time-list-item--selected {
+    background-color: wheat;
+    color: var(--black);
+  }
+  .react-datepicker__time-container .react-datepicker__time {
+    background: #47523f;
   }
 `;
 

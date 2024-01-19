@@ -266,6 +266,17 @@ export const DatePickerTwo = styled(DatePicker)`
   cursor: pointer;
 `;
 
+export const DatePickerOneLeave = styled(DatePicker)`
+  text-indent: 10px;
+  width: 330px;
+  height: 46px;
+  border-radius: 12px;
+  background: #282828;
+  border: none;
+  color: #fbfcfc;
+  cursor: pointer;
+`;
+
 // Input S,M,L
 
 export const ShortInputStyle = styled.input`

@@ -30,6 +30,7 @@ import {
   BtnTrash,
   DatePickerOne,
   DatePickerTwo,
+  DatePickerOneLeave,
 } from '../ModalMainField/ModalMainFieldStyle';
 import { Icon } from '../Icon';
 import { Icons } from '../Icons';
@@ -677,6 +678,92 @@ export default function Modal({
                 )}
               </Label>
             </InputRowDiv>
+            <InputRowDiv>
+              <Label>
+                <Span>Вибуття за нарядом</Span>
+                <Controller
+                  name="documentDateLeave"
+                  control={control}
+                  rules={{
+                    required: "Обов'язкове поле",
+                    pattern: {
+                      value:
+                        /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                      message:
+                        'Невірний формат (приклад правильного формату: 01.01.2023)',
+                    },
+                  }}
+                  render={({ field }) => (
+                    <>
+                      <PickerContainer>
+                        <DatePickerOneLeave
+                          selected={field.value}
+                          onChange={date => setValue('documentDateLeave', date)}
+                          dateFormat="dd.MM.yyyy HH:mm"
+                          placeholderText="00.00.0000 00:00"
+                          showTimeSelect
+                          locale="uk"
+                          timeIntervals={5}
+                          timeFormat="HH:mm"
+                          showIcon
+                          icon={
+                            <IconStyle size={16} height={18} name="calendar" />
+                          }
+                        />
+
+                        {errors.documentDateLeave && (
+                          <span style={{ color: 'red' }}>
+                            {errors.documentDateLeave.message}
+                          </span>
+                        )}
+                      </PickerContainer>
+                    </>
+                  )}
+                />
+              </Label>
+              <Label>
+                <Span>Прибуття за нарядом</Span>
+                <Controller
+                  name="documentDateCome"
+                  control={control}
+                  rules={{
+                    required: "Обов'язкове поле",
+                    pattern: {
+                      value:
+                        /^(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/,
+                      message:
+                        'Невірний формат (приклад правильного формату: 01.01.2023)',
+                    },
+                  }}
+                  render={({ field }) => (
+                    <>
+                      <PickerContainer>
+                        <DatePickerOneLeave
+                          selected={field.value}
+                          onChange={date => setValue('documentDateCome', date)}
+                          dateFormat="dd.MM.yyyy HH:mm"
+                          placeholderText="00.00.0000 00:00"
+                          showTimeSelect
+                          locale="uk"
+                          timeIntervals={5}
+                          timeFormat="HH:mm"
+                          showIcon
+                          icon={
+                            <IconStyle size={16} height={18} name="calendar" />
+                          }
+                        />
+
+                        {errors.documentDateCome && (
+                          <span style={{ color: 'red' }}>
+                            {errors.documentDateCome.message}
+                          </span>
+                        )}
+                      </PickerContainer>
+                    </>
+                  )}
+                />
+              </Label>
+            </InputRowDiv>
           </InputContainerDiv>
           <OdomPlusContainer>
             <OdometerTitle>Показники спідометра</OdometerTitle>
@@ -743,16 +830,23 @@ export default function Modal({
                       <>
                         <Select
                           {...field}
-                          options={Array.from({ length: 24 }, (v, i) => {
-                            const hour = i.toString().padStart(2, '0');
-                            return [
-                              { value: `${hour}:00`, label: `${hour}:00` },
-                              { value: `${hour}:30`, label: `${hour}:30` },
-                            ];
-                          }).flat()}
+                          options={Array.from(
+                            { length: (24 * 60) / 5 },
+                            (v, i) => {
+                              const totalMinutes = i * 5;
+                              const hours = Math.floor(totalMinutes / 60)
+                                .toString()
+                                .padStart(2, '0');
+                              const minutes = (totalMinutes % 60)
+                                .toString()
+                                .padStart(2, '0');
+                              const time = `${hours}:${minutes}`;
+                              return { value: time, label: time };
+                            }
+                          )}
                           onChange={selectedOption =>
                             setValue(
-                              `departureTime[${index}]`,
+                              `arrivalTime[${index}]`,
                               selectedOption.value
                             )
                           }
