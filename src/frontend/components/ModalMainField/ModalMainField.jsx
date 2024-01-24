@@ -93,8 +93,7 @@ export default function Modal({
   };
 
   const onSubmit = data => {
-    console.log(data);
-
+    console.log('data main form', data);
     onSubmitCallbackMain(data);
     onClose();
   };
@@ -846,7 +845,8 @@ export default function Modal({
                           )}
                           onChange={selectedOption =>
                             setValue(
-                              `arrivalTime[${index}]`,
+                              `departureTime[${index}]`,
+
                               selectedOption.value
                             )
                           }
