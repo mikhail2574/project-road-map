@@ -28,7 +28,7 @@ export const addCarsThunk = createAsyncThunk(
   async (body, { rejectWithValue }) => {
     const data = {
       carName: body.carName,
-      sign: body.sign,
+      sign: body.sign.toUpperCase(),
       fuelType: body.fuelType,
       fuelConsumption: body.fuelConsumption,
       oilType: body.oilType,
@@ -68,7 +68,7 @@ export const updateCarsThunk = createAsyncThunk(
   async (body, { rejectWithValue }) => {
     const newBody = {
       carName: body.carName,
-      sign: body.sign,
+      sign: body.sign.toUpperCase(),
       fuelType: body.fuelType,
       fuelConsumption: String(body.fuelConsumption),
       oilType: body.oilType,
@@ -86,7 +86,10 @@ export const updateCarsThunk = createAsyncThunk(
         `/infos/cars/${body.oldSign}`,
         newBody
       );
-      return data;
+      if (!data) {
+        throw new Error('Нема такого автомобіля');
+      }
+      return { ...data, oldSign: body.oldSign };
     } catch (error) {
       return rejectWithValue(error.message);
     }

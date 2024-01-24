@@ -33,7 +33,7 @@ export const slice = createSlice({
       })
       .addCase(updateCarsThunk.fulfilled, (state, { payload }) => {
         state.cars = state.cars.map(car =>
-          car.sign === payload.sign ? payload : car
+          car.sign === payload.oldSign ? payload : car
         );
       })
       .addCase(addPersonnelThunk.fulfilled, (state, { payload }) => {
