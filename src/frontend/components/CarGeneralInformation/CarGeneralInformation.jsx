@@ -58,29 +58,31 @@ const CarGeneralInformation = () => {
 
   const mainForm = useSelector(selectForm);
   // console.log(mainForm);
-
   const firstTableMarkup = [];
   const pmmMarkup = [];
   const [duplicated, setDuplicated] = useState(1);
-  // const saveExcel = () => {
-  //   dispatch(downloadMainList(formToSend))
-  //     .unwrap()
-  //     .then(blob => {
-  //       const url = window.URL.createObjectURL(blob);
-  //       const a = document.createElement('a');
-  //       a.href = url;
-  //       const date = new Date().toLocaleDateString();
-  //       a.download = `roadList#${date}.xlsx`;
-  //       document.body.appendChild(a);
-  //       a.click();
-  //       a.remove();
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error);
-  //     });
-  // };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFuelExpensesModalOpen, setIsFuelExpensesModalOpen] = useState(false);
+
+  console.log('form', mainForm);
+  const saveExcel = () => {
+    dispatch(downloadMainList(mainForm))
+      .unwrap()
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const date = new Date().toLocaleDateString();
+        a.download = `roadList#${date}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -101,6 +103,7 @@ const CarGeneralInformation = () => {
 
   const [modalDataMain, setModalDataMain] = useState([]);
   const handleFMainData = data => {
+    console.log('submitData', data);
     // Обработка данных, полученных из модального окна (например, обновление состояния или выполнение других действий)
     dispatch(setMainInfo(data));
   };
@@ -168,7 +171,7 @@ const CarGeneralInformation = () => {
             <InfoBtn onClick={openFuelExpensesModal}>
               Додати витрати ПММ
             </InfoBtn>
-            <SaveBtn>Зберегти в Excel</SaveBtn>
+            <SaveBtn onClick={saveExcel}>Зберегти в Excel</SaveBtn>
             <SaveBtn>Друк сторінки</SaveBtn>
           </BtnBox>
         </SectionHead>
