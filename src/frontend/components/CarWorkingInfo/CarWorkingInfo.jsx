@@ -367,7 +367,7 @@ const CarWorkingInfo = () => {
             Всього пройдено: <span>{totalMil}</span>
           </p>
           <p>
-            Всього витрачено:{' '}
+            Всього витрачено:
             <span>
               {(selectedCar.fuelConsumption !== '' &&
                 formula > 0 &&

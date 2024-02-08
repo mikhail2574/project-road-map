@@ -22,7 +22,7 @@ const DeletePersonnelForm = ({ deletePersonnel, id, close }) => {
     <>
       <RequestDel>
         Впевнені, що <br /> бажаєте видалити <br />
-        цю стрічку ?{' '}
+        цю стрічку ?
       </RequestDel>
       <BtnBox>
         <ConfirmBtnStyle

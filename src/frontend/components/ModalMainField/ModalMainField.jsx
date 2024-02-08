@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import {useEffect, useState} from 'react';
+import {useForm, Controller} from 'react-hook-form';
 import Select from 'react-select';
 import 'react-datepicker/dist/react-datepicker.css';
-import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import {registerLocale, setDefaultLocale} from 'react-datepicker';
 import uk from 'date-fns/locale/uk';
-import { useSelector } from 'react-redux';
-import { selectCars, selectPersonnel } from 'redux/infos/selectors';
+import {useSelector} from 'react-redux';
+import {selectCars, selectPersonnel} from 'redux/infos/selectors';
 import {
   ModalWindowStyle,
   OverlayStyle,
@@ -32,30 +32,31 @@ import {
   DatePickerTwo,
   DatePickerOneLeave,
 } from '../ModalMainField/ModalMainFieldStyle';
-import { Icon } from '../Icon';
-import { Icons } from '../Icons';
-import { IconStyle, PickerContainer } from '../ModalFuel/ModalFuelStyle';
+import {Icon} from '../Icon';
+import {Icons} from '../Icons';
+import {IconStyle, PickerContainer} from '../ModalFuel/ModalFuelStyle';
+import {selectForm} from "../../../redux/form/selectors";
+import {customStyles,customStylesSen} from "./styles";
 
 export default function Modal({
-  showCloseIcon = true,
-  onClose,
-  onSubmitCallbackMain,
-}) {
+                                showCloseIcon = true,
+                                onClose,
+                                onSubmitCallbackMain,
+                              }) {
   const [duplicateInputs, setDuplicateInputs] = useState(1);
-  // const personnel = useSelector(selectPersonnel);
-  // console.log(personnel);
+
   const {
     handleSubmit,
     control,
     setValue,
     reset,
-    formState: { errors },
+    formState: {errors},
   } = useForm();
 
   const handleBtnPlusClick = () => {
     setDuplicateInputs(prevCount => prevCount + 1);
   };
-
+  const mainForm = useSelector(selectForm);
   const handleBtnTrashClick = index => {
     const updatedInputs = [...Array(duplicateInputs)];
 
@@ -100,24 +101,24 @@ export default function Modal({
 
   const handleReset = () => {
     reset();
-
+    setValue(`documentDate`, '');
+    setValue(`numberDocument`, '');
+    setValue(`militaryBase`, '');
+    setValue(`driver`, '');
+    setValue(`seniorCar`, '');
+    setValue(`trafficRoute`, '');
+    setValue(`headAutoservice`, '');
+    setValue(`seniorTechUnit`, '');
+    setValue(`seniorKtp`, '');
+    setValue(`purposeStatement`, '');
+    setValue(`carName`, '');
+    setValue(`sign`, '');
+    setValue(`exploitationGroup`, '');
     for (let i = 0; i < duplicateInputs; i++) {
       setValue(`departureDate[${i}]`, null);
       setValue(`departureTime[${i}]`, '');
       setValue(`speedOmeter[${i}]`, '');
-      setValue(`documentDate`, '');
-      setValue(`numberDocument`, '');
-      setValue(`militaryBase`, '');
-      setValue(`driver`, '');
-      setValue(`seniorCar`, '');
-      setValue(`trafficRoute`, '');
-      setValue(`headAutoservice`, '');
-      setValue(`seniorTechUnit`, '');
-      setValue(`seniorKtp`, '');
-      setValue(`purposeStatement`, '');
-      setValue(`carName`, '');
-      setValue(`sign`, '');
-      setValue(`exploitationGroup`, '');
+
     }
   };
   registerLocale('uk', uk);
@@ -125,11 +126,12 @@ export default function Modal({
   // ----------------
   const personnel = useSelector(selectPersonnel);
   const cars = useSelector(selectCars);
+  console.log("cars: ", cars)
   const [selectedSign, setSelectedSign] = useState(null);
 
   const carsOption = cars.map(
-    ({ carName, sign, driver, senior, unit, exploitationGroup }) => ({
-      value: { carName, sign, driver, senior, unit, exploitationGroup },
+    ({carName, sign, driver, senior, unit, exploitationGroup}) => ({
+      value: {carName, sign, driver, senior, unit, exploitationGroup},
       label: sign,
     })
   );
@@ -140,8 +142,8 @@ export default function Modal({
   const seniorCarArr = personnel.filter(
     el => el.position.toLowerCase() === 'старший машини'
   );
-  const seniorCarOptions = seniorCarArr.map(({ name, rank }) => ({
-    value: { name, rank },
+  const seniorCarOptions = seniorCarArr.map(({name, rank}) => ({
+    value: {name, rank},
     label: name,
   }));
 
@@ -153,8 +155,8 @@ export default function Modal({
   const headOfCarServiceArr = personnel.filter(el =>
     el.position.toLowerCase().includes('начальник авто')
   );
-  const headOfCarServiceOptions = headOfCarServiceArr.map(({ name, rank }) => ({
-    value: { name, rank },
+  const headOfCarServiceOptions = headOfCarServiceArr.map(({name, rank}) => ({
+    value: {name, rank},
     label: name,
   }));
 
@@ -164,8 +166,8 @@ export default function Modal({
   const seniorTechUnitArr = personnel.filter(el =>
     el.position.toLowerCase().includes('технік')
   );
-  const seniorTechUnitOptions = seniorTechUnitArr.map(({ name, rank }) => ({
-    value: { name, rank },
+  const seniorTechUnitOptions = seniorTechUnitArr.map(({name, rank}) => ({
+    value: {name, rank},
     label: name,
   }));
   // --
@@ -174,85 +176,66 @@ export default function Modal({
   const seniorKtpArr = personnel.filter(
     el => el.position.toLowerCase() === 'начальник ктп'
   );
-  const seniorKtpOptions = seniorKtpArr.map(({ name, rank }) => ({
-    value: { name, rank },
+  const seniorKtpOptions = seniorKtpArr.map(({name, rank}) => ({
+    value: {name, rank},
     label: name,
   }));
   // --
-  const customStyles = {
-    control: provided => ({
-      ...provided,
-      width: '182px',
-      height: '46px',
-      borderRadius: '12px',
-      background: '#282828',
-      border: 'none',
-      color: '#fbfcfc',
-      textIndent: '10px',
-      cursor: 'pointer',
-    }),
-    singleValue: provided => ({
-      ...provided,
-      color: '#fbfcfc',
-    }),
-    dropdownIndicator: provided => ({
-      ...provided,
-      color: '#fbfcfc',
-    }),
-    menu: provided => ({
-      ...provided,
-      background: '#282828',
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? '#505050' : '#282828',
-      color: '#fbfcfc',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: '#505050',
-      },
-    }),
-  };
 
-  const customStylesSen = {
-    control: provided => ({
-      ...provided,
-      width: '214px',
-      height: '46px',
-      borderRadius: '12px',
-      background: '#282828',
-      border: 'none',
-      color: '#fbfcfc',
-      textIndent: '10px',
-      cursor: 'pointer',
-    }),
-    singleValue: provided => ({
-      ...provided,
-      color: '#fbfcfc',
-    }),
-    dropdownIndicator: provided => ({
-      ...provided,
-      color: '#fbfcfc',
-    }),
-    menu: provided => ({
-      ...provided,
-      background: '#282828',
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? '#505050' : '#282828',
-      color: '#fbfcfc',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: '#505050',
-      },
-    }),
-  };
+  const handleSelectCar = (selectedOption) => {
+    const tmp = personnel.find(el =>
+      el.name === selectedOption.value.driver
+    )
+    setValue('sign', selectedOption);
+    setSelectedSign(selectedOption);
+    setValue('driver_name', selectedOption.value.driver);
+    setValue('driver_rank', tmp.rank);
+    setValue('senior', selectedOption.value.senior);
+    setValue('unit', selectedOption.value.unit);
+    setValue('exploitationGroup', selectedOption.value.exploitationGroup);
+    setValue('carName', selectedOption.value.carName);
+  }
+
+  const handleSelectSenior = (selectedOption) => {
+    setValue('senior', selectedOption);
+    setSelectedSeniorCar(selectedOption);
+    setValue('seniorCarRank', selectedOption.value.rank);
+  }
+  const handleHeadOfCarServiceOptions = (selectedOption) => {
+    setValue('headOfCarService', selectedOption.value);
+    setSelectedHeadOfCarService(selectedOption);
+  }
   // ----------------
+  useEffect(() => {
+    if (mainForm?.car?.carSign) {
+      handleSelectCar(carsOption.find(item => item.label === mainForm?.car?.carSign))
+    }
+    if (mainForm?.supervisor?.name) {
+      handleSelectSenior(seniorCarOptions.find(item => item.label === mainForm?.supervisor?.name))
+    }
+    // if (mainForm?.headOfCarService) {
+    //   handleSelectSenior(mainForm.headOfCarService);
+    // }
 
+    if (mainForm?.documentNumber) {
+      setValue('numberDocument', mainForm.documentNumber)
+    }
+    if (mainForm?.documentDate) {
+      setValue('documentDate', mainForm.documentDate)
+    }
+    if (mainForm?.route) {
+      setValue('trafficRoute', mainForm.route)
+    }
+    if (mainForm?.route) {
+      setValue('trafficRoute', mainForm.route)
+    }
+    // if (mainForm?.supervisor?.name) {
+    //   seniorTechUnitOptions.map(seniorCarOptions.find(item => item.label === mainForm?.supervisor?.name))
+    // }
+  }, [])
   return (
     <OverlayStyle onClick={e => handleBackdropClick(e)}>
-      <Icons />
+      <Icons/>
       <ModalWindowStyle>
         {showCloseIcon && (
           <ButtonCloseStyle type="button" name="closeSvg" onClick={closeClick}>
@@ -263,8 +246,8 @@ export default function Modal({
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M1 1L17 17" stroke="#FBFBFB" />
-              <path d="M1 17L17 0.999999" stroke="#FBFBFB" />
+              <path d="M1 1L17 17" stroke="#FBFBFB"/>
+              <path d="M1 17L17 0.999999" stroke="#FBFBFB"/>
             </svg>
           </ButtonCloseStyle>
         )}
@@ -288,22 +271,24 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату: 01.01.2023)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <PickerContainer>
                         <DatePickerOne
-                          selected={field.value}
-                          onChange={date => setValue('documentDate', date)}
+                          selected={field.value || mainForm.documentDate}
+                          onChange={date => {
+                            setValue('documentDate', date)
+                          }}
                           dateFormat="dd.MM.yyyy"
                           placeholderText="00.00.0000"
                           showIcon
                           icon={
-                            <IconStyle size={16} height={18} name="calendar" />
+                            <IconStyle size={16} height={18} name="calendar"/>
                           }
                           locale="uk"
                         />
                         {errors.documentDate && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors.documentDate.message}
                           </span>
                         )}
@@ -318,8 +303,9 @@ export default function Modal({
                 <Controller
                   name="numberDocument"
                   control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
+                  rules={{required: "Обов'язкове поле"}}
+                  defaultValue={mainForm.documentNumber}
+                  render={({field}) => (
                     <>
                       <ShortInputStyle
                         type="text"
@@ -328,9 +314,10 @@ export default function Modal({
                         onChange={e =>
                           setValue('numberDocument', e.target.value)
                         }
+
                       />
                       {errors.numberDocument && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{color: 'red'}}>
                           {errors.numberDocument.message}
                         </span>
                       )}
@@ -352,30 +339,20 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату : Бандера С.А.)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <Select
                       {...field}
                       options={carsOption}
-                      onChange={selectedOption => {
-                        setValue('sign', selectedOption);
-                        setSelectedSign(selectedOption);
-                        setValue('driver', selectedOption.value.driver);
-                        setValue('senior', selectedOption.value.senior);
-                        setValue('unit', selectedOption.value.unit);
-                        setValue(
-                          'exploitationGroup',
-                          selectedOption.value.exploitationGroup
-                        );
-                        setValue('carName', selectedOption.value.carName);
-                      }}
+                      onChange={selectedOption => handleSelectCar(selectedOption)}
                       value={selectedSign}
                       placeholder="Обрати"
                       styles={customStyles}
+                      defaultValue={mainForm?.car?.carSign}
                     />
                   )}
                 />
                 {errors.driver && (
-                  <span style={{ color: 'red' }}>{errors.driver.message}</span>
+                  <span style={{color: 'red'}}>{errors.driver.message}</span>
                 )}
               </Label>
               <Label>
@@ -383,11 +360,11 @@ export default function Modal({
                 <Controller
                   name="unit"
                   control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
+                  rules={{required: "Обов'язкове поле"}}
+                  render={({field}) => (
                     <>
                       <MidInputStyle
-                        style={{ outline: 'none' }}
+                        style={{outline: 'none'}}
                         type="text"
                         placeholder="Автозаповнення"
                         readOnly
@@ -395,7 +372,7 @@ export default function Modal({
                         onChange={e => setValue('unit', e.target.value)}
                       />
                       {errors.unit && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{color: 'red'}}>
                           {errors.unit.message}
                         </span>
                       )}
@@ -413,25 +390,22 @@ export default function Modal({
                   rules={{
                     required: "Обов'язкове поле",
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <Select
                         {...field}
                         options={seniorCarOptions}
-                        onChange={selectedOption => {
-                          setValue('senior', selectedOption);
-                          setSelectedSeniorCar(selectedOption);
-                          setValue('seniorCarRank', selectedOption.value.rank);
-                        }}
+                        onChange={selectedOption => handleSelectSenior(selectedOption)}
                         value={selectedSeniorCar}
                         placeholder="Введіть текст"
                         styles={customStylesSen}
+                        defaultValue={mainForm?.supervisor?.name}
                       />
                     </>
                   )}
                 />
                 {errors.senior && (
-                  <span style={{ color: 'red' }}>{errors.senior.message}</span>
+                  <span style={{color: 'red'}}>{errors.senior.message}</span>
                 )}
               </Label>
               <Label>
@@ -439,17 +413,18 @@ export default function Modal({
                 <Controller
                   name="trafficRoute"
                   control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
+                  rules={{required: "Обов'язкове поле"}}
+                  render={({field}) => (
                     <>
                       <LongInput
                         type="text"
                         placeholder="Введіть текст"
                         {...field}
                         onChange={e => setValue('trafficRoute', e.target.value)}
+                        defaultValue={mainForm.route}
                       />
                       {errors.trafficRoute && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{color: 'red'}}>
                           {errors.trafficRoute.message}
                         </span>
                       )}
@@ -470,19 +445,12 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату : Бандера С.А.)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <Select
                         {...field}
                         options={headOfCarServiceOptions}
-                        onChange={selectedOption => {
-                          setValue('headOfCarService', selectedOption);
-                          setSelectedHeadOfCarService(selectedOption);
-                          setValue(
-                            'headOfCarServiceRank',
-                            selectedOption.value.rank
-                          );
-                        }}
+                        onChange={selectedOption => handleHeadOfCarServiceOptions(selectedOption)}
                         value={selectedHeadOfCarService}
                         placeholder="Введіть текст"
                         styles={customStylesSen}
@@ -491,7 +459,7 @@ export default function Modal({
                   )}
                 />
                 {errors.headOfCarService && (
-                  <span style={{ color: 'red' }}>
+                  <span style={{color: 'red'}}>
                     {errors.headOfCarService.message}
                   </span>
                 )}
@@ -511,7 +479,7 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату : Бандера С.А.)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <Select
                         {...field}
@@ -532,7 +500,7 @@ export default function Modal({
                   )}
                 />
                 {errors.seniorTechUnit && (
-                  <span style={{ color: 'red' }}>
+                  <span style={{color: 'red'}}>
                     {errors.seniorTechUnit.message}
                   </span>
                 )}
@@ -550,7 +518,7 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату : Бандера С.А.)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <Select
                         {...field}
@@ -568,7 +536,7 @@ export default function Modal({
                   )}
                 />
                 {errors.seniorKtp && (
-                  <span style={{ color: 'red' }}>
+                  <span style={{color: 'red'}}>
                     {errors.seniorKtp.message}
                   </span>
                 )}
@@ -578,8 +546,8 @@ export default function Modal({
                 <Controller
                   name="purposeStatement"
                   control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
+                  rules={{required: "Обов'язкове поле"}}
+                  render={({field}) => (
                     <>
                       <LongInput
                         type="text"
@@ -590,7 +558,7 @@ export default function Modal({
                         }
                       />
                       {errors.purposeStatement && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{color: 'red'}}>
                           {errors.purposeStatement.message}
                         </span>
                       )}
@@ -608,10 +576,10 @@ export default function Modal({
                   rules={{
                     required: "Обов'язкове поле",
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <LongInput
-                        style={{ outline: 'none' }}
+                        style={{outline: 'none'}}
                         placeholder="Автозаповнення"
                         readOnly
                         type="text"
@@ -619,7 +587,7 @@ export default function Modal({
                         onChange={e => setValue('carName', e.target.value)}
                       />
                       {errors.carName && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{color: 'red'}}>
                           {errors.carName.message}
                         </span>
                       )}
@@ -630,12 +598,12 @@ export default function Modal({
               <Label>
                 <Span>Водій</Span>
                 <Controller
-                  name="driver"
+                  name="driver_name"
                   control={control}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <LongInput
-                        style={{ outline: 'none' }}
+                        style={{outline: 'none'}}
                         type="text"
                         placeholder="Автозаповнення"
                         readOnly
@@ -643,7 +611,7 @@ export default function Modal({
                         onChange={e => setValue('sign', e.target.value)}
                       />
                       {errors.sign && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{color: 'red'}}>
                           {errors.sign.message}
                         </span>
                       )}
@@ -656,10 +624,10 @@ export default function Modal({
                 <Controller
                   name="exploitationGroup"
                   control={control}
-                  rules={{ required: "Обов'язкове поле" }}
-                  render={({ field }) => (
+                  rules={{required: "Обов'язкове поле"}}
+                  render={({field}) => (
                     <LongInput
-                      style={{ outline: 'none' }}
+                      style={{outline: 'none'}}
                       placeholder="Автозаповнення"
                       type="text"
                       readOnly
@@ -671,7 +639,7 @@ export default function Modal({
                   )}
                 />
                 {errors.exploitationGroup && (
-                  <span style={{ color: 'red' }}>
+                  <span style={{color: 'red'}}>
                     {errors.exploitationGroup.message}
                   </span>
                 )}
@@ -692,7 +660,7 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату: 01.01.2023)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <PickerContainer>
                         <DatePickerOneLeave
@@ -706,12 +674,12 @@ export default function Modal({
                           timeFormat="HH:mm"
                           showIcon
                           icon={
-                            <IconStyle size={16} height={18} name="calendar" />
+                            <IconStyle size={16} height={18} name="calendar"/>
                           }
                         />
 
                         {errors.documentDateLeave && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors.documentDateLeave.message}
                           </span>
                         )}
@@ -734,7 +702,7 @@ export default function Modal({
                         'Невірний формат (приклад правильного формату: 01.01.2023)',
                     },
                   }}
-                  render={({ field }) => (
+                  render={({field}) => (
                     <>
                       <PickerContainer>
                         <DatePickerOneLeave
@@ -748,12 +716,12 @@ export default function Modal({
                           timeFormat="HH:mm"
                           showIcon
                           icon={
-                            <IconStyle size={16} height={18} name="calendar" />
+                            <IconStyle size={16} height={18} name="calendar"/>
                           }
                         />
 
                         {errors.documentDateCome && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors.documentDateCome.message}
                           </span>
                         )}
@@ -767,7 +735,7 @@ export default function Modal({
           <OdomPlusContainer>
             <OdometerTitle>Показники спідометра</OdometerTitle>
             <BtnPlus onClick={handleBtnPlusClick}>
-              <Icon size={28} name="plus" />
+              <Icon size={28} name="plus"/>
             </BtnPlus>
           </OdomPlusContainer>
 
@@ -788,7 +756,7 @@ export default function Modal({
                           'Невірний формат (приклад правильного формату: 01.01.2023)',
                       },
                     }}
-                    render={({ field }) => (
+                    render={({field}) => (
                       <>
                         <PickerContainer>
                           <DatePickerTwo
@@ -808,7 +776,7 @@ export default function Modal({
                             }
                           />
                           {errors.departureDate && (
-                            <span style={{ color: 'red' }}>
+                            <span style={{color: 'red'}}>
                               {errors.departureDate.message}
                             </span>
                           )}
@@ -825,12 +793,12 @@ export default function Modal({
                     rules={{
                       required: "Обов'язкове поле",
                     }}
-                    render={({ field }) => (
+                    render={({field}) => (
                       <>
                         <Select
                           {...field}
                           options={Array.from(
-                            { length: (24 * 60) / 5 },
+                            {length: (24 * 60) / 5},
                             (v, i) => {
                               const totalMinutes = i * 5;
                               const hours = Math.floor(totalMinutes / 60)
@@ -840,7 +808,7 @@ export default function Modal({
                                 .toString()
                                 .padStart(2, '0');
                               const time = `${hours}:${minutes}`;
-                              return { value: time, label: time };
+                              return {value: time, label: time};
                             }
                           )}
                           onChange={selectedOption =>
@@ -853,62 +821,13 @@ export default function Modal({
                           placeholder="00:00"
                           value={
                             field.value
-                              ? { value: field.value, label: field.value }
+                              ? {value: field.value, label: field.value}
                               : null
                           }
-                          styles={{
-                            control: provided => ({
-                              ...provided,
-                              width: '182px',
-                              height: '46px',
-                              borderRadius: '12px',
-                              background: '#282828',
-                              border: 'none',
-                              color: '#fbfcfc',
-                              textIndent: '10px',
-                              cursor: 'pointer',
-                            }),
-                            singleValue: provided => ({
-                              ...provided,
-                              color: '#fbfcfc',
-                            }),
-                            dropdownIndicator: provided => ({
-                              ...provided,
-                              color: '#fbfcfc',
-                            }),
-                            menu: provided => ({
-                              ...provided,
-                              background: '#282828',
-                            }),
-                            option: (provided, state) => ({
-                              ...provided,
-                              backgroundColor: state.isSelected
-                                ? '#505050'
-                                : '#282828',
-                              color: '#fbfcfc',
-                              cursor: 'pointer',
-                              ':hover': {
-                                backgroundColor: '#505050',
-                              },
-                            }),
-                            // Стили для полосы прокрутки
-                            menuList: base => ({
-                              ...base,
-                              '::-webkit-scrollbar': {
-                                width: '8px',
-                              },
-                              '::-webkit-scrollbar-thumb': {
-                                backgroundColor: '#505050',
-                                borderRadius: '4px',
-                              },
-                              '::-webkit-scrollbar-track': {
-                                backgroundColor: '#282828',
-                              },
-                            }),
-                          }}
+                          styles={customStyles}
                         />
                         {errors[`departureTime[${index}]`] && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors[`departureTime[${index}]`].message}
                           </span>
                         )}
@@ -929,7 +848,7 @@ export default function Modal({
                         message: 'Можна вводити тільки числа',
                       },
                     }}
-                    render={({ field }) => (
+                    render={({field}) => (
                       <>
                         <ToLongInput
                           type="text"
@@ -940,7 +859,7 @@ export default function Modal({
                           }
                         />
                         {errors.speedOmeter && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors.speedOmeter.message}
                           </span>
                         )}
@@ -956,8 +875,8 @@ export default function Modal({
           "
                     onClick={() => handleBtnTrashClick(index)}
                   >
-                    {' '}
-                    <Icon size={16} name="trash" />
+                    
+                    <Icon size={16} name="trash"/>
                   </BtnTrash>
                 </Label>
               </InputTimeDiv>
@@ -980,7 +899,7 @@ export default function Modal({
                           'Невірний формат (приклад правильного формату: 01.01.2023)',
                       },
                     }}
-                    render={({ field }) => (
+                    render={({field}) => (
                       <>
                         <PickerContainer>
                           <DatePickerTwo
@@ -1000,7 +919,7 @@ export default function Modal({
                             }
                           />
                           {errors.arrivalDate && (
-                            <span style={{ color: 'red' }}>
+                            <span style={{color: 'red'}}>
                               {errors.arrivalDate.message}
                             </span>
                           )}
@@ -1017,12 +936,12 @@ export default function Modal({
                     rules={{
                       required: "Обов'язкове поле",
                     }}
-                    render={({ field }) => (
+                    render={({field}) => (
                       <>
                         <Select
                           {...field}
                           options={Array.from(
-                            { length: (24 * 60) / 5 },
+                            {length: (24 * 60) / 5},
                             (v, i) => {
                               const totalMinutes = i * 5;
                               const hours = Math.floor(totalMinutes / 60)
@@ -1032,7 +951,7 @@ export default function Modal({
                                 .toString()
                                 .padStart(2, '0');
                               const time = `${hours}:${minutes}`;
-                              return { value: time, label: time };
+                              return {value: time, label: time};
                             }
                           )}
                           onChange={selectedOption =>
@@ -1044,62 +963,13 @@ export default function Modal({
                           placeholder="00:00"
                           value={
                             field.value
-                              ? { value: field.value, label: field.value }
+                              ? {value: field.value, label: field.value}
                               : null
                           }
-                          styles={{
-                            control: provided => ({
-                              ...provided,
-                              width: '182px',
-                              height: '46px',
-                              borderRadius: '12px',
-                              background: '#282828',
-                              border: 'none',
-                              color: '#fbfcfc',
-                              textIndent: '10px',
-                              cursor: 'pointer',
-                            }),
-                            singleValue: provided => ({
-                              ...provided,
-                              color: '#fbfcfc',
-                            }),
-                            dropdownIndicator: provided => ({
-                              ...provided,
-                              color: '#fbfcfc',
-                            }),
-                            menu: provided => ({
-                              ...provided,
-                              background: '#282828',
-                            }),
-                            option: (provided, state) => ({
-                              ...provided,
-                              backgroundColor: state.isSelected
-                                ? '#505050'
-                                : '#282828',
-                              color: '#fbfcfc',
-                              cursor: 'pointer',
-                              ':hover': {
-                                backgroundColor: '#505050',
-                              },
-                            }),
-                            // Стили для полосы прокрутки
-                            menuList: base => ({
-                              ...base,
-                              '::-webkit-scrollbar': {
-                                width: '8px',
-                              },
-                              '::-webkit-scrollbar-thumb': {
-                                backgroundColor: '#505050',
-                                borderRadius: '4px',
-                              },
-                              '::-webkit-scrollbar-track': {
-                                backgroundColor: '#282828',
-                              },
-                            }),
-                          }}
+                          styles={customStyles}
                         />
                         {errors[`arrivalTime[${index}]`] && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors[`arrivalTime[${index}]`].message}
                           </span>
                         )}
@@ -1120,11 +990,11 @@ export default function Modal({
                         message: 'Можна вводити тільки числа',
                       },
                     }}
-                    render={({ field }) => (
+                    render={({field}) => (
                       <>
                         <ToLongInput
                           type="text"
-                          placeholder="Введіть текст"
+                          placeholder="Введіть текст Arrival"
                           {...field}
                           onChange={e =>
                             setValue(
@@ -1141,7 +1011,7 @@ export default function Modal({
                           }}
                         />
                         {errors.speedOmeterArrival && (
-                          <span style={{ color: 'red' }}>
+                          <span style={{color: 'red'}}>
                             {errors.speedOmeterArrival.message}
                           </span>
                         )}
@@ -1157,8 +1027,8 @@ export default function Modal({
           "
                     onClick={() => handleBtnTrashClick(index)}
                   >
-                    {' '}
-                    <Icon size={16} name="trash" />
+                    
+                    <Icon size={16} name="trash"/>
                   </BtnTrash>
                 </Label>
               </InputTimeDiv>

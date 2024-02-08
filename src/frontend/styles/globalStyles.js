@@ -14,14 +14,14 @@ const GlobalStyles = createGlobalStyle`
     --modal-btn-add: #47523F;
     --modal-btn-add-active: #30392A;
     --modal-btn-remove: #282828;
-    
+
     /* animation */
     --fast: 0.15s ease;
   }
 
   body {
     margin: 0;
-    font-family: 'Manrope', sans-serif; 
+    font-family: 'Manrope', sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
@@ -61,9 +61,9 @@ const GlobalStyles = createGlobalStyle`
       padding: 10px;
   }
   input[type="time"]::-webkit-calendar-picker-indicator::after {
-      content: 'boom'; 
-      color: #333;  
-      font-size: 14px; 
+      content: 'boom';
+      color: #333;
+      font-size: 14px;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -73,34 +73,41 @@ const GlobalStyles = createGlobalStyle`
   ::-webkit-scrollbar {
   width: 6px;
 }
- 
+
 ::-webkit-scrollbar-track {
 }
- 
+
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #F0F0F0;
 }
   }
-  
+
   p,
-  h1, 
-  h2,  
+  h1,
+  h2,
   h3 {
     margin: 0;
     padding: 0;
   }
 
-  ul, 
-  ol, 
+  ul,
+  ol,
   li {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   a {
     text-decoration: none;
+  }
+  p.italic {
+  // font-size: large;
+    display: flex;
+    justify-content: space-around;
+    font-weight: 100;
+    font-style: italic;
   }
 `;
 

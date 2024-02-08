@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import {fetchData} from '../../frontend/utils/IndexedDB'
 
 export const roadApi = axios.create({
   baseURL: 'http://localhost:3030/api',
@@ -149,3 +150,17 @@ export const updatePersonnelThunk = createAsyncThunk(
     }
   }
 );
+
+
+export const fetchInfosThunkDB = createAsyncThunk(
+  'fetchInfos',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await fetchData();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+

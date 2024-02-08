@@ -56,8 +56,8 @@ const initialState = {
   formal: {
     documentDateCome: '',
     documentDateLeave: '',
-    departureTime: [],
     arrivalTime: [],
+    departureTime: [],
     departureDate: [],
     arrivalDate: [],
     departureKilo: [],
@@ -140,6 +140,7 @@ export const slice = createSlice({
     },
     setMainInfo: (state, { payload }) => {
       state.documentNumber = payload.numberDocument;
+      state.cars=payload.cars;
       state.car.carName = payload.carName;
       state.car.carSign = payload.sign.label;
       state.car.exploitationGroup = payload.exploitationGroup;
@@ -148,7 +149,9 @@ export const slice = createSlice({
       state.route = payload.trafficRoute;
       state.documentDate = payload.documentDate;
       state.militaryUnit = payload.unit;
-      state.car.driver = payload.driver;
+      state.headOfCarService = payload.headOfCarService;
+      state.car.driver.name = payload.driver_name;
+      state.car.driver.rank = payload.driver_rank;
       state.engineer.name = payload.seniorKtp.label;
       state.engineer.rank = payload.seniorKtpRank;
       state.supervisor.name = payload.senior.label;
@@ -162,8 +165,8 @@ export const slice = createSlice({
         state.formal.arrivalTime.push(payload.arrivalTime[i]);
         state.formal.departureDate.push(payload.departureDate[i]);
         state.formal.arrivalDate.push(payload.arrivalDate[i]);
-        state.formal.arrivalKilo.push(payload.speedOmeter[i]);
-        state.formal.departureKilo.push(payload.speedOmeterArrival[i]);
+        state.formal.arrivalKilo.push(payload.speedOmeterArrival[i]);
+        state.formal.departureKilo.push(payload.speedOmeter[i]);
         state.facts.push({
           departure: {
             time: `${payload.departureTime[0]} ${payload.departureDate[0]}`,

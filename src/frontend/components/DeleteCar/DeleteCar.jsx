@@ -22,7 +22,7 @@ export const DeleteCar = ({ deleteCar, carSign, close }) => {
     <>
       <RequestDel>
         Впевнені, що <br /> бажаєте видалити <br />
-        цю стрічку ?{' '}
+        цю стрічку ?
       </RequestDel>
       <BtnBox>
         <ConfirmBtnStyle
