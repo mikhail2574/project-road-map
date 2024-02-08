@@ -11,6 +11,16 @@ export const TableSection = styled.section`
   background: #fbfcfc;
   border-radius: 15px;
   padding: 28px 20px;
+
+  @media print {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-collapse: collapse;
+    overflow-y: visible;
+    height: auto;
+  }
 `;
 
 /*  ========================= btn section ========================= */

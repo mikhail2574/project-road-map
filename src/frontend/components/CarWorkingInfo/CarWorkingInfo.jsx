@@ -276,7 +276,7 @@ const CarWorkingInfo = () => {
         </StyledNav>
         <Line />
       </BtnSection>
-      <TableSection>
+      <TableSection className="printable">
         <TableScroll>
           <StyledTable>
             <StyledTHead>
