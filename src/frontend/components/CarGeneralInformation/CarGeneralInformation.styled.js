@@ -7,7 +7,18 @@ export const PaperSection = styled.section`
   width: 1400px;
   height: 1022px;
   overflow-y: scroll;
+
+  @media print {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-collapse: collapse;
+    overflow-y: visible;
+    height: auto;
+  }
 `;
+
 export const PaperWrapper = styled.div`
   background-color: #fbfcfc;
   border-radius: 15px;
@@ -24,9 +35,13 @@ export const VerticalContainer = styled.div`
   top: 407px;
   left: -400px;
   border-bottom: 1px solid #e2e2e2;
+  @media print {
+    visibility: visible;Ї
 `;
 
-export const HorizontalContainer = styled.div``;
+export const HorizontalContainer = styled.div`
+  padding-left: 213px;
+`;
 
 export const MainInformationContainer = styled.div``;
 
@@ -54,19 +69,17 @@ export const Space = styled.span`
 `;
 
 export const TableSection = styled.div`
-  margin-left: 213px;
-  margin-top: 286px;
   width: 1161px;
 `;
 export const TableSection2 = styled.div`
   width: 1161px;
-  margin-left: 213px;
+
   margin-top: 20px;
 `;
 
 export const TableSection3 = styled.div`
   margin-top: 16px;
-  margin-left: 213px;
+
   width: 1161px;
 `;
 
@@ -110,6 +123,9 @@ export const StyledTable3 = styled.table`
     text-align: center;
     border: 1px solid #e2e2e2;
     width: 90px;
+  }
+  @media print {
+    border-collapse: collapse;
   }
 `;
 

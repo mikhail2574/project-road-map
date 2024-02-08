@@ -81,11 +81,13 @@ export default function ChooseRouteModal({
             return (
               <li key={id}>
                 <EditButton
-                  onClick={() => openEdit(id)}
-                  title="Ре агувати маршрут"
+                  onClick={() => {
+                    openEdit(id)
+                  }}
+                  title="Редагувати маршрут"
                 >
                   {from} - {to}
-                  {route.return === 'так' ? null : ` - ${from}`}, {arrTime},{' '}
+                  {route.return === 'так' ? null : ` - ${from}`}, {arrTime},
                   {depTime}
                 </EditButton>
                 <StyledDeleteButton

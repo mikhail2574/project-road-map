@@ -5,7 +5,6 @@ import { useForm, Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import uk from 'date-fns/locale/uk';
 import { nanoid } from 'nanoid';
-import moment from 'moment';
 import { Icons } from '../Icons';
 import {
   ModalWindowStyle,
@@ -33,6 +32,7 @@ import {
   IconStyleCalendar,
   PickerContainer,
 } from './CarInfoModal.styled';
+import moment from "moment";
 
 export default function CarInfoModal({ showCloseIcon = true, onClose }) {
   const [minDate, setMinDate] = useState();
@@ -112,10 +112,9 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
     }
   };
 
+
   const onSubmit = data => {
     const { arrivalDate, departureDate, oneway } = data;
-    const arrDate = moment(arrivalDate).format('DD.MM.YY');
-    const depDate = moment(departureDate).format('DD.MM.YY');
     const newWay = oneway ? 'так' : 'ні';
     dispatch(
       setCarWork({
@@ -124,8 +123,8 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
           from: data.routeFrom,
           to: data.routeTo,
           return: newWay,
-          depTime: `${data.departureTime}, ${departureDate}`,
-          arrTime: `${data.arrivalTime}, ${arrivalDate}`,
+          depTime: `${data.departureTime}, ${moment(departureDate).format('DD.MM.YYYY')}`,
+          arrTime: `${data.arrivalTime}, ${moment(arrivalDate).format('DD.MM.YYYY')}`,
           mileage: {
             withCargo: data.withCargo,
             withoutCargo: data.withoutCargo,
@@ -145,7 +144,26 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
     );
     onClose();
   };
-
+const dummy = () =>{
+  setValue('routeFrom', "киев")
+  setValue('routeTo', "белая церьковь")
+  // setValue(`departureDate`,new Date('2023-01-01'))
+  setValue(`departureTime`, "10:20")
+  // setValue(`arrivalDate`,new Date('2023-01-01'))
+  setValue(`arrivalTime`, "10:20")
+  setValue('withCargo', 10)
+  setValue('withoutCargo', 15)
+  setValue('withTrailer', 2)
+  setValue('withTug', 3)
+  setValue('onStay', 2)
+  setValue('onMove', 1.5)
+  setValue('nameCargo', "много сделанной работы")
+  setValue('weight', 5)
+  setValue('odometer', 54896)
+}
+  useEffect(() => {
+    dummy();
+  })
   return (
     <OverlayStyle onClick={e => handleBackdropClick(e)}>
       <Icons />
@@ -256,12 +274,13 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                       <PickerContainer>
                         <DatePickerTwo
                           selected={field.value}
-                          onChange={date =>
+                          onChange={date => {
+                            console.log(moment(date).format('DD.MM.YYYY'))
                             setValue(
-                              `departureDate`,
-                              moment(date).format('DD.MM.YY')
+                              `departureDate`,date
+
                             )
-                          }
+                          }}
                           locale={uk}
                           dateFormat="dd.MM.yyyy"
                           placeholderText="00.00.0000"
@@ -337,8 +356,7 @@ export default function CarInfoModal({ showCloseIcon = true, onClose }) {
                           selected={field.value}
                           onChange={date =>
                             setValue(
-                              `arrivalDate`,
-                              moment(date).format('DD.MM.YY')
+                              `arrivalDate`,date
                             )
                           }
                           minDate={minDate}

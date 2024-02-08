@@ -7,15 +7,37 @@ import CarGeneralInformation from './CarGeneralInformation/CarGeneralInformation
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchInfosThunk } from 'redux/infos/operations';
+import {fetchInfosThunk, fetchInfosThunkDB} from 'redux/infos/operations';
+import  { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .printable,
+    .printable * {
+      visibility: visible;
+    }
+    .printable {
+      position: absolute;
+      left: 10px;
+     top: 10px;
+    }
+  }
+`;
 
 export const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchInfosThunk());
   }, [dispatch]);
+  // useEffect(() => {
+  //     dispatch(fetchInfosThunkDB());
+  // }, []);
   return (
     <>
+       <GlobalStyle />
       <Icons />
       <Routes>
         <Route path="/" element={<Layout />}>

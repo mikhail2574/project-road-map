@@ -4,7 +4,7 @@ import {
   addPersonnelThunk,
   deleteCarsThunk,
   deletePersonnelThunk,
-  fetchInfosThunk,
+  fetchInfosThunk, fetchInfosThunkDB,
   updateCarsThunk,
   updatePersonnelThunk,
 } from './operations';
@@ -49,8 +49,13 @@ export const slice = createSlice({
           item.name === payload.oldName ? payload : item
         );
       })
+      // .addCase(fetchInfosThunkDB.fulfilled, (state, { payload }) => {
+      //   state.cars = payload?.cars;
+      //   state.personnel = payload?.personnel;
+      // })
       .addMatcher(
         isAnyOf(
+          fetchInfosThunkDB.fulfilled,
           addCarsThunk.fulfilled,
           deleteCarsThunk.fulfilled,
           updateCarsThunk.fulfilled,
@@ -65,6 +70,7 @@ export const slice = createSlice({
       )
       .addMatcher(
         isAnyOf(
+          fetchInfosThunkDB.pending,
           addCarsThunk.pending,
           deleteCarsThunk.pending,
           updateCarsThunk.pending,
@@ -78,6 +84,7 @@ export const slice = createSlice({
       )
       .addMatcher(
         isAnyOf(
+          fetchInfosThunkDB.rejected,
           addCarsThunk.rejected,
           deleteCarsThunk.rejected,
           updateCarsThunk.rejected,

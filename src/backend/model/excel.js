@@ -242,6 +242,7 @@ const addPersonToExcel = async person => {
 
 const updatePersonInExcel = async (personName, person) => {
   const workbook = new ExcelJS.Workbook();
+  console.log("pathToExel: ",pathToExcel)
   await workbook.xlsx.readFile(pathToExcel);
   const worksheet = workbook.getWorksheet('Довідники');
   if (!worksheet) {
