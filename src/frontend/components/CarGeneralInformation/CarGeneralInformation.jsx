@@ -168,12 +168,9 @@ const CarGeneralInformation = () => {
       );
     }
   }
-  console.log("mainform:",mainForm);
-  console.log("mainForm.formal.documentDateCome:",mainForm.formal.documentDateCome);
   return (
 
-    <MainContainer>
-       
+    <MainContainer>       
       <BtnSection>
         <SectionHead>
           <StyledTitle>Дорожній лист</StyledTitle>
